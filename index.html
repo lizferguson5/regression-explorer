@@ -105,6 +105,17 @@ main{max-width:1320px;margin:0 auto;padding:1.8rem 1.5rem;display:grid;grid-temp
 .rg-verdict{background:#fdf8ef;border-radius:8px;padding:.75rem .9rem;font-size:.83rem;line-height:1.65;color:var(--ink);margin-top:.8rem;border-left:3px solid var(--gold)}
 .rg-verdict strong{color:var(--gold)}
 
+/* INTRO SECTION */
+.intro{max-width:1320px;margin:0 auto;padding:1.4rem 1.5rem .2rem;display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+@media(max-width:860px){.intro{grid-template-columns:1fr}}
+.intro-block{background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:1rem 1.2rem}
+.intro-block h3{font-family:var(--fh);font-size:1rem;font-weight:700;color:var(--forest);margin-bottom:.5rem;padding-bottom:.4rem;border-bottom:2px solid var(--mint)}
+.intro-block p{font-size:.84rem;line-height:1.68;color:var(--muted)}
+.intro-block ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:.45rem}
+.intro-block ul li{font-size:.83rem;line-height:1.55;color:var(--muted);padding-left:1.1rem;position:relative}
+.intro-block ul li::before{content:'→';position:absolute;left:0;color:var(--forest-lt);font-size:.75rem;top:.05rem}
+.intro-block ul li strong{color:var(--ink);font-weight:600}
+
 /* FOOTER */
 footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem}
 .tip{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem}
@@ -126,7 +137,33 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
   <button class="tab" data-ds="2">&#128041; Fish Allometry</button>
 </div>
 
-<main>
+<!-- INTRO SECTION -->
+<div class="intro">
+
+  <div class="intro-block">
+    <h3>About This Tool</h3>
+    <p>This tool was built to help biostatistics students develop an intuitive understanding of linear regression — not just how to run the test, but what the numbers actually mean and how to critically evaluate whether the model is appropriate. All statistics are computed live from real biological datasets, so every chart, equation, and p-value reflects the data you're looking at. No software installation required — runs entirely in your browser.</p>
+  </div>
+
+  <div class="intro-block">
+    <h3>Intended Audience</h3>
+    <p>Undergraduate and graduate students in introductory <strong>biostatistics</strong>, <strong>ecology</strong>, or <strong>biological research methods</strong> courses. Designed for students who have been introduced to the concept of linear regression and want to build a deeper visual and quantitative understanding before applying it to their own data.</p>
+  </div>
+
+  <div class="intro-block">
+    <h3>Things to Explore</h3>
+    <ul>
+      <li><strong>Cricket Chirps</strong> — a clean, well-behaved residual plot. What does "good" look like?</li>
+      <li><strong>Plant Growth</strong> — spot the fan shape in the residual plot. What does heteroscedasticity mean for your predictions?</li>
+      <li><strong>Fish Allometry</strong> — high R² but a curved residual plot. Can you trust the model?</li>
+      <li><strong>Toggle residual lines</strong> to see each point's distance from the regression line.</li>
+      <li><strong>Toggle the mean ȳ</strong> line and click any data point to watch the R² decomposition update live.</li>
+      <li><strong>Notice the R² values</strong> — in real ecology, values in the 70–85% range are common and meaningful.</li>
+    </ul>
+  </div>
+
+</div>
+
   <!-- LEFT COLUMN -->
   <div style="display:flex;flex-direction:column;gap:1.5rem">
 
