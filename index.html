@@ -132,9 +132,9 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
 
 <div class="tabs">
   <span class="tabs-label">Dataset:</span>
-  <button class="tab active" data-ds="0">&#127987; Cricket Chirps</button>
+  <button class="tab active" data-ds="0">&#129431; Cricket Chirps</button>
   <button class="tab" data-ds="1">&#127807; Plant Growth</button>
-  <button class="tab" data-ds="2">&#128041; Fish Allometry</button>
+  <button class="tab" data-ds="2">&#128031; Fish Allometry</button>
 </div>
 
 <!-- INTRO SECTION -->
@@ -146,8 +146,12 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
   </div>
 
   <div class="intro-block">
-    <h3>Intended Audience</h3>
-    <p>Undergraduate and graduate students in introductory <strong>biostatistics</strong>, <strong>ecology</strong>, or <strong>biological research methods</strong> courses. Designed for students who have been introduced to the concept of linear regression and want to build a deeper visual and quantitative understanding before applying it to their own data.</p>
+    <h3>Data Description</h3>
+    <ul>
+      <li><strong>Cricket Chirps</strong> — Chirp rate (chirps/15 sec) vs. air temperature (°F) in the striped ground cricket <em>Oecanthus fultoni</em>. Tests whether metabolic rate, and therefore chirp speed, increases linearly with temperature.</li>
+      <li><strong>Plant Growth</strong> — Shoot height (cm) vs. nitrogen fertilizer concentration (mg/L) in <em>Arabidopsis thaliana</em> grown under controlled greenhouse conditions. Tests whether added nitrogen predicts plant height.</li>
+      <li><strong>Fish Allometry</strong> — Body weight (g) vs. total length (cm) in juvenile bluegill sunfish <em>Lepomis macrochirus</em>. Tests whether a simple linear model can describe the length–weight relationship, which is biologically expected to follow a power law (W ∝ L³).</li>
+    </ul>
   </div>
 
   <div class="intro-block">
@@ -426,7 +430,7 @@ const DS = [
     name:'Striped Ground Cricket (Oecanthus fultoni)',
     xLabel:'Temperature (°F)',yLabel:'Chirps per 15 sec',
     body:"Crickets chirp faster as temperature rises — codified in Dolbear's Law (1898). Metabolic enzymes in the cricket's nervous system operate faster at higher temperatures, directly accelerating the chirp rate. One of biology's most elegant natural thermometers.",
-    data:[{x:57,y:14.5},{x:60,y:23.1},{x:62,y:21.4},{x:65,y:19.8},{x:67,y:28.6},{x:70,y:24.3},{x:72,y:32.7},{x:75,y:37.9},{x:77,y:29.5},{x:80,y:41.2},{x:82,y:36.8},{x:85,y:48.3},{x:87,y:38.5},{x:89,y:52.6},{x:91,y:44.1},{x:93,y:57.8},{x:95,y:50.3}],
+    data:[{x:57,y:8.3},{x:59,y:26.4},{x:61,y:14.1},{x:63,y:31.7},{x:65,y:18.2},{x:67,y:16.9},{x:69,y:35.8},{x:71,y:24.3},{x:73,y:42.1},{x:75,y:22.6},{x:77,y:39.4},{x:79,y:48.2},{x:81,y:28.7},{x:83,y:53.9},{x:85,y:38.1},{x:87,y:57.2},{x:89,y:42.6},{x:91,y:61.8},{x:93,y:45.3},{x:95,y:52.9}],
     interp:(a,b)=>`For every <strong>1°F increase</strong> in temperature, crickets produce approximately <strong>${b.toFixed(3)} more chirps</strong> per 15 seconds. The intercept (${a.toFixed(1)}) is biologically meaningless — never extrapolate far beyond the observed data range.`,
     residClass:'ok',
     residText:'PATTERN CHECK: Residuals scatter randomly above and below zero with no clear trend and roughly constant spread throughout the entire temperature range. This is exactly what a good residual plot looks like — the linear model is appropriate here. The assumptions of linear regression are well met for this dataset.'
@@ -435,7 +439,7 @@ const DS = [
     name:'Arabidopsis thaliana — Nitrogen Fertilizer Response',
     xLabel:'Nitrogen (mg/L)',yLabel:'Plant Height (cm)',
     body:'Nitrogen is a critical macronutrient: it forms amino acids, chlorophyll, and nucleic acids. In controlled greenhouse conditions, increasing nitrogen produces a broadly linear increase in shoot height — up to the point where other resources become limiting.',
-    data:[{x:0,y:10.4},{x:10,y:15.9},{x:20,y:19.3},{x:25,y:23.7},{x:35,y:32.1},{x:40,y:26.8},{x:50,y:44.5},{x:55,y:38.2},{x:65,y:52.9},{x:70,y:61.3},{x:80,y:58.7},{x:85,y:72.4},{x:95,y:64.1},{x:105,y:88.6},{x:115,y:75.3},{x:125,y:96.8},{x:140,y:83.5}],
+    data:[{x:0,y:4.1},{x:10,y:23.4},{x:20,y:11.8},{x:25,y:34.7},{x:35,y:19.2},{x:40,y:51.6},{x:50,y:28.9},{x:60,y:63.4},{x:70,y:38.1},{x:75,y:71.8},{x:85,y:47.3},{x:90,y:82.6},{x:100,y:54.7},{x:110,y:96.2},{x:120,y:61.4},{x:130,y:104.8},{x:140,y:73.6}],
     interp:(a,b)=>`Each <strong>1 mg/L increase</strong> in nitrogen predicts <strong>${b.toFixed(3)} cm of additional height</strong>. The y-intercept (${a.toFixed(2)} cm) represents predicted height with no added fertilizer — growth sustained purely by residual soil nutrients.`,
     residClass:'warn',
     residText:'PATTERN DETECTED — fan/funnel shape: Residuals are compact at low nitrogen concentrations but balloon out considerably at higher concentrations. This is heteroscedasticity — the model error grows with the predictor. Biologically, this makes sense: plants at low nitrogen are uniformly stunted, but plants with abundant nitrogen vary widely depending on genotype, microenvironment, and other limiting factors. Log-transforming the height values often corrects this.'
@@ -444,7 +448,7 @@ const DS = [
     name:'Bluegill Sunfish (Lepomis macrochirus) — Allometry',
     xLabel:'Total Length (cm)',yLabel:'Body Weight (g)',
     body:'Fish weight scales with the cube of length (W ∝ L³) — a power-law allometric relationship. Within a narrow size range, a linear model can approximate this curve, but the residual plot reveals the true curvature. This is the perfect demonstration of why residual plots are non-negotiable.',
-    data:[{x:5,y:2.1},{x:7,y:5.8},{x:9,y:11},{x:11,y:19.5},{x:12,y:26},{x:13,y:33},{x:14,y:41.5},{x:15,y:51},{x:16,y:63.5},{x:17,y:76},{x:18,y:91},{x:19,y:108},{x:20,y:127.5},{x:21,y:149},{x:22,y:172}],
+    data:[{x:5,y:0.8},{x:7,y:12.4},{x:8,y:2.9},{x:9,y:19.7},{x:11,y:8.3},{x:12,y:41.6},{x:13,y:17.2},{x:14,y:58.4},{x:15,y:29.1},{x:15,y:73.8},{x:16,y:51.3},{x:17,y:96.7},{x:18,y:62.4},{x:18,y:124.3},{x:19,y:87.6},{x:20,y:162.8},{x:21,y:101.4},{x:21,y:183.5},{x:22,y:131.7},{x:22,y:207.3}],
     interp:(a,b)=>`Each <strong>1 cm increase in length</strong> predicts about <strong>${b.toFixed(1)} g of additional weight</strong> — but examine the residual plot! A curved pattern signals the linear model is an approximation. A log-log transformation (log W ~ log L) produces a truly linear fit.`,
     residClass:'warn',
     residText:'PATTERN DETECTED — curved (U-shape): Small and large fish are under-predicted; mid-sized fish are over-predicted. Even with a high R², this arc proves the linear model is incorrect for this data. This is exactly why you must always examine the residual plot — R² alone would not catch this.'
