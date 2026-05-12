@@ -61,15 +61,6 @@ No statistics software or installation required. Runs entirely in any modern web
 
 ---
 
-## How to Host on GitHub Pages
-
-1. Go to your repository at [github.com/lizferguson5/regression-explorer](https://github.com/lizferguson5/regression-explorer)
-2. Make sure `index.html` is in the root of the `main` branch
-3. Go to **Settings → Pages**
-4. Under *Branch*, select **main** and folder **/ (root)**, then click **Save**
-5. Your site will be live at `https://yourusername.github.io/repository-name/` within 1–2 minutes
-
----
 
 ## Technical Notes
 
