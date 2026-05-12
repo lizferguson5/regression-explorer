@@ -430,7 +430,7 @@ const DS = [
     name:'Striped Ground Cricket (Oecanthus fultoni)',
     xLabel:'Temperature (°F)',yLabel:'Chirps per 15 sec',
     body:"Crickets chirp faster as temperature rises — codified in Dolbear's Law (1898). Metabolic enzymes in the cricket's nervous system operate faster at higher temperatures, directly accelerating the chirp rate. One of biology's most elegant natural thermometers.",
-    data:[{x:57,y:8.3},{x:59,y:26.4},{x:61,y:14.1},{x:63,y:31.7},{x:65,y:18.2},{x:67,y:16.9},{x:69,y:35.8},{x:71,y:24.3},{x:73,y:42.1},{x:75,y:22.6},{x:77,y:39.4},{x:79,y:48.2},{x:81,y:28.7},{x:83,y:53.9},{x:85,y:38.1},{x:87,y:57.2},{x:89,y:42.6},{x:91,y:61.8},{x:93,y:45.3},{x:95,y:52.9}],
+    data:[{x:57,y:21.2},{x:60,y:26.3},{x:63,y:15.8},{x:65,y:21.4},{x:68,y:21.3},{x:70,y:37.4},{x:72,y:33.1},{x:75,y:27.3},{x:77,y:44.8},{x:80,y:42.9},{x:82,y:31.2},{x:85,y:38.6},{x:87,y:51.7},{x:89,y:48.0},{x:91,y:53.5},{x:93,y:39.4},{x:95,y:46.2}],
     interp:(a,b)=>`For every <strong>1°F increase</strong> in temperature, crickets produce approximately <strong>${b.toFixed(3)} more chirps</strong> per 15 seconds. The intercept (${a.toFixed(1)}) is biologically meaningless — never extrapolate far beyond the observed data range.`,
     residClass:'ok',
     residText:'PATTERN CHECK: Residuals scatter randomly above and below zero with no clear trend and roughly constant spread throughout the entire temperature range. This is exactly what a good residual plot looks like — the linear model is appropriate here. The assumptions of linear regression are well met for this dataset.'
@@ -439,7 +439,7 @@ const DS = [
     name:'Arabidopsis thaliana — Nitrogen Fertilizer Response',
     xLabel:'Nitrogen (mg/L)',yLabel:'Plant Height (cm)',
     body:'Nitrogen is a critical macronutrient: it forms amino acids, chlorophyll, and nucleic acids. In controlled greenhouse conditions, increasing nitrogen produces a broadly linear increase in shoot height — up to the point where other resources become limiting.',
-    data:[{x:0,y:4.1},{x:10,y:23.4},{x:20,y:11.8},{x:25,y:34.7},{x:35,y:19.2},{x:40,y:51.6},{x:50,y:28.9},{x:60,y:63.4},{x:70,y:38.1},{x:75,y:71.8},{x:85,y:47.3},{x:90,y:82.6},{x:100,y:54.7},{x:110,y:96.2},{x:120,y:61.4},{x:130,y:104.8},{x:140,y:73.6}],
+    data:[{x:0,y:15.1},{x:15,y:22.3},{x:25,y:22.6},{x:35,y:28.4},{x:50,y:45.9},{x:60,y:50.1},{x:70,y:38.6},{x:85,y:70.2},{x:95,y:69.8},{x:110,y:52.4},{x:120,y:63.1},{x:130,y:99.6},{x:140,y:70.3}],
     interp:(a,b)=>`Each <strong>1 mg/L increase</strong> in nitrogen predicts <strong>${b.toFixed(3)} cm of additional height</strong>. The y-intercept (${a.toFixed(2)} cm) represents predicted height with no added fertilizer — growth sustained purely by residual soil nutrients.`,
     residClass:'warn',
     residText:'PATTERN DETECTED — fan/funnel shape: Residuals are compact at low nitrogen concentrations but balloon out considerably at higher concentrations. This is heteroscedasticity — the model error grows with the predictor. Biologically, this makes sense: plants at low nitrogen are uniformly stunted, but plants with abundant nitrogen vary widely depending on genotype, microenvironment, and other limiting factors. Log-transforming the height values often corrects this.'
