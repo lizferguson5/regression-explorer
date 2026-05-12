@@ -2,7 +2,7 @@
 
 An interactive, browser-based tool for biostatistics students to explore linear regression visually — including residual plots, R² decomposition, sum of squares, and model diagnostics — using real biological datasets.
 
-🔗 **[Live Demo](https://yourusername.github.io/bioreg/)** ← replace with your GitHub Pages URL
+🔗 **[Live Demo](https://lizferguson5.github.io/regression-explorer/)**
 
 ---
 
@@ -63,7 +63,7 @@ No statistics software or installation required. Runs entirely in any modern web
 
 ## How to Host on GitHub Pages
 
-1. Fork or clone this repository
+1. Go to your repository at [github.com/lizferguson5/regression-explorer](https://github.com/lizferguson5/regression-explorer)
 2. Make sure `index.html` is in the root of the `main` branch
 3. Go to **Settings → Pages**
 4. Under *Branch*, select **main** and folder **/ (root)**, then click **Save**
