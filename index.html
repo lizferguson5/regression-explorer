@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BioReg — Linear Regression Explorer</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Mulish:wght@300;400;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --forest:#1b4332;--forest-mid:#2d6a4f;--forest-lt:#40916c;
+  --parch:#faf8f3;--paper:#ffffff;--ink:#1c1c1c;--muted:#6b7063;
+  --border:#e2ddd6;--border-dk:#c9c4bc;
+  --red:#b73c2a;--gold:#a8650a;--blue:#1a5f8a;
+  --fh:'Crimson Pro',Georgia,serif;--fb:'Mulish',system-ui,sans-serif;--fm:'Fira Code','Courier New',monospace;
+}
+body{font-family:var(--fb);background:var(--parch);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.5}
+header{background:var(--forest);color:#fff;padding:2rem 2.5rem 0}
+header h1{font-family:var(--fh);font-size:2.2rem;font-weight:600;letter-spacing:-.02em}
+header h1 em{color:#74c69d;font-style:normal}
+header p{font-size:.95rem;opacity:.7;margin-top:.3rem;padding-bottom:1.4rem}
+.tabs{background:#153828;display:flex;gap:.5rem;padding:.9rem 2.5rem;align-items:center;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.08)}
+.tabs-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);font-family:var(--fm);margin-right:.4rem;white-space:nowrap}
+.tab{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);padding:.35rem .9rem;border-radius:2rem;cursor:pointer;font-family:var(--fb);font-size:.88rem;transition:all .18s;white-space:nowrap}
+.tab:hover{background:rgba(255,255,255,.12)}
+.tab.active{background:var(--forest-lt);border-color:#74c69d;color:#fff;font-weight:600}
+main{max-width:1320px;margin:0 auto;padding:1.8rem 1.5rem;display:grid;grid-template-columns:1fr 360px;gap:1.5rem}
+@media(max-width:980px){main{grid-template-columns:1fr}}
+.card{background:var(--paper);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.card-head{padding:.85rem 1.2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:.75rem;flex-wrap:wrap}
+.card-head h2{font-family:var(--fh);font-size:1.1rem;font-weight:600}
+.card-body{padding:1.2rem}
+.chart-box{position:relative;width:100%}
+.controls{display:flex;gap:1rem;flex-wrap:wrap;align-items:center}
+.toggle-wrap{display:flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);cursor:pointer}
+.toggle{position:relative;display:inline-block;width:34px;height:19px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0}
+.slider{position:absolute;inset:0;background:var(--border-dk);border-radius:20px;transition:.2s;cursor:pointer}
+.slider:before{content:'';position:absolute;width:13px;height:13px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s}
+.toggle input:checked+.slider{background:var(--forest-lt)}
+.toggle input:checked+.slider:before{transform:translateX(15px)}
+.legend{display:flex;flex-wrap:wrap;gap:.8rem;padding:.6rem 1.2rem .9rem;font-size:.78rem;color:var(--muted)}
+.li{display:flex;align-items:center;gap:.35rem}
+.li-dot{width:9px;height:9px;border-radius:50%}
+.li-line{width:18px;height:2px;flex-shrink:0}
+.li-dash{width:18px;height:0;border-top:2px dashed}
+.li-seg{width:3px;height:16px;flex-shrink:0}
+.stats-col{display:flex;flex-direction:column;gap:1.5rem}
+.ds-card{padding:1rem 1.2rem}
+.ds-name{font-family:var(--fh);font-size:1.1rem;font-weight:600;margin-bottom:.4rem;color:var(--forest)}
+.ds-body{font-size:.86rem;line-height:1.65;color:var(--muted)}
+.eq-display{background:var(--forest);color:#fff;margin:.2rem 1.2rem .9rem;border-radius:8px;padding:.8rem 1rem;font-family:var(--fm);font-size:1.05rem;text-align:center;letter-spacing:.02em}
+.eq-display span{color:#74c69d}
+.eq-interp{background:#f0f7f3;border-left:3px solid var(--forest-lt);border-radius:0 6px 6px 0;padding:.75rem .9rem;font-size:.84rem;line-height:1.65;margin:.2rem 1.2rem 1rem}
+.eq-interp strong{color:var(--forest-mid)}
+.stat-block{padding:.8rem 1.2rem;border-bottom:1px solid #f0ece5}
+.stat-block:last-child{border-bottom:none}
+.stat-label{font-size:.68rem;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-family:var(--fm);margin-bottom:.2rem}
+.stat-val{font-family:var(--fm);font-size:1.35rem;color:var(--forest-mid);font-weight:500;line-height:1.2}
+.stat-sub{font-size:.8rem;color:var(--muted);margin-top:.25rem;line-height:1.45}
+.r2bar-bg{background:#eeeae3;border-radius:4px;height:7px;overflow:hidden;margin-top:.4rem}
+.r2bar-fill{height:100%;background:linear-gradient(90deg,var(--forest-mid),#52b788);border-radius:4px;transition:width .5s ease}
+.r2bar-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--muted);font-family:var(--fm);margin-top:.2rem}
+.ss-table{width:100%;border-collapse:collapse;font-family:var(--fm);font-size:.8rem;margin-top:.5rem}
+.ss-table th{text-align:left;color:var(--muted);font-weight:400;padding:.25rem .4rem;border-bottom:1px solid var(--border)}
+.ss-table td{padding:.25rem .4rem;border-bottom:1px solid #f5f1eb}
+.ss-table tr:last-child td{border-bottom:none}
+.ss-table .hi{color:var(--forest-mid);font-weight:500}
+.p-badge{display:inline-block;padding:.1rem .45rem;border-radius:4px;font-size:.72rem;font-family:var(--fm);font-weight:500;margin-left:.4rem;vertical-align:middle}
+.p-sig{background:#d4edda;color:#155724}
+.p-ns{background:#f8d7da;color:#721c24}
+.resid-note{padding:.6rem 1.2rem .9rem;font-size:.82rem;line-height:1.6}
+.resid-note.ok{border-left:3px solid var(--forest-lt);background:#f4fbf7;color:var(--ink)}
+.resid-note.warn{border-left:3px solid var(--red);background:#fff8f7;color:var(--ink)}
+
+/* R2 DECOMP */
+.r2-hint{font-size:.79rem;color:var(--muted);padding:.55rem 1.2rem .2rem;font-style:italic}
+.r2-canvas-wrap{padding:.4rem 1.2rem 0;width:100%}
+.ss-bar-section{padding:.6rem 1.2rem .9rem}
+.ss-decomp-bar{display:flex;height:26px;border-radius:6px;overflow:hidden;font-family:var(--fm);font-size:.7rem;font-weight:600}
+.ss-bar-r{background:#2d6a4f;display:flex;align-items:center;justify-content:center;color:#fff;transition:width .5s ease;overflow:hidden;white-space:nowrap}
+.ss-bar-e{background:#b73c2a;display:flex;align-items:center;justify-content:center;color:#fff;transition:width .5s ease;overflow:hidden;white-space:nowrap}
+.ss-bar-key{display:flex;justify-content:space-between;margin-top:.45rem;font-size:.74rem;color:var(--muted)}
+.ss-bar-key span{display:flex;align-items:center;gap:.3rem}
+.ss-formula{background:#f3f0e8;border-radius:7px;padding:.5rem .9rem;font-family:var(--fm);font-size:.84rem;text-align:center;color:var(--ink);margin-top:.55rem}
+.ss-formula strong{color:var(--forest-mid)}
+
+/* RESIDUAL GUIDE */
+.resid-guide{padding:1.1rem 1.2rem 1.2rem}
+.resid-guide h3{font-family:var(--fh);font-size:1.1rem;font-weight:600;margin-bottom:.5rem;color:var(--forest)}
+.rg-intro{font-size:.84rem;color:var(--muted);line-height:1.65;margin-bottom:.85rem}
+.rg-intro strong{color:var(--red)}
+.patterns-grid{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+.pat{border-radius:9px;padding:.7rem .75rem;border:1px solid}
+.pat.good{border-color:#74c69d;background:#f3fbf6}
+.pat.bad{border-color:#e4a898;background:#fff8f6}
+.pat-title{font-size:.79rem;font-weight:600;margin-bottom:.3rem}
+.pat-title.good{color:var(--forest)}
+.pat-title.bad{color:var(--red)}
+.pat svg{width:100%;display:block;margin-bottom:.32rem}
+.pat-desc{font-size:.74rem;color:var(--muted);line-height:1.48}
+.rg-verdict{background:#fdf8ef;border-radius:8px;padding:.75rem .9rem;font-size:.83rem;line-height:1.65;color:var(--ink);margin-top:.8rem;border-left:3px solid var(--gold)}
+.rg-verdict strong{color:var(--gold)}
+
+/* FOOTER */
+footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem}
+.tip{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem}
+.tip-head{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--forest);margin-bottom:.4rem}
+.tip-body{font-size:.82rem;line-height:1.6;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Bio<em>Reg</em> — Linear Regression Explorer</h1>
+  <p>Interactively explore regression errors, residuals, and model fit through biological data</p>
+</header>
+
+<div class="tabs">
+  <span class="tabs-label">Dataset:</span>
+  <button class="tab active" data-ds="0">&#127987; Cricket Chirps</button>
+  <button class="tab" data-ds="1">&#127807; Plant Growth</button>
+  <button class="tab" data-ds="2">&#128041; Fish Allometry</button>
+</div>
+
+<main>
+  <!-- LEFT COLUMN -->
+  <div style="display:flex;flex-direction:column;gap:1.5rem">
+
+    <!-- Scatter plot -->
+    <div class="card">
+      <div class="card-head">
+        <h2>Scatter Plot &amp; Regression Line</h2>
+        <div class="controls">
+          <label class="toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="chkResid" checked><span class="slider"></span></label>
+            Show residuals
+          </label>
+          <label class="toggle-wrap">
+            <label class="toggle"><input type="checkbox" id="chkMean"><span class="slider"></span></label>
+            Show mean &#0257;
+          </label>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="chart-box" style="height:310px"><canvas id="scatterCanvas"></canvas></div>
+      </div>
+      <div class="legend">
+        <div class="li"><div class="li-dot" style="background:#2d6a4f"></div>Observed (y)</div>
+        <div class="li"><div class="li-line" style="background:#40916c"></div>Regression (&#375;)</div>
+        <div class="li"><div class="li-seg" style="background:rgba(183,60,42,.55)"></div>Residual (y&#8722;&#375;)</div>
+        <div class="li"><div class="li-dash" style="border-color:#a8650a"></div>Mean &#0233;</div>
+      </div>
+    </div>
+
+    <!-- Residual plot -->
+    <div class="card">
+      <div class="card-head">
+        <h2>Residual Plot</h2>
+        <span style="font-size:.8rem;color:var(--muted)">Residuals vs. Fitted Values (&#375;)</span>
+      </div>
+      <div class="card-body">
+        <div class="chart-box" style="height:220px"><canvas id="residCanvas"></canvas></div>
+      </div>
+      <div class="resid-note" id="residNote"></div>
+    </div>
+
+    <!-- R² DECOMPOSITION VISUAL -->
+    <div class="card">
+      <div class="card-head">
+        <h2>R&#178; Decomposition</h2>
+        <span style="font-size:.78rem;color:var(--muted)">Click any point on the scatter plot above &#8593;</span>
+      </div>
+      <p class="r2-hint">For the highlighted point: <span style="color:#1a5f8a;font-weight:600">SST</span> = total deviation from &#0233; &nbsp;|&nbsp; <span style="color:#2d6a4f;font-weight:600">SSR</span> = portion explained by regression &nbsp;|&nbsp; <span style="color:#b73c2a;font-weight:600">SSE</span> = leftover residual. Together: SST = SSR + SSE.</p>
+      <div class="r2-canvas-wrap" id="r2Wrap">
+        <canvas id="r2Canvas" style="display:block;width:100%"></canvas>
+      </div>
+      <div class="ss-bar-section">
+        <div class="ss-decomp-bar">
+          <div class="ss-bar-r" id="ssBarR" style="width:80%">SSR</div>
+          <div class="ss-bar-e" id="ssBarE" style="width:20%">SSE</div>
+        </div>
+        <div class="ss-bar-key">
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2d6a4f;flex-shrink:0"></span>SSR — explained by regression</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#b73c2a;flex-shrink:0"></span>SSE — unexplained</span>
+        </div>
+        <div class="ss-formula" id="r2Formula">R&sup2; = SSR &divide; SST = &#8212; &divide; &#8212; = &#8212;</div>
+      </div>
+    </div>
+
+    <!-- RESIDUAL PLOT GUIDE -->
+    <div class="card">
+      <div class="resid-guide">
+        <h3>How to Read a Residual Plot</h3>
+        <p class="rg-intro"><strong>You must always examine the residual plot</strong> before trusting any linear regression — even when R&#178; looks impressive. R&#178; can be high while the model is fundamentally wrong. The residual plot reveals what R&#178; hides.</p>
+
+        <div class="patterns-grid">
+
+          <div class="pat good">
+            <div class="pat-title good">&#10003; Random scatter — model OK</div>
+            <svg viewBox="0 0 130 72" xmlns="http://www.w3.org/2000/svg">
+              <line x1="8" y1="36" x2="122" y2="36" stroke="#8a9070" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <circle cx="16" cy="23" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="30" cy="49" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="44" cy="26" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="58" cy="47" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="72" cy="22" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="86" cy="50" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="100" cy="28" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <circle cx="114" cy="46" r="3.5" fill="rgba(45,106,79,.75)"/>
+              <text x="8" y="68" font-size="7.5" fill="#8a9070" font-family="Mulish,sans-serif">Fitted values &#x375; &#8594;</text>
+            </svg>
+            <div class="pat-desc">Points scattered randomly above and below zero; equal spread throughout. Linear model is appropriate — proceed.</div>
+          </div>
+
+          <div class="pat bad">
+            <div class="pat-title bad">&#10007; Curved pattern — non-linearity</div>
+            <svg viewBox="0 0 130 72" xmlns="http://www.w3.org/2000/svg">
+              <line x1="8" y1="36" x2="122" y2="36" stroke="#8a9070" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <circle cx="16" cy="57" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="30" cy="44" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="44" cy="28" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="58" cy="20" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="72" cy="23" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="86" cy="36" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="100" cy="52" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="114" cy="61" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <path d="M16,57 C40,20 90,20 114,61" stroke="rgba(183,60,42,.35)" fill="none" stroke-width="1.5" stroke-dasharray="3,2"/>
+              <text x="8" y="68" font-size="7.5" fill="#8a9070" font-family="Mulish,sans-serif">Fitted values &#x375; &#8594;</text>
+            </svg>
+            <div class="pat-desc">Systematic curve = the true relationship is non-linear. Try log, square-root, or polynomial transformation of x or y.</div>
+          </div>
+
+          <div class="pat bad">
+            <div class="pat-title bad">&#10007; Fan shape — heteroscedasticity</div>
+            <svg viewBox="0 0 130 72" xmlns="http://www.w3.org/2000/svg">
+              <line x1="8" y1="36" x2="122" y2="36" stroke="#8a9070" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <circle cx="16" cy="35" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="30" cy="38" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="44" cy="31" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="58" cy="27" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="58" cy="45" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="72" cy="19" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="72" cy="53" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="86" cy="12" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="86" cy="60" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="100" cy="7" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="100" cy="65" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="114" cy="3" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <circle cx="114" cy="69" r="3.5" fill="rgba(183,60,42,.78)"/>
+              <text x="8" y="68" font-size="7.5" fill="#8a9070" font-family="Mulish,sans-serif">Fitted values &#x375; &#8594;</text>
+            </svg>
+            <div class="pat-desc">Spread increases with fitted value — variance is not constant. Log-transforming y often corrects this in biological data.</div>
+          </div>
+
+          <div class="pat bad">
+            <div class="pat-title bad">&#10007; Outlier or high-leverage point</div>
+            <svg viewBox="0 0 130 72" xmlns="http://www.w3.org/2000/svg">
+              <line x1="8" y1="36" x2="122" y2="36" stroke="#8a9070" stroke-width="1.2" stroke-dasharray="5,3"/>
+              <circle cx="16" cy="35" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="30" cy="38" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="44" cy="34" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="58" cy="39" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="72" cy="34" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="86" cy="37" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="100" cy="35" r="3.5" fill="rgba(45,106,79,.4)"/>
+              <circle cx="114" cy="10" r="5.5" fill="#b73c2a" stroke="#fff" stroke-width="1.5"/>
+              <text x="108" y="9" font-size="8" fill="#b73c2a" font-family="Mulish,sans-serif" font-weight="700">!</text>
+              <text x="8" y="68" font-size="7.5" fill="#8a9070" font-family="Mulish,sans-serif">Fitted values &#x375; &#8594;</text>
+            </svg>
+            <div class="pat-desc">One extreme point can distort the entire line. Investigate: data error, measurement issue, or a genuine biological anomaly?</div>
+          </div>
+
+        </div>
+
+        <div class="rg-verdict">
+          <strong>The golden rule:</strong> Always plot your residuals. A high R&#178; with a curved residual pattern means your model is wrong — it is capturing variance, but for the wrong mathematical reason. No single statistic replaces this visual check. The Fish Allometry dataset in this tool demonstrates exactly this problem.
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end left col -->
+
+  <!-- RIGHT COLUMN: Stats -->
+  <div class="stats-col">
+
+    <div class="card">
+      <div class="ds-card">
+        <div class="ds-name" id="dsName"></div>
+        <div class="ds-body" id="dsBody"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Regression Equation</h2></div>
+      <br>
+      <div class="eq-display">&#375; = <span id="eqA">&#8212;</span> + <span id="eqB">&#8212;</span>x</div>
+      <div class="eq-interp" id="eqInterp"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-head"><h2>Model Statistics</h2></div>
+
+      <div class="stat-block">
+        <div class="stat-label">R&#178; &#8212; Coefficient of Determination</div>
+        <div class="stat-val" id="statR2">&#8212;</div>
+        <div class="r2bar-bg"><div class="r2bar-fill" id="r2bar" style="width:0%"></div></div>
+        <div class="r2bar-labels"><span>0%</span><span>100%</span></div>
+        <div class="stat-sub" id="statR2Sub"></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-label">Pearson r &#8212; Correlation</div>
+        <div class="stat-val" id="statR">&#8212;</div>
+        <div class="stat-sub" id="statRSub"></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-label">Sum of Squares Breakdown</div>
+        <table class="ss-table">
+          <thead><tr><th>Source</th><th>SS</th><th>df</th></tr></thead>
+          <tbody>
+            <tr><td>Regression (SSR)</td><td class="hi" id="ssrVal">&#8212;</td><td>1</td></tr>
+            <tr><td>Residual (SSE)</td><td class="hi" id="sseVal">&#8212;</td><td id="sseDf">&#8212;</td></tr>
+            <tr><td>Total (SST)</td><td class="hi" id="sstVal">&#8212;</td><td id="sstDf">&#8212;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-label">SE of Estimate (s)</div>
+        <div class="stat-val" id="statSE">&#8212;</div>
+        <div class="stat-sub" id="statSESub"></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-label">p-value (H&#8320;: slope = 0)</div>
+        <div style="display:flex;align-items:baseline;gap:.3rem;flex-wrap:wrap">
+          <div class="stat-val" id="statP">&#8212;</div>
+          <span class="p-badge" id="pBadge">&#8212;</span>
+        </div>
+        <div class="stat-sub" id="statPSub"></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-label">95% CI for Slope</div>
+        <div class="stat-val" id="statCI">&#8212;</div>
+        <div class="stat-sub" id="statCISub"></div>
+      </div>
+
+      <div class="stat-block">
+        <div class="stat-label">Sample Size (n)</div>
+        <div class="stat-val" id="statN">&#8212;</div>
+        <div class="stat-sub">Number of observations in this dataset</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="tip">
+    <div class="tip-head">What is a residual?</div>
+    <div class="tip-body">A residual is the difference between the <em>observed</em> value (y) and the <em>predicted</em> value (&#375;) from the regression line: <strong>e = y &minus; &#375;</strong>. Positive = above the line; negative = below.</div>
+  </div>
+  <div class="tip">
+    <div class="tip-head">What does R&#178; mean?</div>
+    <div class="tip-body">R&#178; is the proportion of total variation in y explained by x. R&#178; = 0.85 means 85% of variance is accounted for. A high R&#178; does NOT guarantee a linear model is appropriate — always check the residual plot first.</div>
+  </div>
+  <div class="tip">
+    <div class="tip-head">SST = SSR + SSE</div>
+    <div class="tip-body">Total variation (SST) = variation explained by regression (SSR) + leftover variation (SSE). R&#178; = SSR/SST. Click any point on the scatter plot to see this decomposition drawn geometrically.</div>
+  </div>
+  <div class="tip">
+    <div class="tip-head">The p-value for slope</div>
+    <div class="tip-body">Tests H&#8320;: slope = 0. A small p-value (&lt;&#8202;0.05) means strong evidence of a linear association in the population, not just in your sample. Combine with R&#178; and the residual plot for a full picture.</div>
+  </div>
+</footer>
+
+<script>
+/* ================================================================
+   DATASETS
+   ================================================================ */
+const DS = [
+  {
+    name:'Striped Ground Cricket (Oecanthus fultoni)',
+    xLabel:'Temperature (°F)',yLabel:'Chirps per 15 sec',
+    body:"Crickets chirp faster as temperature rises — codified in Dolbear's Law (1898). Metabolic enzymes in the cricket's nervous system operate faster at higher temperatures, directly accelerating the chirp rate. One of biology's most elegant natural thermometers.",
+    data:[{x:57,y:14.5},{x:60,y:23.1},{x:62,y:21.4},{x:65,y:19.8},{x:67,y:28.6},{x:70,y:24.3},{x:72,y:32.7},{x:75,y:37.9},{x:77,y:29.5},{x:80,y:41.2},{x:82,y:36.8},{x:85,y:48.3},{x:87,y:38.5},{x:89,y:52.6},{x:91,y:44.1},{x:93,y:57.8},{x:95,y:50.3}],
+    interp:(a,b)=>`For every <strong>1°F increase</strong> in temperature, crickets produce approximately <strong>${b.toFixed(3)} more chirps</strong> per 15 seconds. The intercept (${a.toFixed(1)}) is biologically meaningless — never extrapolate far beyond the observed data range.`,
+    residClass:'ok',
+    residText:'PATTERN CHECK: Residuals scatter randomly above and below zero with no clear trend and roughly constant spread throughout the entire temperature range. This is exactly what a good residual plot looks like — the linear model is appropriate here. The assumptions of linear regression are well met for this dataset.'
+  },
+  {
+    name:'Arabidopsis thaliana — Nitrogen Fertilizer Response',
+    xLabel:'Nitrogen (mg/L)',yLabel:'Plant Height (cm)',
+    body:'Nitrogen is a critical macronutrient: it forms amino acids, chlorophyll, and nucleic acids. In controlled greenhouse conditions, increasing nitrogen produces a broadly linear increase in shoot height — up to the point where other resources become limiting.',
+    data:[{x:0,y:10.4},{x:10,y:15.9},{x:20,y:19.3},{x:25,y:23.7},{x:35,y:32.1},{x:40,y:26.8},{x:50,y:44.5},{x:55,y:38.2},{x:65,y:52.9},{x:70,y:61.3},{x:80,y:58.7},{x:85,y:72.4},{x:95,y:64.1},{x:105,y:88.6},{x:115,y:75.3},{x:125,y:96.8},{x:140,y:83.5}],
+    interp:(a,b)=>`Each <strong>1 mg/L increase</strong> in nitrogen predicts <strong>${b.toFixed(3)} cm of additional height</strong>. The y-intercept (${a.toFixed(2)} cm) represents predicted height with no added fertilizer — growth sustained purely by residual soil nutrients.`,
+    residClass:'warn',
+    residText:'PATTERN DETECTED — fan/funnel shape: Residuals are compact at low nitrogen concentrations but balloon out considerably at higher concentrations. This is heteroscedasticity — the model error grows with the predictor. Biologically, this makes sense: plants at low nitrogen are uniformly stunted, but plants with abundant nitrogen vary widely depending on genotype, microenvironment, and other limiting factors. Log-transforming the height values often corrects this.'
+  },
+  {
+    name:'Bluegill Sunfish (Lepomis macrochirus) — Allometry',
+    xLabel:'Total Length (cm)',yLabel:'Body Weight (g)',
+    body:'Fish weight scales with the cube of length (W ∝ L³) — a power-law allometric relationship. Within a narrow size range, a linear model can approximate this curve, but the residual plot reveals the true curvature. This is the perfect demonstration of why residual plots are non-negotiable.',
+    data:[{x:5,y:2.1},{x:7,y:5.8},{x:9,y:11},{x:11,y:19.5},{x:12,y:26},{x:13,y:33},{x:14,y:41.5},{x:15,y:51},{x:16,y:63.5},{x:17,y:76},{x:18,y:91},{x:19,y:108},{x:20,y:127.5},{x:21,y:149},{x:22,y:172}],
+    interp:(a,b)=>`Each <strong>1 cm increase in length</strong> predicts about <strong>${b.toFixed(1)} g of additional weight</strong> — but examine the residual plot! A curved pattern signals the linear model is an approximation. A log-log transformation (log W ~ log L) produces a truly linear fit.`,
+    residClass:'warn',
+    residText:'PATTERN DETECTED — curved (U-shape): Small and large fish are under-predicted; mid-sized fish are over-predicted. Even with a high R², this arc proves the linear model is incorrect for this data. This is exactly why you must always examine the residual plot — R² alone would not catch this.'
+  }
+];
+
+/* ================================================================
+   REGRESSION MATH
+   ================================================================ */
+function calcReg(data){
+  const n=data.length;
+  let sx=0,sy=0,sxy=0,sx2=0;
+  data.forEach(({x,y})=>{sx+=x;sy+=y;sxy+=x*y;sx2+=x*x;});
+  const xbar=sx/n,ybar=sy/n,Sxx=sx2-sx*sx/n,Sxy=sxy-sx*sy/n;
+  const b=Sxy/Sxx,a=ybar-b*xbar;
+  const yhat=data.map(({x})=>a+b*x);
+  const resid=data.map(({y},i)=>y-yhat[i]);
+  const SSE=resid.reduce((s,r)=>s+r*r,0);
+  const SST=data.reduce((s,{y})=>s+(y-ybar)*(y-ybar),0);
+  const SSR=SST-SSE,r2=1-SSE/SST,r=Math.sign(b)*Math.sqrt(r2);
+  const se=Math.sqrt(SSE/(n-2)),seb=se/Math.sqrt(Sxx);
+  const tstat=b/seb,df=n-2,p=tpval(Math.abs(tstat),df),t95=tinv95(df);
+  return{a,b,yhat,resid,SSE,SSR,SST,r2,r,se,seb,tstat,df,p,n,xbar,ybar,t95};
+}
+function tpval(t,df){return ibeta(df/2,0.5,df/(df+t*t));}
+function tinv95(df){const z=1.959964;return z+(z*z*z+z)/(4*df)+(5*Math.pow(z,5)+16*z*z*z+3*z)/(96*df*df);}
+function ibeta(a,b,x){
+  if(x<=0)return 0;if(x>=1)return 1;
+  if(x>(a+1)/(a+b+2))return 1-ibeta(b,a,1-x);
+  const lb=lgam(a)+lgam(b)-lgam(a+b);
+  return Math.exp(Math.log(x)*a+Math.log(1-x)*b-lb)/a*betacf(a,b,x);
+}
+function betacf(a,b,x){
+  let c=1,d=1-(a+b)*x/(a+1);if(Math.abs(d)<1e-30)d=1e-30;d=1/d;let h=d;
+  for(let m=1;m<=200;m++){
+    let m2=2*m,aa=m*(b-m)*x/((a-1+m2)*(a+m2));
+    d=1+aa*d;if(Math.abs(d)<1e-30)d=1e-30;let cc=1+aa/c;if(Math.abs(cc)<1e-30)cc=1e-30;d=1/d;h*=d*cc;
+    aa=-(a+m)*(a+b+m)*x/((a+m2)*(a+1+m2));
+    d=1+aa*d;if(Math.abs(d)<1e-30)d=1e-30;cc=1+aa/c;if(Math.abs(cc)<1e-30)cc=1e-30;d=1/d;const del=d*cc;h*=del;
+    if(Math.abs(del-1)<3e-7)break;
+  }
+  return h;
+}
+function lgam(x){
+  const c=[76.18009172947146,-86.50532032941677,24.01409824083091,-1.231739572450155,1.208650973866179e-3,-5.395239384953e-6];
+  let y=x,t=x+5.5;t-=(x+.5)*Math.log(t);let s=1.000000000190015;
+  for(let j=0;j<6;j++)s+=c[j]/++y;
+  return -t+Math.log(2.5066282746310005*s/x);
+}
+
+/* ================================================================
+   GLOBALS
+   ================================================================ */
+let scChart=null,rsChart=null;
+let showResid=true,showMean=false;
+let currentReg=null,currentDs=null;
+let r2SelectedPt=0;
+
+/* ================================================================
+   R² DECOMPOSITION CANVAS
+   ================================================================ */
+function bestInitPt(reg,ds){
+  let best=0,bestDev=0;
+  ds.data.forEach((d,i)=>{
+    const dev=Math.abs(d.y-reg.ybar);
+    const sameSide=(reg.yhat[i]-reg.ybar)*(d.y-reg.ybar)>0;
+    if(sameSide&&dev>bestDev){bestDev=dev;best=i;}
+  });
+  return best;
+}
+
+function drawR2Canvas(reg,ds,ptIdx){
+  const wrap=document.getElementById('r2Wrap');
+  const canvas=document.getElementById('r2Canvas');
+  if(!canvas||!wrap)return;
+  const dpr=window.devicePixelRatio||1;
+  const W=wrap.clientWidth||380;
+  const H=230;
+  canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.height=H+'px';
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);ctx.clearRect(0,0,W,H);
+
+  const ml=50,mr=22,mt=16,mb=28;
+  const pw=W-ml-mr,ph=H-mt-mb;
+  const allY=ds.data.map(d=>d.y);
+  const xmin=Math.min(...ds.data.map(d=>d.x)),xmax=Math.max(...ds.data.map(d=>d.x));
+  const ymin=Math.min(...allY,reg.ybar),ymax=Math.max(...allY,reg.ybar);
+  const xs=xmax-xmin||1,ys=ymax-ymin||1;
+  const xp=xs*.1,yp=ys*.15;
+  const X=v=>ml+(v-xmin+xp/2)/(xs+xp)*pw;
+  const Y=v=>mt+ph-(v-ymin+yp/2)/(ys+yp)*ph;
+
+  /* background */
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,W,H);
+
+  /* grid */
+  ctx.strokeStyle='rgba(0,0,0,.04)';ctx.lineWidth=.8;
+  for(let i=1;i<4;i++){const gy=mt+ph*i/4;ctx.beginPath();ctx.moveTo(ml,gy);ctx.lineTo(W-mr,gy);ctx.stroke();}
+
+  /* mean line */
+  const ybarY=Y(reg.ybar);
+  ctx.strokeStyle='#a8650a';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(ml,ybarY);ctx.lineTo(W-mr,ybarY);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#a8650a';ctx.font='10px Fira Code,monospace';ctx.textAlign='left';
+  ctx.fillText('\u0233',W-mr+3,ybarY+4);
+
+  /* regression line */
+  ctx.strokeStyle='#40916c';ctx.lineWidth=2;
+  const rx0=xmin-xs*.05,rx1=xmax+xs*.05;
+  ctx.beginPath();ctx.moveTo(X(rx0),Y(reg.a+reg.b*rx0));ctx.lineTo(X(rx1),Y(reg.a+reg.b*rx1));ctx.stroke();
+
+  /* muted data points */
+  ds.data.forEach((d,i)=>{
+    if(i===ptIdx)return;
+    ctx.fillStyle='rgba(45,106,79,.28)';
+    ctx.beginPath();ctx.arc(X(d.x),Y(d.y),3.5,0,Math.PI*2);ctx.fill();
+  });
+
+  /* === SELECTED POINT DECOMPOSITION === */
+  const pt=ds.data[ptIdx];
+  const ptX=X(pt.x),ptY=Y(pt.y),yhatY=Y(reg.yhat[ptIdx]),ybarPY=Y(reg.ybar);
+  const bw=11;
+
+  /* SSR band (ȳ to ŷ) */
+  const ssrT=Math.min(yhatY,ybarPY),ssrH=Math.abs(yhatY-ybarPY);
+  if(ssrH>1){
+    ctx.fillStyle='rgba(45,106,79,.22)';ctx.fillRect(ptX-bw,ssrT,bw*2,ssrH);
+    ctx.strokeStyle='#2d6a4f';ctx.lineWidth=1.5;ctx.strokeRect(ptX-bw,ssrT,bw*2,ssrH);
+  }
+
+  /* SSE band (ŷ to y) */
+  const sseT=Math.min(ptY,yhatY),sseH=Math.abs(ptY-yhatY);
+  if(sseH>1){
+    ctx.fillStyle='rgba(183,60,42,.18)';ctx.fillRect(ptX-bw,sseT,bw*2,sseH);
+    ctx.strokeStyle='#b73c2a';ctx.lineWidth=1.5;ctx.strokeRect(ptX-bw,sseT,bw*2,sseH);
+  }
+
+  /* SST bracket */
+  const sstT=Math.min(ptY,ybarPY),sstB=Math.max(ptY,ybarPY);
+  if(sstB-sstT>4){
+    const bx=ptX+bw+6;
+    ctx.strokeStyle='#1a5f8a';ctx.lineWidth=2;
+    ctx.beginPath();ctx.moveTo(bx,sstT);ctx.lineTo(bx,sstB);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx-4,sstT);ctx.lineTo(bx+5,sstT);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(bx-4,sstB);ctx.lineTo(bx+5,sstB);ctx.stroke();
+    ctx.fillStyle='#1a5f8a';ctx.font='bold 8.5px Mulish,sans-serif';ctx.textAlign='left';
+    ctx.fillText('SST',bx+7,(sstT+sstB)/2+3);
+  }
+
+  /* band labels */
+  ctx.textAlign='center';
+  if(ssrH>22){ctx.fillStyle='#1b4f2c';ctx.font='bold 7.5px Mulish,sans-serif';ctx.fillText('SSR',ptX,ssrT+ssrH/2+3);}
+  if(sseH>22){ctx.fillStyle='#7c2318';ctx.font='bold 7.5px Mulish,sans-serif';ctx.fillText('SSE',ptX,sseT+sseH/2+3);}
+
+  /* ŷ dot on regression line */
+  ctx.fillStyle='#40916c';ctx.beginPath();ctx.arc(ptX,yhatY,4.5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(ptX,yhatY,2,0,Math.PI*2);ctx.fill();
+
+  /* selected observation */
+  ctx.fillStyle='#1c1c1c';ctx.beginPath();ctx.arc(ptX,ptY,6.5,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='#74c69d';ctx.beginPath();ctx.arc(ptX,ptY,3,0,Math.PI*2);ctx.fill();
+
+  /* axes */
+  ctx.strokeStyle='#d8d3cc';ctx.lineWidth=.8;
+  ctx.beginPath();ctx.moveTo(ml,mt);ctx.lineTo(ml,H-mb);ctx.lineTo(W-mr,H-mb);ctx.stroke();
+
+  /* y ticks */
+  ctx.fillStyle='#8a8478';ctx.font='9px Fira Code,monospace';ctx.textAlign='right';
+  for(let i=0;i<=3;i++){
+    const yv=ymin+ys*i/3;
+    ctx.fillText(yv>=100?Math.round(yv).toString():yv.toFixed(1),ml-4,Y(yv)+3);
+  }
+
+  /* x label */
+  ctx.fillStyle='#8a8478';ctx.font='9px Mulish,sans-serif';ctx.textAlign='center';
+  ctx.fillText(ds.xLabel,ml+pw/2,H-5);
+
+  /* inline legend */
+  ctx.textAlign='left';ctx.font='9px Mulish,sans-serif';
+  const ly=H-mb+16;
+  ctx.fillStyle='#1a5f8a';ctx.fillText('\u2014 SST (total)',ml,ly);
+  ctx.fillStyle='#2d6a4f';ctx.fillText('\u2014 SSR (explained)',ml+74,ly);
+  ctx.fillStyle='#b73c2a';ctx.fillText('\u2014 SSE (residual)',ml+175,ly);
+
+  /* stacked bar + formula */
+  const pR=Math.max(0,Math.min(100,reg.SSR/reg.SST*100));
+  const pE=100-pR;
+  const barR=document.getElementById('ssBarR'),barE=document.getElementById('ssBarE');
+  if(barR){barR.style.width=pR.toFixed(1)+'%';barR.textContent=pR>14?'SSR '+pR.toFixed(1)+'%':'';}
+  if(barE){barE.style.width=pE.toFixed(1)+'%';barE.textContent=pE>9?'SSE '+pE.toFixed(1)+'%':'';}
+  const fml=document.getElementById('r2Formula');
+  if(fml)fml.innerHTML='R&sup2; = SSR &divide; SST = '+reg.SSR.toFixed(1)+' &divide; '+reg.SST.toFixed(1)+' = <strong>'+reg.r2.toFixed(4)+'</strong>';
+}
+
+/* ================================================================
+   RESIDUAL LINES PLUGIN
+   ================================================================ */
+const residPlugin={
+  id:'residPlugin',
+  afterDatasetsDraw(chart){
+    const ctx=chart.ctx;
+    if(chart._showResid&&chart._yhat){
+      ctx.save();ctx.strokeStyle='rgba(183,60,42,.5)';ctx.lineWidth=1.8;
+      chart.getDatasetMeta(0).data.forEach((pt,i)=>{
+        const py=chart.scales.y.getPixelForValue(chart._yhat[i]);
+        ctx.beginPath();ctx.moveTo(pt.x,pt.y);ctx.lineTo(pt.x,py);ctx.stroke();
+      });
+      ctx.restore();
+    }
+    if(chart._showMean&&chart._ybar!==undefined){
+      const py=chart.scales.y.getPixelForValue(chart._ybar);
+      const{left,right}=chart.chartArea;
+      ctx.save();ctx.strokeStyle='#a8650a';ctx.lineWidth=1.6;ctx.setLineDash([6,4]);
+      ctx.beginPath();ctx.moveTo(left,py);ctx.lineTo(right,py);ctx.stroke();
+      ctx.setLineDash([]);ctx.fillStyle='#a8650a';ctx.font='11px Fira Code,monospace';
+      ctx.fillText('\u0233 = '+chart._ybar.toFixed(1),right-72,py-5);
+      ctx.restore();
+    }
+  }
+};
+
+/* ================================================================
+   BUILD CHARTS
+   ================================================================ */
+function buildCharts(dsIdx){
+  const ds=DS[dsIdx],reg=calcReg(ds.data);
+  currentReg=reg;currentDs=ds;
+
+  if(scChart)scChart.destroy();
+  if(rsChart)rsChart.destroy();
+
+  const xs=ds.data.map(d=>d.x);
+  const xmin=Math.min(...xs),xmax=Math.max(...xs),pad=(xmax-xmin)*.04;
+  const lineData=[{x:xmin-pad,y:reg.a+reg.b*(xmin-pad)},{x:xmax+pad,y:reg.a+reg.b*(xmax+pad)}];
+
+  const scCtx=document.getElementById('scatterCanvas').getContext('2d');
+  scChart=new Chart(scCtx,{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Observed',data:ds.data,backgroundColor:'rgba(45,106,79,.82)',pointRadius:6,pointHoverRadius:9,order:2},
+      {label:'Regression',data:lineData,type:'line',borderColor:'#40916c',borderWidth:2.5,pointRadius:0,fill:false,tension:0,order:1}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      onClick(evt,elements){
+        if(elements.length&&elements[0].datasetIndex===0){
+          r2SelectedPt=elements[0].index;
+          drawR2Canvas(currentReg,currentDs,r2SelectedPt);
+        }
+      },
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          filter:item=>item.datasetIndex===0,
+          callbacks:{label(c){const i=c.dataIndex;return[ds.xLabel+': '+c.parsed.x,ds.yLabel+': '+c.parsed.y,'\u0177 = '+reg.yhat[i].toFixed(2)+'  |  residual = '+reg.resid[i].toFixed(2)];}}
+        }
+      },
+      scales:{
+        x:{title:{display:true,text:ds.xLabel,font:{family:'Mulish',size:12},color:'#6b7063'},grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'Fira Code',size:11}}},
+        y:{title:{display:true,text:ds.yLabel,font:{family:'Mulish',size:12},color:'#6b7063'},grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'Fira Code',size:11}}}
+      }
+    },
+    plugins:[residPlugin]
+  });
+  scChart._showResid=showResid;scChart._showMean=showMean;scChart._yhat=reg.yhat;scChart._ybar=reg.ybar;
+
+  const rmin=Math.min(...reg.yhat),rmax=Math.max(...reg.yhat),rpad=(rmax-rmin)*.05;
+  rsChart=new Chart(document.getElementById('residCanvas').getContext('2d'),{
+    type:'scatter',
+    data:{datasets:[
+      {label:'Residuals',data:reg.yhat.map((yh,i)=>({x:yh,y:reg.resid[i]})),backgroundColor:'rgba(183,60,42,.72)',pointRadius:6,pointHoverRadius:8,order:2},
+      {label:'Zero',data:[{x:rmin-rpad,y:0},{x:rmax+rpad,y:0}],type:'line',borderColor:'#8a9070',borderWidth:1.5,borderDash:[5,4],pointRadius:0,fill:false,order:1}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{filter:item=>item.datasetIndex===0,callbacks:{label(c){return['\u0177 = '+c.parsed.x.toFixed(2),'Residual = '+c.parsed.y.toFixed(2)];}}}},
+      scales:{
+        x:{title:{display:true,text:'Fitted values (\u0177)',font:{family:'Mulish',size:12},color:'#6b7063'},grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'Fira Code',size:11}}},
+        y:{title:{display:true,text:'Residuals (y \u2212 \u0177)',font:{family:'Mulish',size:12},color:'#6b7063'},grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'Fira Code',size:11}}}
+      }
+    }
+  });
+
+  r2SelectedPt=bestInitPt(reg,ds);
+  updateUI(reg,ds,dsIdx);
+  requestAnimationFrame(()=>drawR2Canvas(reg,ds,r2SelectedPt));
+}
+
+/* ================================================================
+   UPDATE STATS UI
+   ================================================================ */
+function fmt(v,d){return v.toFixed(d);}
+function updateUI(reg,ds,dsIdx){
+  document.getElementById('eqA').textContent=fmt(reg.a,4);
+  document.getElementById('eqB').textContent=(reg.b>=0?'+':'\u2212')+Math.abs(reg.b).toFixed(4);
+  document.getElementById('eqInterp').innerHTML=DS[dsIdx].interp(reg.a,reg.b);
+  document.getElementById('dsName').textContent=ds.name;
+  document.getElementById('dsBody').textContent=ds.body;
+  document.getElementById('statR2').textContent=fmt(reg.r2,4);
+  document.getElementById('r2bar').style.width=(reg.r2*100)+'%';
+  document.getElementById('statR2Sub').textContent=(reg.r2*100).toFixed(1)+'% of variation in '+ds.yLabel+' is explained by '+ds.xLabel+'.';
+  document.getElementById('statR').textContent=fmt(reg.r,4);
+  const str=Math.abs(reg.r)>.9?'Very strong':Math.abs(reg.r)>.7?'Strong':Math.abs(reg.r)>.5?'Moderate':'Weak';
+  document.getElementById('statRSub').textContent=str+' '+(reg.r>0?'positive':'negative')+' linear association.';
+  document.getElementById('ssrVal').textContent=reg.SSR.toFixed(2);
+  document.getElementById('sseVal').textContent=reg.SSE.toFixed(2);
+  document.getElementById('sstVal').textContent=reg.SST.toFixed(2);
+  document.getElementById('sseDf').textContent=reg.df;
+  document.getElementById('sstDf').textContent=reg.n-1;
+  document.getElementById('statSE').textContent=fmt(reg.se,3);
+  document.getElementById('statSESub').textContent='Average distance of points from the regression line ('+ds.yLabel+' units).';
+  const pv=reg.p<0.0001?'< 0.0001':fmt(reg.p,4);
+  document.getElementById('statP').textContent=pv;
+  const badge=document.getElementById('pBadge');
+  badge.textContent=reg.p<0.05?'p < 0.05 \u2713':'not significant';
+  badge.className='p-badge '+(reg.p<0.05?'p-sig':'p-ns');
+  document.getElementById('statPSub').textContent='t('+reg.df+') = '+fmt(reg.tstat,3)+'. '+(reg.p<0.05?'Strong evidence':'No evidence')+' that slope \u2260 0.';
+  const lo=reg.b-reg.t95*reg.seb,hi=reg.b+reg.t95*reg.seb;
+  document.getElementById('statCI').textContent='['+fmt(lo,4)+', '+fmt(hi,4)+']';
+  document.getElementById('statCISub').textContent='95% confident the true slope is in this interval. It '+(lo>0||hi<0?'does NOT':'may')+' contain zero.';
+  document.getElementById('statN').textContent=reg.n;
+  const rn=document.getElementById('residNote');
+  rn.className='resid-note '+DS[dsIdx].residClass;
+  rn.textContent=DS[dsIdx].residText;
+}
+
+/* ================================================================
+   EVENT LISTENERS
+   ================================================================ */
+document.querySelectorAll('.tab').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    buildCharts(parseInt(btn.dataset.ds));
+  });
+});
+document.getElementById('chkResid').addEventListener('change',e=>{showResid=e.target.checked;if(scChart){scChart._showResid=showResid;scChart.update();}});
+document.getElementById('chkMean').addEventListener('change',e=>{showMean=e.target.checked;if(scChart){scChart._showMean=showMean;scChart.update();}});
+window.addEventListener('resize',()=>{if(currentReg&&currentDs)drawR2Canvas(currentReg,currentDs,r2SelectedPt);});
+
+buildCharts(0);
+</script>
+</body>
+</html>
