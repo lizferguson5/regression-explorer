@@ -2,7 +2,7 @@
 
 An interactive, browser-based tool for biostatistics students to explore linear regression visually — including residual plots, residual distributions, R² decomposition, sum of squares, and model diagnostics — using realistic biological datasets **or data collected by your own class**.
 
-🔗 **[Live Demo](https://lizferguson5.github.io/regression-explorer/)**
+🔗 **[Regression Explorer](https://lizferguson5.github.io/regression-explorer/)**
 
 ---
 
