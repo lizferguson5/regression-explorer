@@ -309,6 +309,33 @@ header p{padding-bottom:0}
   .app{grid-template-columns:minmax(0,1fr)}
   .sidebar{position:static;max-height:none;overflow:visible;order:-1}
 }
+
+/* REMEDIES */
+.fix-card{margin-top:1.5rem}
+.fix-item{margin-bottom:1.3rem}
+.fix-item:last-of-type{margin-bottom:.6rem}
+.fix-h{font-family:var(--fh);font-size:1.15rem;font-weight:700;color:var(--red);margin-bottom:.2rem}
+.fix-what{font-size:.86rem;color:var(--muted);margin-bottom:.55rem}
+.fix-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+@media(max-width:800px){.fix-grid{grid-template-columns:1fr}}
+.fix-opt{border-radius:9px;padding:.7rem .85rem;font-size:.84rem;line-height:1.6;border:1px solid}
+.fix-opt.pref{background:#f3fbf6;border-color:#9fd3b4}
+.fix-opt.alt{background:#fbf8f1;border-color:#e2d3ad}
+.fix-tag{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.35rem}
+.fix-opt.pref .fix-tag{color:var(--forest-mid)}
+.fix-opt.alt .fix-tag{color:var(--gold)}
+.fix-opt p{margin-bottom:.45rem}
+.fix-opt ul{margin:.2rem 0 .4rem 1.1rem}
+.fix-opt li{margin-bottom:.35rem}
+.fix-opt code,.fix-table code{font-family:var(--fm);font-size:.76rem;background:rgba(0,0,0,.05);padding:.05rem .3rem;border-radius:4px;overflow-wrap:anywhere}
+.fix-ok{color:var(--forest-mid);font-size:.9rem}
+.fix-foot{font-size:.78rem;color:var(--muted);font-style:italic;margin-top:.4rem}
+.fix-table{width:100%;border-collapse:collapse;font-size:.84rem;line-height:1.55}
+.fix-table th{text-align:left;background:#f3f0e8;padding:.5rem .7rem;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}
+.fix-table td{padding:.6rem .7rem;border-top:1px solid var(--border);vertical-align:top}
+.fix-table td:first-child{font-weight:700;color:var(--red);width:18%}
+.fix-table td:nth-child(2){background:#f8fcf9}
+.fix-table td:nth-child(3){background:#fdfbf6}
 </style>
 </head>
 <body>
@@ -443,6 +470,10 @@ header p{padding-bottom:0}
       <div class="diag-foot">Tests use α = 0.05. With small samples they have little power to detect problems, so always look at the plots too.</div>
     </div>
   </div>
+  <div class="card fix-card" id="cardFix">
+    <div class="card-head"><h2>&#128295; What to do if an assumption fails</h2><span class="sub">two options for each problem, tailored to these data</span></div>
+    <div class="card-body" id="fixBody"></div>
+  </div>
   <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide4"></div></details>
   <div class="sec-foot"><button type="button" class="next-btn" data-next="sec5">Next: Model statistics &amp; the slope test &#8595;</button></div>
 </section>
@@ -520,12 +551,12 @@ header p{padding-bottom:0}
           <div class="pat bad">
             <div class="pat-title bad">&#10007; Curved pattern — non-linearity</div>
             <div class="pat-chart"><canvas id="pat1"></canvas></div>
-            <div class="pat-desc">Residuals are mostly positive at both ends and negative in the middle (or the reverse). The true relationship is curved — try a log, square-root, or polynomial model.</div>
+            <div class="pat-desc">Residuals are mostly positive at both ends and negative in the middle (or the reverse). The true relationship is curved. Preferred fix: a nonlinear model (power, exponential, saturating) or polynomial. Alternative: log-transform x and/or y.</div>
           </div>
           <div class="pat bad">
             <div class="pat-title bad">&#10007; Fan shape — heteroscedasticity</div>
             <div class="pat-chart"><canvas id="pat2"></canvas></div>
-            <div class="pat-desc">Residuals are tightly bunched at small fitted values and spread out at large ones. Variance is not constant; log-transforming y often fixes this in biological data.</div>
+            <div class="pat-desc">Residuals are tightly bunched at small fitted values and spread out at large ones. Variance is not constant. Preferred fix: a GLM (gamma, Poisson) or weighted regression. Alternative: log- or square-root-transform y.</div>
           </div>
           <div class="pat bad">
             <div class="pat-title bad">&#10007; Outlier</div>
@@ -538,6 +569,22 @@ header p{padding-bottom:0}
         </div>
       </div>
     </div>
+  <div class="card fix-card">
+    <div class="card-head"><h2>&#128295; If an assumption fails: two options</h2><span class="sub">model-based first, transformation second</span></div>
+    <div class="card-body" style="overflow-x:auto">
+      <table class="fix-table">
+        <thead><tr><th>Problem</th><th>Option A · Model-based (preferred)</th><th>Option B · Transformation</th></tr></thead>
+        <tbody>
+          <tr><td>Curve: accelerating rise</td><td>Nonlinear regression: power curve <code>y = a·x^b</code> (allometry) or exponential <code>y = a·e^(bx)</code> (growth)</td><td>Log–log (<code>log y</code> vs <code>log x</code>) for a power law; <code>log y</code> vs x for exponential</td></tr>
+          <tr><td>Curve: saturating rise</td><td>Michaelis–Menten <code>y = Vmax·x/(K + x)</code> or asymptotic exponential <code>y = A(1 − e^(−kx))</code>; quadratic if it peaks</td><td>y vs <code>log x</code> (or <code>√x</code>)</td></tr>
+          <tr><td>Curve: decay / decline</td><td>Exponential decay <code>y = a·e^(−kx)</code> or negative power curve <code>y = a·x^(−b)</code></td><td><code>log y</code> vs x, or log–log</td></tr>
+          <tr><td>Fan: spread grows with y</td><td>Counts → Poisson / negative-binomial GLM. Positive continuous → gamma GLM (log link). Otherwise → weighted least squares</td><td>Counts → <code>√y</code>; positive continuous → <code>log y</code></td></tr>
+          <tr><td>Non-normal residuals</td><td>Nonparametric: Spearman’s rank correlation + Theil–Sen slope (or a gamma GLM for skewed positive data)</td><td>Right skew → <code>log y</code> or <code>√y</code>; left skew → reflect then log</td></tr>
+          <tr><td>Outlier / influential point</td><td>Check for errors, then robust regression (Theil–Sen or M-estimation, <code>MASS::rlm</code>)</td><td>Not recommended for a single point — fit with and without it and report both</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
   <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide7"></div></details>
   <div class="sec-foot"><button type="button" class="next-btn" data-next="sec1">&#8593; Back to step 1</button></div>
 </section>
@@ -750,7 +797,7 @@ const DS = [
     data:[{x:0,y:5.5},{x:0,y:8.7},{x:0,y:12.1},{x:0,y:7.2},{x:20,y:14.4},{x:20,y:11.8},{x:20,y:10.0},{x:20,y:12.2},{x:40,y:15.2},{x:40,y:12.6},{x:40,y:17.2},{x:40,y:10.9},{x:60,y:22.0},{x:60,y:23.4},{x:60,y:22.0},{x:60,y:16.0},{x:80,y:32.0},{x:80,y:35.2},{x:80,y:20.6},{x:80,y:29.5},{x:100,y:40.7},{x:100,y:23.5},{x:100,y:13.4},{x:100,y:20.6},{x:120,y:22.0},{x:120,y:33.2},{x:120,y:22.8},{x:120,y:26.9},{x:140,y:43.7},{x:140,y:31.2},{x:140,y:41.6},{x:140,y:35.7}],
     interp:(a,b)=>`Each <strong>1 mg/L increase</strong> in nitrogen predicts <strong>${b.toFixed(3)} cm of additional height</strong>. The y-intercept (${a.toFixed(2)} cm) is the predicted height with no added nitrogen — 0 mg/L was one of the treatments, so here the intercept is meaningful.`,
     residClass:'warn',
-    residText:'PATTERN DETECTED — fan/funnel shape: Residuals are tightly bunched at low fitted values but spread out widely at high fitted values. This is heteroscedasticity — the model error grows with the predictor. Biologically this makes sense: nitrogen-starved plants are uniformly small, while well-fed plants vary with genotype, microenvironment, and other limiting resources. Log-transforming height often corrects this.'
+    residText:'PATTERN DETECTED — fan/funnel shape: Residuals are tightly bunched at low fitted values but spread out widely at high fitted values. This is heteroscedasticity — the model error grows with the predictor. Biologically this makes sense: nitrogen-starved plants are uniformly small, while well-fed plants vary with genotype, microenvironment, and other limiting resources. The preferred fix is a model that allows the variance to grow with the mean — a gamma GLM with a log link. Log-transforming height is the alternative (see Step 4).'
   },
   {
     key:'fish',
@@ -760,9 +807,9 @@ const DS = [
     body:'Fish weight scales roughly with the cube of length (W = aL^b, b ≈ 3) — a power-law allometric relationship, because weight tracks volume. A straight line can only approximate this curve, and the residual plot reveals the mismatch.',
     src:'Simulated (n = 36) from W = 0.0135·L^3.1 with log-normal error.',
     data:[{x:5.0,y:1.8},{x:5.5,y:2.8},{x:6.1,y:3.8},{x:6.1,y:3.7},{x:6.8,y:5.2},{x:7.0,y:5.0},{x:7.6,y:7.2},{x:7.7,y:6.9},{x:9.1,y:13.3},{x:9.3,y:12.5},{x:9.5,y:13.8},{x:9.6,y:14.1},{x:10.1,y:15.6},{x:10.6,y:21.4},{x:11.2,y:23.2},{x:11.2,y:22.3},{x:11.8,y:26.7},{x:12.0,y:31.0},{x:12.7,y:38.4},{x:13.4,y:34.6},{x:13.4,y:41.8},{x:13.6,y:51.4},{x:14.1,y:51.8},{x:14.2,y:59.7},{x:14.7,y:63.1},{x:14.7,y:61.5},{x:14.8,y:54.0},{x:15.3,y:66.4},{x:16.0,y:79.8},{x:16.2,y:69.3},{x:16.2,y:81.9},{x:16.8,y:92.9},{x:17.6,y:100.1},{x:18.2,y:101.6},{x:19.8,y:123.3},{x:21.3,y:177.4}],
-    interp:(a,b)=>`Each <strong>1 cm increase in length</strong> predicts about <strong>${b.toFixed(1)} g of additional weight</strong> — but look at the residual plot! The line even predicts <strong>negative weights</strong> for the smallest fish (ŷ = ${(a+b*5).toFixed(1)} g at 5 cm). A log–log model (log W vs. log L) gives a truly linear fit.`,
+    interp:(a,b)=>`Each <strong>1 cm increase in length</strong> predicts about <strong>${b.toFixed(1)} g of additional weight</strong> — but look at the residual plot! The line even predicts <strong>negative weights</strong> for the smallest fish (ŷ = ${(a+b*5).toFixed(1)} g at 5 cm). A nonlinear power curve (W = aL<sup>b</sup>) fits these data properly — see Step 4.`,
     residClass:'warn',
-    residText:'PATTERN DETECTED — curved (U-shape): The smallest and largest fish are under-predicted (positive residuals) while mid-sized fish are over-predicted (negative residuals). Even with R² near 0.9, this arc proves a straight line is the wrong shape for these data. R² alone would never reveal this — only the residual plot does.'
+    residText:'PATTERN DETECTED — curved (U-shape): The smallest and largest fish are under-predicted (positive residuals) while mid-sized fish are over-predicted (negative residuals). Even with R² near 0.9, this arc proves a straight line is the wrong shape for these data. R² alone would never reveal this — only the residual plot does. Step 4 shows the fixes: a nonlinear power-curve model (W = aL^b), or a log–log regression.'
   }
 ];
 
@@ -1256,17 +1303,91 @@ function updateUI(reg,ds,dg){
   else{const t=autoResidText(dg);rn.className='resid-note '+t.cls;rn.innerHTML=t.html;}
 
   renderDiag(ds,dg);
+  renderFix(ds,reg,dg);
 }
 
 function autoResidText(dg){
   if(dg.perfect)return{cls:'ok',html:'All points fall exactly on the line — every residual is zero. Real biological data almost never do this; double-check the data entry.'};
   const issues=[];
-  if(dg.linBad)issues.push(`<strong>Curvature:</strong> the residuals follow a ${dg.lin.shape} pattern, so a straight line is probably the wrong shape. Try transforming x or y (log or square root).`);
-  if(dg.hetBad)issues.push(`<strong>Unequal spread:</strong> the size of the residuals ${dg.het.dir} with the fitted values (a ${dg.het.dir==='increases'?'fan opening to the right':'fan narrowing to the right'}). Predictions are less reliable where the spread is wider; log-transforming y often helps.`);
-  if(dg.outBad)issues.push(`<strong>Unusual point${dg.outliers.length>1?'s':''}:</strong> ${dg.outliers.length} observation${dg.outliers.length>1?'s are':' is'} far from the line or strongly pulling it (outlined in black). Check for data-entry errors before deciding what to do.`);
+  if(dg.linBad)issues.push(`<strong>Curvature:</strong> the residuals follow a ${dg.lin.shape} pattern, so a straight line is probably the wrong shape. See <em>What to do if an assumption fails</em> in Step 4 for a nonlinear model and a transformation option.`);
+  if(dg.hetBad)issues.push(`<strong>Unequal spread:</strong> the size of the residuals ${dg.het.dir} with the fitted values (a ${dg.het.dir==='increases'?'fan opening to the right':'fan narrowing to the right'}). Predictions are less reliable where the spread is wider. Step 4 lists a model-based fix (e.g. a GLM) and a transformation option.`);
+  if(dg.outBad)issues.push(`<strong>Unusual point${dg.outliers.length>1?'s':''}:</strong> ${dg.outliers.length} observation${dg.outliers.length>1?'s are':' is'} far from the line or strongly pulling it (outlined in black). Check for data-entry errors first. Step 4 explains robust regression and sensitivity analysis.`);
   if(dg.normBad)issues.push(`<strong>Non-normal residuals:</strong> see the distribution plot below. With large samples this matters less for the slope test.`);
   if(!issues.length)return{cls:'ok',html:'PATTERN CHECK: No clear curve, funnel, or extreme outlier was detected — the residuals look like a random band around zero. A linear model appears reasonable for these data. Still, look at the plot yourself: do you agree?'};
   return{cls:'warn',html:'PATTERN DETECTED — '+issues.join(' ')};
+}
+
+/* ================================================================
+   REMEDIES: what to do when an assumption fails
+   Option A = model-based (preferred), Option B = transformation
+   ================================================================ */
+function remedies(ds,reg,dg){
+  const ys=ds.data.map(d=>d.y),xs=ds.data.map(d=>d.x);
+  const yPos=Math.min(...ys)>0,xPos=Math.min(...xs)>0;
+  const yCount=ys.every(v=>v>=0&&Number.isInteger(v))&&Math.max(...ys)>1;
+  const X=esc(ds.xName),Y=esc(ds.yName);
+  const c=t=>`<code>${t}</code>`;
+  const opt=(a,b)=>`<div class="fix-grid"><div class="fix-opt pref"><div class="fix-tag">Option A · Model-based (preferred)</div>${a}</div><div class="fix-opt alt"><div class="fix-tag">Option B · Transformation (if A isn't feasible)</div>${b}</div></div>`;
+  const logWarn=(v,pos)=>pos?'':` <em>Note: ${v} includes zero or negative values, so a log can't be taken directly — this is another reason to prefer Option A.</em>`;
+  const out=[];
+  if(dg.linBad){
+    const U=dg.lin.t>0,inc=reg.b>=0;
+    let what,A,B;
+    if(U&&inc){
+      what=`${cap(Y)} increases faster and faster as ${X} increases (an accelerating curve).`;
+      A=`<p>Fit a <strong>nonlinear regression</strong> with a curve that matches the biology:</p><ul><li><strong>Power curve</strong> ${c('y = a·x^b')} (b > 1) — scaling and allometry, e.g. mass vs. length.<br>${c('nls(y ~ a*x^b, start = list(a = 1, b = 2))')}</li><li><strong>Exponential curve</strong> ${c('y = a·e^(b·x)')} — unrestricted growth over time.<br>${c('nls(y ~ a*exp(b*x), start = list(a = 1, b = 0.1))')}</li></ul>`;
+      B=`<p><strong>Power relationship → log–log:</strong> regress ${c('log(y)')} on ${c('log(x)')}. The slope estimates the exponent b.</p><p><strong>Exponential relationship → semi-log:</strong> regress ${c('log(y)')} on x.</p>`+logWarn(Y,yPos&&xPos);
+    }else if(U&&!inc){
+      what=`${cap(Y)} drops steeply at first, then levels off (a decelerating decline).`;
+      A=`<p>Fit a <strong>nonlinear regression</strong>:</p><ul><li><strong>Exponential decay</strong> ${c('y = a·e^(−k·x)')} (add + c if it levels off above zero) — decay, survival, clearance.<br>${c('nls(y ~ a*exp(-k*x), start = list(a = max(y), k = 0.1))')}</li><li><strong>Negative power curve</strong> ${c('y = a·x^(−b)')}.</li></ul>`;
+      B=`<p><strong>Exponential decay → semi-log:</strong> regress ${c('log(y)')} on x.</p><p><strong>Power decline → log–log:</strong> regress ${c('log(y)')} on ${c('log(x)')}.</p>`+logWarn(Y,yPos);
+    }else if(!U&&inc){
+      what=`${cap(Y)} rises quickly at first, then levels off (a saturating curve).`;
+      A=`<p>Fit a <strong>nonlinear saturating model</strong>:</p><ul><li><strong>Michaelis–Menten / Monod</strong> ${c('y = Vmax·x / (K + x)')} — enzyme kinetics, nutrient uptake, functional responses.<br>${c('nls(y ~ Vmax*x/(K + x), start = list(Vmax = max(y), K = median(x)))')}</li><li><strong>Asymptotic exponential</strong> ${c('y = A·(1 − e^(−k·x))')} — growth toward a maximum.</li><li>If ${Y} actually <em>peaks and then falls</em> (an optimum), use a <strong>quadratic</strong> ${c('lm(y ~ x + I(x^2))')}.</li></ul>`;
+      B=`<p><strong>Log-transform x:</strong> regress y on ${c('log(x)')}. This straightens many saturating curves. A ${c('sqrt(x)')} is a milder option.</p>`+logWarn(X,xPos);
+    }else{
+      what=`${cap(Y)} declines slowly at first, then faster and faster (an accelerating decline).`;
+      A=`<p>Fit a curve with the right shape:</p><ul><li><strong>Quadratic regression</strong> ${c('lm(y ~ x + I(x^2))')} — simplest option for a single bend.</li><li><strong>Logistic (sigmoid) decline</strong> ${c('y = A / (1 + e^(k·(x − x₀)))')} if ${Y} falls toward a lower plateau, e.g. a dose–response curve.<br>${c('nls(y ~ A/(1 + exp(k*(x - x0))), start = list(A = max(y), k = 1, x0 = median(x)))')}</li></ul>`;
+      B=`<p><strong>Transform x:</strong> regress y on ${c('x²')}, or try ${c('log(y)')} on x and check whether the residual plot improves.</p>`+logWarn(Y,yPos);
+    }
+    out.push({t:'Curved relationship (linearity failed)',what,html:opt(A,B)});
+  }
+  if(dg.hetBad){
+    let A,B;
+    if(yCount){
+      A=`<p>The ${Y} values are whole numbers ≥ 0, so they look like <strong>counts</strong>. The variance of counts naturally grows with the mean. Fit a <strong>Poisson GLM</strong> with a log link:<br>${c('glm(y ~ x, family = poisson)')}</p><p>If the variance is much larger than the mean (overdispersion), use a <strong>negative binomial GLM</strong>: ${c('MASS::glm.nb(y ~ x)')}.</p>`;
+      B=`<p><strong>Square-root transform:</strong> regress ${c('sqrt(y)')} on x. This is the standard variance-stabilising transformation for counts. Use ${c('log(y + 1)')} if the spread is very large.</p>`;
+    }else if(yPos){
+      A=`<p>Fit a <strong>gamma GLM with a log link</strong>. It models a positive response whose spread grows in proportion to its mean:<br>${c('glm(y ~ x, family = Gamma(link = "log"))')}</p><p>Or keep the straight line and use <strong>weighted least squares</strong>, which gives noisy points less weight: ${c('nlme::gls(y ~ x, weights = varPower())')}.</p>`;
+      B=`<p><strong>Log-transform y:</strong> regress ${c('log(y)')} on x. This works when the errors are proportional, i.e. the spread grows with the size of y. A ${c('sqrt(y)')} is a milder option.</p>`;
+    }else{
+      A=`<p>Use <strong>weighted least squares</strong> so points with more scatter count for less:<br>${c('nlme::gls(y ~ x, weights = varPower())')} or ${c('lm(y ~ x, weights = 1/fitted_variance)')}.</p><p>Or keep the ordinary fit but report <strong>robust (sandwich) standard errors</strong> for the slope test.</p>`;
+      B=`<p>Because ${Y} includes zero or negative values, a log can't be applied directly. Transformation isn't a good fit here, so use Option A.</p>`;
+    }
+    out.push({t:'Unequal spread (constant variance failed)',what:`The scatter of the residuals ${dg.het.dir} as the fitted values increase.`,html:opt(A,B)});
+  }
+  if(dg.normBad){
+    const right=dg.skew>=0;
+    const A=`<p>Use a <strong>nonparametric (rank-based) approach</strong>:</p><ul><li><strong>Spearman’s rank correlation</strong> tests for a consistent increasing or decreasing association without assuming normality: ${c('cor.test(x, y, method = "spearman")')}</li><li><strong>Theil–Sen regression</strong> estimates the slope as the median of all pairwise slopes, and is resistant to skew and outliers: ${c('mblm::mblm(y ~ x)')}</li></ul>`+(yPos&&right?`<p>For a positive, right-skewed response, a <strong>gamma GLM</strong> is a parametric alternative: ${c('glm(y ~ x, family = Gamma(link = "log"))')}.</p>`:'');
+    const B=right?`<p><strong>Right-skewed residuals:</strong> regress ${c('log(y)')} on x for strong skew, or ${c('sqrt(y)')} for moderate skew.</p>`+logWarn(Y,yPos):`<p><strong>Left-skewed residuals:</strong> reflect and log-transform, regressing ${c('log(max(y) + 1 − y)')} on x, or try ${c('y²')}. Note that reflecting reverses the direction of the slope.</p>`;
+    out.push({t:'Non-normal residuals',what:`Residuals are ${right?'right':'left'}-skewed or otherwise non-normal. With large samples (roughly n > 30), the slope test is fairly robust to this, so fix curvature and unequal spread first.`,html:opt(A,B)});
+  }
+  if(dg.outBad){
+    const A=`<p><strong>First, check the data.</strong> Is it a typo, a unit error, or a measurement problem? Correct genuine errors. Never delete a point just because it doesn’t fit.</p><p>If the value is real, use <strong>robust regression</strong>, which down-weights extreme points instead of letting them drag the line: Theil–Sen ${c('mblm::mblm(y ~ x)')} or an M-estimator ${c('MASS::rlm(y ~ x)')}.</p>`;
+    const B=`<p>A transformation is <strong>not</strong> a good fix for a single unusual point. Instead, run a <strong>sensitivity analysis</strong>: fit the model with and without the point and report both. If the conclusion changes, say so.</p><p>If the whole dataset is strongly right-skewed (not just one point), ${c('log(y)')} may help.</p>`;
+    out.push({t:'Outlier or influential point',what:`${dg.outliers.length} point${dg.outliers.length>1?'s are':' is'} unusually far from the line or strongly pulling it.`,html:opt(A,B)});
+  }
+  return{list:out,multi:out.length>1&&dg.linBad&&(dg.hetBad||dg.normBad)&&yPos};
+}
+function renderFix(ds,reg,dg){
+  const el=document.getElementById('fixBody');if(!el)return;
+  if(dg.perfect){el.innerHTML='<p>No residuals to check.</p>';return;}
+  const r=remedies(ds,reg,dg);
+  if(!r.list.length){el.innerHTML='<p class="fix-ok">✓ No assumption problems were detected, so no remedy is needed — the straight-line model is reasonable for these data. The table in Step 7 lists the options to use if a future dataset does fail a check.</p>';return;}
+  const outFirst=dg.outBad&&r.list.length>1?'<div class="q"><strong>Outlier plus other warnings?</strong> They can be linked in either direction. One influential point can create apparent curvature or spread, and a real curve can make the most extreme point look like an outlier. Check the point for errors, then try the curve-fixing option. If the point no longer stands out, it was the curve, not an outlier.</div>':'';
+  el.innerHTML=outFirst+(r.multi?'<div class="q"><strong>Several problems at once?</strong> Curvature, unequal spread and skew often share one cause: the errors are <em>proportional</em> to the size of y (common for body size, growth, and concentrations). A single remedy — a nonlinear or gamma-GLM model, or a log transformation — often fixes all of them together. Fix curvature first, then re-check the residuals.</div>':'')+
+    r.list.map(f=>`<div class="fix-item"><div class="fix-h">⚠ ${f.t}</div><p class="fix-what">${f.what}</p>${f.html}</div>`).join('')+
+    '<p class="fix-foot">Code shown is for R. After any change, refit the model and <strong>check the residual plot again</strong>. Back-transform predictions before reporting them in the original units, and note that a slope on a log scale describes a <em>proportional</em> change.</p>';
 }
 
 function renderDiag(ds,dg){
@@ -1324,14 +1445,14 @@ const STEPS=[
      const probs=[G.linBad&&'curvature',G.hetBad&&'unequal spread',G.normBad&&'non-normal residuals',G.outBad&&'unusual points'].filter(Boolean);
      return `<p>A regression is only trustworthy if its assumptions are reasonable. Your main tools are the <strong>residual plot</strong> in Step 1 and the <strong>distribution of residuals</strong> below. The <em>Assumption Checks</em> panel summarises formal tests.</p>
      <p>Look for: (1) <strong>Linearity</strong> — no curve; (2) <strong>Constant variance</strong> — no funnel; (3) <strong>Normality</strong> — a rough bell shape / points near the Q–Q line; (4) <strong>Independence</strong> — a design question; (5) no extreme <strong>outliers</strong>.</p>
-     <p>${G.perfect?'All residuals are zero — check your data.':probs.length?`<strong style="color:var(--red)">Possible problems detected: ${probs.join(', ')}.</strong> Read the notes under the residual plot and in the Assumption Checks card.`:'<strong style="color:var(--forest-mid)">No assumption problems were detected.</strong> Look at the plots yourself to confirm.'}</p>`;}},
+     <p>${G.perfect?'All residuals are zero — check your data.':probs.length?`<strong style="color:var(--red)">Possible problems detected: ${probs.join(', ')}.</strong> Read the notes under the residual plot and in the Assumption Checks panel, then see <em>What to do if an assumption fails</em> below for a model-based option and a transformation option.`:'<strong style="color:var(--forest-mid)">No assumption problems were detected.</strong> Look at the plots yourself to confirm.'}</p>`;}},
   {t:'6 · Test the slope',target:'cardStats',
    html:(R,D,G)=>{
      const lo=R.b-R.t95*R.seb,hi=R.b+R.t95*R.seb,bad=G.linBad||G.hetBad||G.outBad;
      return `<p><strong>Hypotheses:</strong> H₀: β = 0 (no linear relationship in the population) vs. Hₐ: β ≠ 0.</p>
      <p><code>t = b ÷ SE(b) = ${sig(R.b,4)} ÷ ${sig(R.seb,4)} = ${R.tstat.toFixed(2)}</code> with ${R.df} degrees of freedom (n − 2), giving <strong>p ${pStr(R.p)}</strong>.</p>
      <p>${R.p<0.05?'Because p < 0.05, we <strong>reject H₀</strong>: there is evidence of a linear relationship.':'Because p ≥ 0.05, we <strong>fail to reject H₀</strong>: these data don’t provide convincing evidence of a linear relationship.'} The 95% confidence interval for the slope is <strong>[${sig(lo,4)}, ${sig(hi,4)}]</strong>, which ${lo>0||hi<0?'does not include':'includes'} zero.</p>
-     ${bad?'<div class="q"><strong>Caution:</strong> the assumption checks flagged a problem, so this p-value and interval may not be accurate. A transformation may give a more trustworthy test.</div>':''}`;}},
+     ${bad?'<div class="q"><strong>Caution:</strong> the assumption checks flagged a problem, so this p-value and interval may not be accurate. Step 4 lists a model-based option (nonlinear, GLM, nonparametric or robust) and a transformation option that would give a more trustworthy test.</div>':''}`;}},
   {t:'7 · Write your conclusion',target:'writeBox',
    html:(R,D,G)=>`<p>A results sentence in the style of a scientific paper:</p>
      <div class="writeup" id="writeup">${writeUp(R,D,G)}</div>
@@ -1344,7 +1465,7 @@ function writeUp(R,D,G){
   s+=R.p<0.05?`${cap(D.xName)} was a significant predictor of ${D.yName}`:`${cap(D.xName)} was not a significant predictor of ${D.yName}`;
   s+=` (b = ${sig(R.b,3)} ${D.yUnit} per ${D.xUnit}, 95% CI [${sig(lo,3)}, ${sig(hi,3)}], t(${R.df}) = ${R.tstat.toFixed(2)}, p ${pStr(R.p)}), explaining ${(R.r2*100).toFixed(1)}% of the variation (R² = ${R.r2.toFixed(2)}). `;
   const probs=[G.linBad&&'a curved pattern (non-linearity)',G.hetBad&&'non-constant variance',G.normBad&&'non-normal residuals',G.outBad&&'influential or outlying observations'].filter(Boolean);
-  s+=probs.length?`However, residual diagnostics revealed ${probs.length>1?probs.slice(0,-1).join(', ')+' and '+probs.slice(-1):probs[0]}, so these results should be interpreted with caution and a transformed model considered.`:'Residual diagnostics showed no evidence of non-linearity, non-constant variance, or non-normality.';
+  s+=probs.length?`However, residual diagnostics revealed ${probs.length>1?probs.slice(0,-1).join(', ')+' and '+probs.slice(-1):probs[0]}, so these results should be interpreted with caution and an alternative model (e.g. nonlinear regression, a GLM, or a transformation) considered.`:'Residual diagnostics showed no evidence of non-linearity, non-constant variance, or non-normality.';
   return esc(s);
 }
 function copyWriteup(btn){

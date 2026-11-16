@@ -67,6 +67,7 @@ Data never leave the student's browser. The last dataset entered is remembered o
 - **Residual plot** with interpretation; outlying or influential points are outlined
 - **Distribution of residuals** — histogram of standardized residuals with a normal curve, or a normal Q–Q plot
 - **Assumption checks** computed from the residuals: linearity (quadratic-trend test), constant variance (Glejser test), normality (Shapiro–Wilk), outliers and influence (standardized residuals, Cook's distance), plus a reminder about independence
+- **Remedies for failed assumptions** — when a check fails, Step 4 gives two specific options tailored to the data: a model-based approach first (nonlinear regression such as power, exponential or Michaelis–Menten curves; Poisson/negative-binomial/gamma GLMs; weighted least squares; Spearman + Theil–Sen; robust regression) and a specific transformation second (log–log, semi-log, log x, √y, log y), with R code. Step 7 includes a summary table
 - **R² decomposition canvas** — click any data point to see SST, SSR, and SSE drawn geometrically with a live formula
 - **Full statistics panel** — R², Pearson r, sum of squares table, standard error of estimate, p-value, t-statistic, 95% confidence interval for slope, and sample size
 - **Residual plot interpretation guide** — four annotated pattern panels (random scatter, curved, fan, outlier) with guidance on next steps
