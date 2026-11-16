@@ -102,6 +102,21 @@ Click **Load example** to see a sample hand-span vs. height class dataset.
 
 ---
 
+## Classroom Worksheet
+
+A ready-to-use **[student worksheet](worksheets/BioReg_Student_Worksheet.docx)** (Word, 4 pages) guides students through the tool with eight short questions — two for each example dataset and two using the Simulator. Each question gives exact click-by-click steps, a small table to record values, and a simple question to answer from the results. It is designed for introductory biology students and takes about 30–40 minutes.
+
+| Part | Questions | Concept |
+|---|---|---|
+| Cricket Chirps | 1–2 | Reading a good residual plot; interpreting the slope |
+| Plant Growth | 3–4 | Spotting unequal spread; choosing a remedy |
+| Fish Allometry | 5–6 | Why a high R² isn't enough; impossible predictions |
+| Simulator | 7–8 | How noise affects R²; how one outlier can change the slope |
+
+The worksheet is an editable Word file, so you can adapt questions to your course. An **answer key** with the expected values is available to instructors on request. Every student sees the same numbers, because the example datasets are fixed and the Simulator scenario buttons always load the same sample.
+
+---
+
 ## Requirements
 
 - Any modern web browser (Chrome, Edge, Firefox, Safari)
