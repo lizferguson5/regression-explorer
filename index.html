@@ -18,18 +18,32 @@
   --fh:'Crimson Pro',Georgia,serif;--fb:'Mulish',system-ui,sans-serif;--fm:'Fira Code','Courier New',monospace;
 }
 [hidden]{display:none!important}
-body{font-family:var(--fb);background:var(--parch);color:var(--ink);min-height:100vh;font-size:15px;line-height:1.5}
+html{font-size:18px;scroll-behavior:smooth}
+@media(max-width:700px){html{font-size:16px}}
+body{font-family:var(--fb);background:var(--parch);color:var(--ink);min-height:100vh;font-size:1rem;line-height:1.55}
 header{background:var(--forest);color:#fff;padding:2rem 2.5rem 0}
 header h1{font-family:var(--fh);font-size:2.2rem;font-weight:600;letter-spacing:-.02em}
 header h1 em{color:#74c69d;font-style:normal}
 header p{font-size:.95rem;opacity:.7;margin-top:.3rem;padding-bottom:1.4rem}
-.tabs{background:#153828;display:flex;gap:.5rem;padding:.9rem 2.5rem;align-items:center;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.08)}
+.topnav{position:sticky;top:0;z-index:50;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.tabs{background:#153828;display:flex;gap:.5rem;padding:.7rem 2.5rem;align-items:center;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.08)}
+.tab-sep{width:1px;height:26px;background:rgba(255,255,255,.18);margin:0 .5rem}
+@media(max-width:700px){.tabs{padding:.55rem 1rem;flex-wrap:nowrap;overflow-x:auto}.tab-sep,.tabs-label{display:none}.tab{flex-shrink:0}}
+.secnav{background:#fff;border-bottom:1px solid var(--border);display:flex;gap:.3rem;align-items:center;padding:.4rem 2.5rem;overflow-x:auto;white-space:nowrap;font-size:.8rem}
+@media(max-width:700px){.secnav{padding:.4rem 1rem}}
+.secnav span{color:var(--muted);font-family:var(--fm);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;margin-right:.3rem}
+.secnav a{color:var(--forest-mid);text-decoration:none;padding:.2rem .6rem;border-radius:2rem;border:1px solid transparent}
+.secnav a:hover{border-color:var(--mint);background:#f0f7f3}
+.card,.wrap{scroll-margin-top:120px}
 .tabs-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.45);font-family:var(--fm);margin-right:.4rem;white-space:nowrap}
-.tab{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:rgba(255,255,255,.8);padding:.35rem .9rem;border-radius:2rem;cursor:pointer;font-family:var(--fb);font-size:.88rem;transition:all .18s;white-space:nowrap}
+.tab{border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);color:rgba(255,255,255,.85);padding:.42rem 1rem;border-radius:2rem;cursor:pointer;font-family:var(--fb);font-size:.9rem;transition:all .18s;white-space:nowrap}
 .tab:hover{background:rgba(255,255,255,.12)}
 .tab.active{background:var(--forest-lt);border-color:#74c69d;color:#fff;font-weight:600}
-.tab.class-tab{border-style:dashed;border-color:#74c69d}
-.tab.class-tab.active{border-style:solid}
+.tab.sim-tab{border-color:#8ecae6;color:#d7efff}
+.tab.sim-tab.active{background:#1a5f8a;border-color:#8ecae6;color:#fff}
+.tab.class-tab{background:#f2c46d;border-color:#f2c46d;color:#3b2a06;font-weight:700}
+.tab.class-tab:hover{background:#f6d38f}
+.tab.class-tab.active{background:#fff;color:var(--forest);border-color:#fff}
 main{max-width:1320px;margin:0 auto;padding:1.5rem 1.5rem 1.8rem;display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:1.5rem}
 @media(max-width:980px){main{grid-template-columns:minmax(0,1fr)}}
 .card{background:var(--paper);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:box-shadow .3s,border-color .3s}
@@ -87,6 +101,30 @@ main{max-width:1320px;margin:0 auto;padding:1.5rem 1.5rem 1.8rem;display:grid;gr
 .resid-note.warn{border-left:3px solid var(--red);background:#fff8f7;color:var(--ink)}
 .dist-note{padding:.2rem 1.2rem 1rem;font-size:.8rem;color:var(--muted);line-height:1.55}
 
+/* PLOTS ROW */
+.plots-row{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:980px){.plots-row{grid-template-columns:1fr}}
+.compare-note{background:#fff;border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:10px;padding:.75rem 1rem;font-size:.86rem;line-height:1.6;margin-bottom:1rem}
+.compare-note strong{color:var(--forest)}
+
+/* SIMULATOR */
+.sim-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:1.5rem;padding:1.1rem 1.2rem 1.2rem}
+@media(max-width:900px){.sim-grid{grid-template-columns:1fr}}
+.sim-sliders{display:grid;grid-template-columns:1fr 1fr;gap:.9rem 1.4rem}
+@media(max-width:600px){.sim-sliders{grid-template-columns:1fr}}
+.sl label{display:flex;justify-content:space-between;align-items:baseline;font-size:.86rem;font-weight:600;color:var(--ink)}
+.sl output{font-family:var(--fm);font-size:.82rem;color:var(--blue);background:#eef5fa;border-radius:4px;padding:0 .4rem}
+.sl input[type=range]{width:100%;accent-color:var(--forest-lt);margin:.35rem 0 .1rem;height:22px;cursor:pointer}
+.sl select{width:100%;font-family:var(--fb);font-size:.86rem;padding:.35rem .5rem;border:1px solid var(--border-dk);border-radius:6px;margin-top:.3rem}
+.sl-help{font-size:.74rem;color:var(--muted);line-height:1.4}
+.sim-side h4{font-family:var(--fh);font-size:1.02rem;color:var(--forest);margin:0 0 .5rem}
+.presets{display:flex;flex-wrap:wrap;gap:.45rem;margin-bottom:1rem}
+.presets .btn{font-size:.8rem;padding:.35rem .7rem}
+.presets .btn.on{background:var(--forest-mid);color:#fff}
+.sim-tip{font-size:.84rem;line-height:1.6;background:#f6f4ee;border-radius:8px;padding:.7rem .9rem}
+.sim-tip li{margin-left:1.1rem;margin-bottom:.3rem}
+.sim-model{font-family:var(--fm);font-size:.82rem;background:var(--forest);color:#d8f3dc;border-radius:7px;padding:.55rem .8rem;margin-bottom:.8rem;overflow-wrap:anywhere}
+
 /* DIAGNOSTICS */
 .diag-list{list-style:none}
 .diag-item{display:flex;gap:.7rem;padding:.75rem 1.2rem;border-bottom:1px solid #f0ece5;align-items:flex-start}
@@ -125,7 +163,7 @@ main{max-width:1320px;margin:0 auto;padding:1.5rem 1.5rem 1.8rem;display:grid;gr
 .pat-title{font-size:.79rem;font-weight:600;margin-bottom:.3rem}
 .pat-title.good{color:var(--forest)}
 .pat-title.bad{color:var(--red)}
-.pat-chart{position:relative;height:150px;margin-bottom:.4rem}
+.pat-chart{position:relative;height:170px;margin-bottom:.4rem}
 .pat-desc{font-size:.74rem;color:var(--muted);line-height:1.48}
 .rg-verdict{background:#fdf8ef;border-radius:8px;padding:.75rem .9rem;font-size:.83rem;line-height:1.65;color:var(--ink);margin-top:.8rem;border-left:3px solid var(--gold)}
 .rg-verdict strong{color:var(--gold)}
@@ -208,19 +246,36 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
   <p>Interactively explore regression errors, residuals, and model fit through biological data — or your own class data</p>
 </header>
 
-<div class="tabs">
-  <span class="tabs-label">Dataset:</span>
-  <button class="tab active" data-ds="0">&#129431; Cricket Chirps</button>
-  <button class="tab" data-ds="1">&#127807; Plant Growth</button>
-  <button class="tab" data-ds="2">&#128031; Fish Allometry</button>
-  <button class="tab class-tab" data-ds="custom">&#128203; Your Class Data</button>
-</div>
+<nav class="topnav">
+  <div class="tabs">
+    <span class="tabs-label">Examples</span>
+    <button class="tab active" data-ds="0">&#129431; Cricket Chirps</button>
+    <button class="tab" data-ds="1">&#127807; Plant Growth</button>
+    <button class="tab" data-ds="2">&#128031; Fish Allometry</button>
+    <span class="tab-sep"></span>
+    <span class="tabs-label">Explore</span>
+    <button class="tab sim-tab" data-ds="sim">&#127899;&#65039; Simulator (sliders)</button>
+    <span class="tab-sep"></span>
+    <span class="tabs-label">Your data</span>
+    <button class="tab class-tab" data-ds="custom">&#128203; Upload Your Class Data</button>
+  </div>
+  <div class="secnav" id="secnav">
+    <span>Jump to</span>
+    <a href="#walkCard">Guided steps</a>
+    <a href="#plotsRow">Scatter vs. residual plot</a>
+    <a href="#cardDist">Residual distribution</a>
+    <a href="#cardR2">R&#178; decomposition</a>
+    <a href="#cardDiag">Assumption checks</a>
+    <a href="#cardStats">Statistics</a>
+    <a href="#guideCard">How to read residuals</a>
+  </div>
+</nav>
 
 <!-- INTRO SECTION -->
 <div class="intro">
   <div class="intro-block">
     <h3>About This Tool</h3>
-    <p>This tool helps biostatistics students build an intuitive understanding of linear regression — not just how to run the test, but what the numbers mean and how to judge whether the model is appropriate. Every statistic is computed live in your browser from the data shown. Use the three example datasets to learn what good and bad residuals look like, then switch to <strong>Your Class Data</strong> to analyze data you collected yourselves. Click <strong>Guided Analysis</strong> to step through each stage.</p>
+    <p>This tool helps biostatistics students build an intuitive understanding of linear regression — not just how to run the test, but what the numbers mean and how to judge whether the model is appropriate. Every statistic is computed live in your browser from the data shown. Use the three <strong>example datasets</strong> to see what good and bad residuals look like, play with the <strong>Simulator</strong> sliders to change how data are generated, then <strong>Upload Your Class Data</strong> to analyze measurements you collected. The <strong>Guided Analysis</strong> steps walk through each stage.</p>
   </div>
   <div class="intro-block">
     <h3>Data Description</h3>
@@ -239,7 +294,8 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
       <li><strong>Fish Allometry</strong> — high R² but a curved residual plot. Can you trust the model?</li>
       <li><strong>Residual distribution</strong> — switch between the histogram and Q–Q plot to judge normality.</li>
       <li><strong>Click any data point</strong> to watch the R² decomposition update live.</li>
-      <li><strong>Your Class Data</strong> — paste or upload your own measurements and step through the full analysis.</li>
+      <li><strong>Simulator</strong> — drag the sliders to add noise, curvature, unequal spread, or an outlier and watch the residuals respond.</li>
+      <li><strong>Upload Your Class Data</strong> — paste or upload your own measurements and step through the full analysis.</li>
     </ul>
   </div>
 </div>
@@ -312,6 +368,72 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
   </div>
 </section>
 
+<!-- SIMULATOR PANEL -->
+<section class="wrap" id="simPanel" hidden>
+  <div class="card">
+    <div class="card-head">
+      <h2>&#127899;&#65039; Regression Simulator</h2>
+      <span class="sub">Change how the data are generated — every plot and statistic below updates instantly</span>
+    </div>
+    <div class="sim-grid">
+      <div>
+        <div class="sim-model" id="simModel"></div>
+        <div class="sim-sliders">
+          <div class="sl"><label for="simN">Sample size (n) <output id="simNv"></output></label>
+            <input type="range" id="simN" min="5" max="200" step="1" value="40">
+            <div class="sl-help">More data → a more precise slope and a narrower confidence interval.</div></div>
+          <div class="sl"><label for="simB">True slope (&#946;&#8321;) <output id="simBv"></output></label>
+            <input type="range" id="simB" min="-3" max="3" step="0.1" value="1.5">
+            <div class="sl-help">How much y changes, on average, per 1-unit increase in x. Try 0.</div></div>
+          <div class="sl"><label for="simS">Noise / scatter (&#963;) <output id="simSv"></output></label>
+            <input type="range" id="simS" min="0" max="10" step="0.25" value="3">
+            <div class="sl-help">Random variation around the true line. More noise → lower R&#178;.</div></div>
+          <div class="sl"><label for="simC">Curvature <output id="simCv"></output></label>
+            <input type="range" id="simC" min="-1" max="1" step="0.05" value="0">
+            <div class="sl-help">Bends the true relationship. Watch the residual plot curve.</div></div>
+          <div class="sl"><label for="simH">Unequal spread (fan) <output id="simHv"></output></label>
+            <input type="range" id="simH" min="0" max="1" step="0.05" value="0">
+            <div class="sl-help">Makes the scatter grow with x (heteroscedasticity).</div></div>
+          <div class="sl"><label for="simE">Shape of the errors</label>
+            <select id="simE">
+              <option value="normal">Normal (bell-shaped)</option>
+              <option value="skew">Right-skewed</option>
+              <option value="heavy">Heavy-tailed (occasional extreme values)</option>
+              <option value="uniform">Flat / uniform</option>
+            </select>
+            <div class="sl-help">Check the histogram and Q–Q plot of residuals.</div></div>
+          <div class="sl"><label for="simO">Add an outlier</label>
+            <select id="simO">
+              <option value="none">No outlier</option>
+              <option value="mid">In the middle of the x range</option>
+              <option value="lev">Far beyond the x range (high leverage)</option>
+            </select>
+            <div class="sl-help">An outlier at an extreme x can drag the whole line.</div></div>
+          <div class="sl"><label for="simOs">Outlier distance from true line <output id="simOsv"></output></label>
+            <input type="range" id="simOs" min="-30" max="30" step="1" value="-20">
+            <div class="sl-help">In y units, above (+) or below (−) the true relationship.</div></div>
+        </div>
+      </div>
+      <div class="sim-side">
+        <h4>Try a scenario</h4>
+        <div class="presets" id="simPresets">
+          <button type="button" class="btn" data-p="ideal">&#10003; Ideal data</button>
+          <button type="button" class="btn" data-p="noisy">Very noisy</button>
+          <button type="button" class="btn" data-p="none">No relationship</button>
+          <button type="button" class="btn" data-p="small">Tiny sample</button>
+          <button type="button" class="btn" data-p="curve">Curved</button>
+          <button type="button" class="btn" data-p="fan">Fan shape</button>
+          <button type="button" class="btn" data-p="skew">Skewed errors</button>
+          <button type="button" class="btn" data-p="lev">Influential outlier</button>
+        </div>
+        <button type="button" class="btn primary" id="simNew" style="margin-bottom:1rem">&#127922; Draw a new random sample</button>
+        <h4>What to notice</h4>
+        <div class="sim-tip" id="simTip"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="empty-state" id="emptyState" hidden>
   <div class="card">Add at least 3 rows of paired x and y values above, then click <strong>Run analysis</strong>.</div>
 </div>
@@ -339,13 +461,17 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
   </div>
 </section>
 
-<main>
-  <!-- LEFT COLUMN -->
-  <div class="left-col">
-
+<section class="wrap" id="plotsRow">
+  <div class="compare-note"><strong>Two views of the same data.</strong> &#9312; plots the raw data (y vs. x) with the fitted line. &#9313; is the residual plot: it "tilts" the regression line flat onto zero, so each point's vertical distance from the line becomes easy to see. Patterns that are hard to spot on the left — curves, fans, outliers — jump out on the right. <em>Click any point in either plot to highlight it in both.</em></div>
+  <div class="plots-row">
     <div class="card" id="cardScatter">
       <div class="card-head">
-        <h2>Scatter Plot &amp; Regression Line</h2>
+        <h2>&#9312; Scatter Plot &amp; Regression Line</h2>
+      </div>
+      <div class="card-body">
+        <div class="chart-box" style="height:360px"><canvas id="scatterCanvas"></canvas></div>
+      </div>
+      <div class="legend" style="padding-bottom:.3rem">
         <div class="controls">
           <label class="toggle-wrap">
             <span class="toggle"><input type="checkbox" id="chkResid" checked><span class="slider"></span></span>
@@ -357,27 +483,32 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
           </label>
         </div>
       </div>
-      <div class="card-body">
-        <div class="chart-box" style="height:320px"><canvas id="scatterCanvas"></canvas></div>
-      </div>
       <div class="legend">
         <div class="li"><div class="li-dot" style="background:#2d6a4f"></div>Observed (y)</div>
         <div class="li"><div class="li-line" style="background:#40916c"></div>Regression (&#375;)</div>
         <div class="li"><div class="li-seg" style="background:rgba(183,60,42,.55)"></div>Residual (y&#8722;&#375;)</div>
         <div class="li"><div class="li-dash" style="border-color:#a8650a"></div>Mean &#563;</div>
+        <div class="li" id="liTrue" hidden><div class="li-dash" style="border-color:#1a5f8a"></div>True relationship</div>
       </div>
     </div>
 
     <div class="card" id="cardResid">
       <div class="card-head">
-        <h2>Residual Plot</h2>
-        <span class="sub">Residuals vs. Fitted Values (&#375;)</span>
+        <h2>&#9313; Residual Plot</h2>
+        <span class="sub">Residuals (y &#8722; &#375;) vs. fitted values (&#375;)</span>
       </div>
       <div class="card-body">
-        <div class="chart-box" style="height:230px"><canvas id="residCanvas"></canvas></div>
+        <div class="chart-box" style="height:360px"><canvas id="residCanvas"></canvas></div>
       </div>
       <div class="resid-note" id="residNote"></div>
     </div>
+
+  </div>
+</section>
+
+<main>
+  <!-- LEFT COLUMN -->
+  <div class="left-col">
 
     <div class="card" id="cardDist">
       <div class="card-head">
@@ -415,7 +546,7 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
       </div>
     </div>
 
-    <div class="card">
+    <div class="card" id="guideCard">
       <div class="resid-guide">
         <h3>How to Read a Residual Plot</h3>
         <p class="rg-intro"><strong>You must always examine the residual plot</strong> before trusting any linear regression — even when R&#178; looks impressive. R&#178; can be high while the model is fundamentally wrong. The residual plot reveals what R&#178; hides.</p>
@@ -797,11 +928,11 @@ function bestInitPt(reg,ds){
 function drawR2Canvas(reg,ds,ptIdx){
   const wrap=document.getElementById('r2Wrap'),canvas=document.getElementById('r2Canvas');
   if(!canvas||!wrap||!wrap.clientWidth)return;
-  const dpr=window.devicePixelRatio||1,W=wrap.clientWidth-parseFloat(getComputedStyle(wrap).paddingLeft)*2||380,H=240;
+  const dpr=window.devicePixelRatio||1,W=wrap.clientWidth-parseFloat(getComputedStyle(wrap).paddingLeft)*2||380,H=280;
   canvas.width=W*dpr;canvas.height=H*dpr;canvas.style.height=H+'px';canvas.style.width=W+'px';
   const ctx=canvas.getContext('2d');
   ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
-  const ml=50,mr=30,mt=16,mb=38;
+  const ml=58,mr=34,mt=16,mb=46;
   const pw=W-ml-mr,ph=H-mt-mb;
   const allY=ds.data.map(d=>d.y).concat(reg.yhat);
   const xmin=Math.min(...ds.data.map(d=>d.x)),xmax=Math.max(...ds.data.map(d=>d.x));
@@ -815,13 +946,13 @@ function drawR2Canvas(reg,ds,ptIdx){
   const ybarY=Y(reg.ybar);
   ctx.strokeStyle='#a8650a';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
   ctx.beginPath();ctx.moveTo(ml,ybarY);ctx.lineTo(W-mr,ybarY);ctx.stroke();ctx.setLineDash([]);
-  ctx.fillStyle='#a8650a';ctx.font='11px Fira Code,monospace';ctx.textAlign='left';ctx.fillText('ȳ',W-mr+4,ybarY+4);
+  ctx.fillStyle='#a8650a';ctx.font='13px Fira Code,monospace';ctx.textAlign='left';ctx.fillText('ȳ',W-mr+4,ybarY+4);
   ctx.save();ctx.beginPath();ctx.rect(ml,mt,pw,ph);ctx.clip();
   ctx.strokeStyle='#40916c';ctx.lineWidth=2;
   const rx0=xmin-xs*.05,rx1=xmax+xs*.05;
   ctx.beginPath();ctx.moveTo(X(rx0),Y(reg.a+reg.b*rx0));ctx.lineTo(X(rx1),Y(reg.a+reg.b*rx1));ctx.stroke();
   ctx.restore();
-  ds.data.forEach((d,i)=>{if(i===ptIdx)return;ctx.fillStyle='rgba(45,106,79,.28)';ctx.beginPath();ctx.arc(X(d.x),Y(d.y),3.5,0,Math.PI*2);ctx.fill();});
+  ds.data.forEach((d,i)=>{if(i===ptIdx)return;ctx.fillStyle='rgba(45,106,79,.28)';ctx.beginPath();ctx.arc(X(d.x),Y(d.y),4,0,Math.PI*2);ctx.fill();});
   const pt=ds.data[ptIdx];
   const ptX=X(pt.x),ptY=Y(pt.y),yhatY=Y(reg.yhat[ptIdx]),ybarPY=Y(reg.ybar),bw=11;
   const ssrT=Math.min(yhatY,ybarPY),ssrH=Math.abs(yhatY-ybarPY);
@@ -834,26 +965,26 @@ function drawR2Canvas(reg,ds,ptIdx){
     ctx.beginPath();ctx.moveTo(bx,sstT);ctx.lineTo(bx,sstB);ctx.stroke();
     ctx.beginPath();ctx.moveTo(bx-4,sstT);ctx.lineTo(bx+5,sstT);ctx.stroke();
     ctx.beginPath();ctx.moveTo(bx-4,sstB);ctx.lineTo(bx+5,sstB);ctx.stroke();
-    ctx.fillStyle='#1a5f8a';ctx.font='bold 9px Mulish,sans-serif';ctx.textAlign='left';ctx.fillText('SST',bx+7,(sstT+sstB)/2+3);
+    ctx.fillStyle='#1a5f8a';ctx.font='bold 12px Mulish,sans-serif';ctx.textAlign='left';ctx.fillText('SST',bx+7,(sstT+sstB)/2+3);
   }
   ctx.textAlign='center';
-  if(ssrH>22){ctx.fillStyle='#1b4f2c';ctx.font='bold 8px Mulish,sans-serif';ctx.fillText('SSR',ptX,ssrT+ssrH/2+3);}
-  if(sseH>22){ctx.fillStyle='#7c2318';ctx.font='bold 8px Mulish,sans-serif';ctx.fillText('SSE',ptX,sseT+sseH/2+3);}
+  if(ssrH>22){ctx.fillStyle='#1b4f2c';ctx.font='bold 11px Mulish,sans-serif';ctx.fillText('SSR',ptX,ssrT+ssrH/2+3);}
+  if(sseH>22){ctx.fillStyle='#7c2318';ctx.font='bold 11px Mulish,sans-serif';ctx.fillText('SSE',ptX,sseT+sseH/2+3);}
   ctx.fillStyle='#40916c';ctx.beginPath();ctx.arc(ptX,yhatY,4.5,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(ptX,yhatY,2,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#1c1c1c';ctx.beginPath();ctx.arc(ptX,ptY,6.5,0,Math.PI*2);ctx.fill();
   ctx.fillStyle='#74c69d';ctx.beginPath();ctx.arc(ptX,ptY,3,0,Math.PI*2);ctx.fill();
   ctx.strokeStyle='#d8d3cc';ctx.lineWidth=.8;
   ctx.beginPath();ctx.moveTo(ml,mt);ctx.lineTo(ml,H-mb);ctx.lineTo(W-mr,H-mb);ctx.stroke();
-  ctx.fillStyle='#8a8478';ctx.font='9px Fira Code,monospace';ctx.textAlign='right';
+  ctx.fillStyle='#6b7063';ctx.font='12px Fira Code,monospace';ctx.textAlign='right';
   for(let i=0;i<=3;i++){const yv=ymin+ys*i/3;ctx.fillText(Math.abs(yv)>=100?Math.round(yv).toString():yv.toFixed(1),ml-4,Y(yv)+3);}
-  ctx.fillStyle='#8a8478';ctx.font='9px Mulish,sans-serif';ctx.textAlign='center';
-  ctx.fillText(ds.xLabel,ml+pw/2,H-mb+12);
-  ctx.textAlign='left';ctx.font='9px Mulish,sans-serif';
+  ctx.fillStyle='#4d5248';ctx.font='600 13px Mulish,sans-serif';ctx.textAlign='center';
+  ctx.fillText(ds.xLabel,ml+pw/2,H-mb+16);
+  ctx.textAlign='left';ctx.font='600 12px Mulish,sans-serif';
   const ly=H-6;
   ctx.fillStyle='#1a5f8a';ctx.fillText('— SST (total)',ml,ly);
-  ctx.fillStyle='#2d6a4f';ctx.fillText('— SSR (explained)',ml+78,ly);
-  ctx.fillStyle='#b73c2a';ctx.fillText('— SSE (residual)',ml+182,ly);
+  ctx.fillStyle='#2d6a4f';ctx.fillText('— SSR (explained)',ml+110,ly);
+  ctx.fillStyle='#b73c2a';ctx.fillText('— SSE (residual)',ml+255,ly);
   const pR=reg.SST>0?Math.max(0,Math.min(100,reg.SSR/reg.SST*100)):0,pE=100-pR;
   const barR=document.getElementById('ssBarR'),barE=document.getElementById('ssBarE');
   barR.style.width=pR.toFixed(1)+'%';barR.textContent=pR>14?'SSR '+pR.toFixed(1)+'%':'';
@@ -862,8 +993,11 @@ function drawR2Canvas(reg,ds,ptIdx){
 }
 
 /* ================================================================
-   RESIDUAL LINES PLUGIN
+   CHART PLUGINS
    ================================================================ */
+Chart.defaults.font.family="'Mulish',system-ui,sans-serif";
+Chart.defaults.font.size=13;
+Chart.defaults.color='#4d5248';
 const residPlugin={
   id:'residPlugin',
   afterDatasetsDraw(chart){
@@ -871,6 +1005,7 @@ const residPlugin={
     if(chart._showResid&&chart._yhat){
       ctx.save();ctx.strokeStyle='rgba(183,60,42,.5)';ctx.lineWidth=1.6;
       chart.getDatasetMeta(0).data.forEach((pt,i)=>{
+        if(chart._yhat[i]===undefined)return;
         const py=chart.scales.y.getPixelForValue(chart._yhat[i]);
         ctx.beginPath();ctx.moveTo(pt.x,pt.y);ctx.lineTo(pt.x,py);ctx.stroke();
       });
@@ -881,14 +1016,20 @@ const residPlugin={
       const{left,right}=chart.chartArea;
       ctx.save();ctx.strokeStyle='#a8650a';ctx.lineWidth=1.6;ctx.setLineDash([6,4]);
       ctx.beginPath();ctx.moveTo(left,py);ctx.lineTo(right,py);ctx.stroke();
-      ctx.setLineDash([]);ctx.fillStyle='#a8650a';ctx.font='11px Fira Code,monospace';ctx.textAlign='right';
-      ctx.fillText('ȳ = '+sig(chart._ybar,4),right-4,py-5);
+      ctx.setLineDash([]);ctx.fillStyle='#a8650a';ctx.font='13px Fira Code,monospace';ctx.textAlign='right';
+      ctx.fillText('ȳ = '+sig(chart._ybar,4),right-4,py-6);
       ctx.restore();
     }
-    if(chart._sel!==undefined&&chart._sel!==null){
-      const p=chart.getDatasetMeta(0).data[chart._sel];
-      if(p){ctx.save();ctx.strokeStyle='#1c1c1c';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x,p.y,9,0,Math.PI*2);ctx.stroke();ctx.restore();}
-    }
+  }
+};
+const selPlugin={
+  id:'selPlugin',
+  afterDatasetsDraw(chart){
+    if(r2SelectedPt==null)return;
+    const p=chart.getDatasetMeta(0).data[r2SelectedPt];
+    if(!p)return;
+    const ctx=chart.ctx;ctx.save();ctx.strokeStyle='#1c1c1c';ctx.lineWidth=2.2;
+    ctx.beginPath();ctx.arc(p.x,p.y,10,0,Math.PI*2);ctx.stroke();ctx.restore();
   }
 };
 const zeroLinePlugin={
@@ -900,73 +1041,91 @@ const zeroLinePlugin={
     ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(right,y);ctx.stroke();ctx.restore();
   }
 };
-const axisStyle=t=>({title:{display:true,text:t,font:{family:'Mulish',size:12},color:'#6b7063'},grid:{color:'rgba(0,0,0,.04)'},ticks:{font:{family:'Fira Code',size:11}}});
+const axisStyle=t=>({title:{display:true,text:t,font:{family:'Mulish',size:14,weight:'600'},color:'#4d5248'},grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{family:'Fira Code',size:12}}});
 
 /* ================================================================
    BUILD CHARTS
    ================================================================ */
-function analyze(ds){
-  const reg=calcReg(ds.data),dg=diagnose(reg,ds.data);
-  currentReg=reg;currentDs=ds;currentDiag=dg;
-  if(scChart)scChart.destroy();
-  if(rsChart)rsChart.destroy();
-
+function selectPoint(i){
+  r2SelectedPt=i;
+  if(scChart)scChart.update('none');
+  if(rsChart)rsChart.update('none');
+  drawR2Canvas(currentReg,currentDs,r2SelectedPt);
+}
+function scatterDatasets(ds,reg,ptR){
   const xs=ds.data.map(d=>d.x);
   const xmin=Math.min(...xs),xmax=Math.max(...xs),pad=(xmax-xmin)*.04;
-  const lineData=[{x:xmin-pad,y:reg.a+reg.b*(xmin-pad)},{x:xmax+pad,y:reg.a+reg.b*(xmax+pad)}];
-  const ptR=ds.data.length>60?3.5:ds.data.length>30?5:6;
-
-  scChart=new Chart(document.getElementById('scatterCanvas'),{
-    type:'scatter',
-    data:{datasets:[
-      {label:'Observed',data:ds.data,backgroundColor:'rgba(45,106,79,.78)',pointRadius:ptR,pointHoverRadius:ptR+3,order:2},
-      {label:'Regression',data:lineData,type:'line',borderColor:'#40916c',borderWidth:2.5,pointRadius:0,fill:false,tension:0,order:1}
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,animation:{duration:300},
-      onClick(evt,elements){
-        const el=elements.find(e=>e.datasetIndex===0);
-        if(el){r2SelectedPt=el.index;scChart._sel=el.index;scChart.update('none');drawR2Canvas(currentReg,currentDs,r2SelectedPt);}
-      },
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          filter:item=>item.datasetIndex===0,
-          callbacks:{label(c){const i=c.dataIndex;return[ds.xLabel+': '+c.parsed.x,ds.yLabel+': '+c.parsed.y,'ŷ = '+sig(reg.yhat[i],4)+'  |  residual = '+sig(reg.resid[i],3),'(click to show in R² decomposition)'];}}
-        }
-      },
-      scales:{x:axisStyle(ds.xLabel),y:axisStyle(ds.yLabel)}
-    },
-    plugins:[residPlugin]
-  });
-  scChart._showResid=showResid;scChart._showMean=showMean;scChart._yhat=reg.yhat;scChart._ybar=reg.ybar;
-
+  const sets=[
+    {label:'Observed',data:ds.data.map(d=>({x:d.x,y:d.y})),backgroundColor:'rgba(45,106,79,.78)',pointRadius:ptR,pointHoverRadius:ptR+3,order:2},
+    {label:'Regression',data:[{x:xmin-pad,y:reg.a+reg.b*(xmin-pad)},{x:xmax+pad,y:reg.a+reg.b*(xmax+pad)}],type:'line',borderColor:'#40916c',borderWidth:3,pointRadius:0,fill:false,tension:0,order:1}
+  ];
+  if(ds.truth)sets.push({label:'True relationship',data:ds.truth,type:'line',borderColor:'#1a5f8a',borderWidth:2,borderDash:[6,5],pointRadius:0,fill:false,tension:0,order:0});
+  return sets;
+}
+function residDatasets(reg,dg,ptR){
   const flagged=new Set(dg.outliers.map(o=>o.i));
-  rsChart=new Chart(document.getElementById('residCanvas'),{
-    type:'scatter',
-    data:{datasets:[
-      {label:'Residuals',data:reg.yhat.map((yh,i)=>({x:yh,y:reg.resid[i]})),
-       backgroundColor:reg.yhat.map((_,i)=>flagged.has(i)?'rgba(183,60,42,1)':'rgba(183,60,42,.62)'),
-       borderColor:reg.yhat.map((_,i)=>flagged.has(i)?'#1c1c1c':'transparent'),borderWidth:1.5,
-       pointRadius:reg.yhat.map((_,i)=>flagged.has(i)?ptR+2:ptR),pointHoverRadius:ptR+3}
-    ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,animation:{duration:300},
-      plugins:{legend:{display:false},tooltip:{callbacks:{label(c){const i=c.dataIndex;return['ŷ = '+sig(c.parsed.x,4),'Residual = '+sig(c.parsed.y,3),'Standardized = '+dg.std[i].toFixed(2)];}}}},
-      scales:{x:axisStyle('Fitted values (ŷ)'),y:axisStyle('Residuals (y − ŷ)')}
-    },
-    plugins:[zeroLinePlugin]
-  });
-  rsChart._zero=true;
+  return[{label:'Residuals',data:reg.yhat.map((yh,i)=>({x:yh,y:reg.resid[i]})),
+    backgroundColor:reg.yhat.map((_,i)=>flagged.has(i)?'rgba(183,60,42,1)':'rgba(183,60,42,.62)'),
+    borderColor:reg.yhat.map((_,i)=>flagged.has(i)?'#1c1c1c':'transparent'),borderWidth:1.5,
+    pointRadius:reg.yhat.map((_,i)=>flagged.has(i)?ptR+2:ptR),pointHoverRadius:ptR+3}];
+}
+function analyze(ds,opts={}){
+  const reg=calcReg(ds.data),dg=diagnose(reg,ds.data);
+  currentReg=reg;currentDs=ds;currentDiag=dg;
+  const n=ds.data.length,ptR=n>100?3.5:n>40?4.5:6;
+  const live=opts.live&&scChart&&rsChart;
+  if(!live||r2SelectedPt==null||r2SelectedPt>=n)r2SelectedPt=bestInitPt(reg,ds);
+  document.getElementById('liTrue').hidden=!ds.truth;
 
-  buildDist();
-  r2SelectedPt=bestInitPt(reg,ds);scChart._sel=r2SelectedPt;
+  if(live){
+    scChart.data.datasets=scatterDatasets(ds,reg,ptR);
+    scChart.options.scales.x.title.text=ds.xLabel;scChart.options.scales.y.title.text=ds.yLabel;
+    scChart._yhat=reg.yhat;scChart._ybar=reg.ybar;
+    scChart.update('none');
+    rsChart.data.datasets=residDatasets(reg,dg,ptR);
+    rsChart.update('none');
+  }else{
+    if(scChart)scChart.destroy();
+    if(rsChart)rsChart.destroy();
+    scChart=new Chart(document.getElementById('scatterCanvas'),{
+      type:'scatter',
+      data:{datasets:scatterDatasets(ds,reg,ptR)},
+      options:{
+        responsive:true,maintainAspectRatio:false,animation:{duration:300},
+        onClick(evt,elements){const el=elements.find(e=>e.datasetIndex===0);if(el)selectPoint(el.index);},
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            filter:item=>item.datasetIndex===0,
+            callbacks:{label(c){const i=c.dataIndex,D=currentDs,G=currentReg;return[D.xLabel+': '+c.parsed.x,D.yLabel+': '+c.parsed.y,'ŷ = '+sig(G.yhat[i],4)+'  |  residual = '+sig(G.resid[i],3),'(click to highlight in both plots)'];}}
+          }
+        },
+        scales:{x:axisStyle(ds.xLabel),y:axisStyle(ds.yLabel)}
+      },
+      plugins:[residPlugin,selPlugin]
+    });
+    scChart._showResid=showResid;scChart._showMean=showMean;scChart._yhat=reg.yhat;scChart._ybar=reg.ybar;
+    rsChart=new Chart(document.getElementById('residCanvas'),{
+      type:'scatter',
+      data:{datasets:residDatasets(reg,dg,ptR)},
+      options:{
+        responsive:true,maintainAspectRatio:false,animation:{duration:300},
+        onClick(evt,elements){if(elements.length)selectPoint(elements[0].index);},
+        plugins:{legend:{display:false},tooltip:{callbacks:{label(c){const i=c.dataIndex;return['ŷ = '+sig(c.parsed.x,4),'Residual = '+sig(c.parsed.y,3),'Standardized = '+currentDiag.std[i].toFixed(2),'(click to highlight in both plots)'];}}}},
+        scales:{x:axisStyle('Fitted values (ŷ)'),y:axisStyle('Residuals (y − ŷ)')}
+      },
+      plugins:[zeroLinePlugin,selPlugin]
+    });
+    rsChart._zero=true;
+  }
+  buildDist(!!live);
   updateUI(reg,ds,dg);
   renderWalk(false);
-  requestAnimationFrame(()=>drawR2Canvas(reg,ds,r2SelectedPt));
+  if(live)drawR2Canvas(reg,ds,r2SelectedPt);
+  else requestAnimationFrame(()=>drawR2Canvas(reg,ds,r2SelectedPt));
 }
 
-function buildDist(){
+function buildDist(live){
   const reg=currentReg,dg=currentDiag;if(!reg)return;
   if(dsChart)dsChart.destroy();
   const z=dg.std,n=z.length,note=document.getElementById('distNote');
@@ -983,9 +1142,9 @@ function buildDist(){
         {type:'bar',label:'Observed',data:bins.map(b=>({x:(b.a+b.b)/2,y:b.c})),backgroundColor:'rgba(183,60,42,.55)',borderColor:'#b73c2a',borderWidth:1,barPercentage:1,categoryPercentage:1,order:2},
         {type:'line',label:'Normal curve',data:curve,borderColor:'#1a5f8a',borderWidth:2,pointRadius:0,tension:.3,order:1}
       ]},
-      options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},
+      options:{responsive:true,maintainAspectRatio:false,animation:live?false:{duration:300},
         plugins:{legend:{display:false},tooltip:{filter:i=>i.datasetIndex===0,callbacks:{title(c){const x=c[0].parsed.x;return 'Std. residual '+(x-w/2).toFixed(1)+' to '+(x+w/2).toFixed(1);},label(c){return c.parsed.y+' observation'+(c.parsed.y===1?'':'s');}}}},
-        scales:{x:{...axisStyle('Standardized residual'),type:'linear',min:lo,max:hi,ticks:{stepSize:1,font:{family:'Fira Code',size:11}}},y:{...axisStyle('Count'),beginAtZero:true,ticks:{precision:0,font:{family:'Fira Code',size:11}}}}}
+        scales:{x:{...axisStyle('Standardized residual'),type:'linear',min:lo,max:hi,ticks:{stepSize:1,font:{family:'Fira Code',size:12}}},y:{...axisStyle('Count'),beginAtZero:true,ticks:{precision:0,font:{family:'Fira Code',size:12}}}}}
     });
     note.innerHTML='Bars show how many standardized residuals fall in each range; the blue curve is what a perfectly normal distribution would look like for n = '+n+'. Expect a rough bell shape centred on 0 — small samples always look lumpy. About 95% of points should fall between −2 and +2.';
   }else{
@@ -998,7 +1157,7 @@ function buildDist(){
         {label:'Residuals',data:pts,backgroundColor:'rgba(183,60,42,.65)',pointRadius:4.5,order:2},
         {type:'line',label:'Reference',data:[{x:-lim,y:-lim},{x:lim,y:lim}],borderColor:'#1a5f8a',borderWidth:1.6,borderDash:[5,4],pointRadius:0,order:1}
       ]},
-      options:{responsive:true,maintainAspectRatio:false,animation:{duration:300},
+      options:{responsive:true,maintainAspectRatio:false,animation:live?false:{duration:300},
         plugins:{legend:{display:false},tooltip:{filter:i=>i.datasetIndex===0,callbacks:{label(c){return['Theoretical z = '+c.parsed.x.toFixed(2),'Std. residual = '+c.parsed.y.toFixed(2)];}}}},
         scales:{x:{...axisStyle('Theoretical normal quantile'),min:-lim,max:lim},y:{...axisStyle('Standardized residual'),min:-lim,max:lim}}}
     });
@@ -1272,6 +1431,11 @@ function refreshClassPanel(){
   }
   saveState();
 }
+const genericInterp=(a,b,ds)=>{
+      const xs=ds.data.map(d=>d.x),zeroIn=Math.min(...xs)<=0&&Math.max(...xs)>=0;
+      return `For every <strong>1 ${esc(ds.xUnit)} increase</strong> in ${esc(ds.xName)}, ${esc(ds.yName)} is predicted to <strong>${b>=0?'increase':'decrease'} by ${sig(Math.abs(b),4)} ${esc(ds.yUnit)}</strong>. `+
+        (zeroIn?`The intercept (${sig(a,4)}) is the predicted ${esc(ds.yName)} when ${esc(ds.xName)} = 0, which is within your data range.`:`The intercept (${sig(a,4)}) is the predicted ${esc(ds.yName)} at ${esc(ds.xName)} = 0 — outside your data range, so don’t interpret it biologically.`);
+    };
 function buildCustomDs(){
   const {pairs,skipped}=currentPairs();
   const xName=($('cdXName').value.trim()||'x'),yName=($('cdYName').value.trim()||'y');
@@ -1285,11 +1449,7 @@ function buildCustomDs(){
     body:notes||'Data entered by your class. Work through the Guided Analysis above to interpret each result.',
     src:`Your data: n = ${pairs.length}`+(skipped?` (${skipped} incomplete row${skipped>1?'s':''} excluded)`:'')+'.',
     data:pairs,
-    interp:(a,b,ds)=>{
-      const xs=ds.data.map(d=>d.x),zeroIn=Math.min(...xs)<=0&&Math.max(...xs)>=0;
-      return `For every <strong>1 ${esc(ds.xUnit)} increase</strong> in ${esc(ds.xName)}, ${esc(ds.yName)} is predicted to <strong>${b>=0?'increase':'decrease'} by ${sig(Math.abs(b),4)} ${esc(ds.yUnit)}</strong>. `+
-        (zeroIn?`The intercept (${sig(a,4)}) is the predicted ${esc(ds.yName)} when ${esc(ds.xName)} = 0, which is within your data range.`:`The intercept (${sig(a,4)}) is the predicted ${esc(ds.yName)} at ${esc(ds.xName)} = 0 — outside your data range, so don’t interpret it biologically.`);
-    }
+    interp:genericInterp
   };
 }
 function runCustom(scroll){
@@ -1383,11 +1543,16 @@ $('cdClear').addEventListener('click',()=>{
 /* ================================================================
    TABS & EVENTS
    ================================================================ */
-function selectTab(v){
+function selectTab(v,scroll){
   activeTab=v;
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.ds===v));
-  const isCustom=v==='custom';
+  const isCustom=v==='custom',isSim=v==='sim';
   $('classPanel').hidden=!isCustom;
+  $('simPanel').hidden=!isSim;
+  if(isSim){
+    $('emptyState').hidden=true;$('analysis').hidden=false;
+    simUpdate(false);
+  }else
   if(isCustom){
     if(customDs){$('analysis').hidden=false;$('emptyState').hidden=true;analyze(customDs);}
     else if(!$('cdRun').disabled){runCustom(false);}
@@ -1396,8 +1561,13 @@ function selectTab(v){
     $('emptyState').hidden=true;$('analysis').hidden=false;
     analyze(DS[+v]);
   }
+  if(scroll){
+    const tgt=isCustom?$('classPanel'):isSim?$('simPanel'):null;
+    if(tgt)tgt.scrollIntoView({behavior:'smooth',block:'start'});
+    else if($('walkCard').getBoundingClientRect().top<0)$('walkCard').scrollIntoView({behavior:'smooth',block:'start'});
+  }
 }
-document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>selectTab(btn.dataset.ds)));
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>selectTab(btn.dataset.ds,true)));
 $('chkResid').addEventListener('change',e=>setResid(e.target.checked));
 $('chkMean').addEventListener('change',e=>setMean(e.target.checked));
 $('distSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;distMode=b.dataset.v;document.querySelectorAll('#distSeg button').forEach(x=>x.classList.toggle('on',x===b));buildDist();});
@@ -1432,14 +1602,112 @@ function buildPatternCharts(){
         plugins:{legend:{display:false},tooltip:{enabled:false}},
         layout:{padding:{top:4,right:6}},
         scales:{
-          x:{min:8,max:52,title:{display:true,text:'Fitted values (\u0177)',font:{family:'Mulish',size:11},color:'#6b7063',padding:{top:2}},ticks:{display:false},grid:{display:false},border:{color:'#d8d3cc'}},
-          y:{min:-lim,max:lim,title:{display:true,text:'Residual',font:{family:'Mulish',size:11},color:'#6b7063'},ticks:{display:false},grid:{display:false},border:{color:'#d8d3cc'}}
+          x:{min:8,max:52,title:{display:true,text:'Fitted values (\u0177)',font:{family:'Mulish',size:13},color:'#4d5248',padding:{top:2}},ticks:{display:false},grid:{display:false},border:{color:'#d8d3cc'}},
+          y:{min:-lim,max:lim,title:{display:true,text:'Residual',font:{family:'Mulish',size:13},color:'#4d5248'},ticks:{display:false},grid:{display:false},border:{color:'#d8d3cc'}}
         }},
       plugins:[zeroLinePlugin]
     });
     c._zero=true;c.update('none');
   });
 }
+
+/* ================================================================
+   SIMULATOR
+   ================================================================ */
+const SIM_MAX=210;
+let simSeed=7,simDraws=null,simFrame=null;
+function makeDraws(seed){
+  let st=seed*2654435761>>>0;
+  const rnd=()=>{st|=0;st=st+0x6D2B79F5|0;let t=Math.imul(st^st>>>15,1|st);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};
+  const g=()=>{let u=0;while(u===0)u=rnd();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*rnd());};
+  const D={u:[],z:[],c:[],r:[]};
+  for(let i=0;i<SIM_MAX;i++){D.u.push(rnd());D.z.push(g());const a=g(),b=g(),c=g();D.c.push(a*a+b*b+c*c);D.r.push(rnd());}
+  return D;
+}
+function simErr(shape,i){
+  const z=simDraws.z[i];
+  if(shape==='skew'){const s2=0.8*0.8;return(Math.exp(0.8*z)-Math.exp(s2/2))/Math.sqrt((Math.exp(s2)-1)*Math.exp(s2));}
+  if(shape==="heavy"){return z/Math.sqrt(Math.max(0.15,simDraws.c[i])/3)/Math.sqrt(3);}
+  if(shape==='uniform'){return(simDraws.r[i]-0.5)*Math.sqrt(12);}
+  return z;
+}
+const SIM_B0=20;
+function simTrue(x,P){return SIM_B0+P.b*x+P.c*(x-5)*(x-5);}
+function simParams(){
+  return{n:+$('simN').value,b:+$('simB').value,s:+$('simS').value,c:+$('simC').value,h:+$('simH').value,e:$('simE').value,o:$('simO').value,os:+$('simOs').value};
+}
+function simBuild(){
+  if(!simDraws)simDraws=makeDraws(simSeed);
+  const P=simParams(),data=[];
+  for(let i=0;i<P.n;i++){
+    const x=Math.round(simDraws.u[i]*1000)/100;
+    const sd=P.s*((1-P.h)+P.h*(0.1+1.9*x/10));
+    data.push({x,y:Math.round((simTrue(x,P)+sd*simErr(P.e,i))*100)/100});
+  }
+  let xmaxT=10;
+  if(P.o!=='none'){const x=P.o==='mid'?5:15;xmaxT=Math.max(xmaxT,x);data.push({x,y:Math.round((simTrue(x,P)+P.os)*100)/100});}
+  const truth=[];for(let k=0;k<=60;k++){const x=xmaxT*k/60;truth.push({x,y:simTrue(x,P)});}
+  // model text
+  const f=v=>(v<0?'− ':'+ ')+Math.abs(v).toFixed(2).replace(/\.?0+$/,'');
+  let m=`True model:  y = ${SIM_B0} ${f(P.b)}·x`+(P.c?` ${f(P.c)}·(x − 5)²`:'')+` + error`;
+  m+=`   |   error SD = ${P.s}${P.h?` (grows with x)`:''}, ${$('simE').selectedOptions[0].text.split(' (')[0].toLowerCase()} shape`;
+  $('simModel').textContent=m;
+  return{
+    key:'sim',name:'Simulated data',
+    xName:'x',yName:'y',xUnit:'unit',yUnit:'units',xLabel:'x',yLabel:'y',
+    body:'These data were generated by the true model shown in the simulator, plus random error. Because you know the truth, you can see how well the fitted line (green) recovers the true relationship (blue dashed).',
+    src:`n = ${data.length} simulated points${P.o!=='none'?' (including 1 added outlier)':''}. Sample #${simSeed}.`,
+    data,truth,interp:genericInterp,simP:P
+  };
+}
+function simTipText(P,reg,dg){
+  const t=[];
+  const lo=reg.b-reg.t95*reg.seb,hi=reg.b+reg.t95*reg.seb;
+  t.push(`The fitted slope is <strong>${sig(reg.b,3)}</strong>; the true slope is <strong>${P.b}</strong>${P.c?' (plus curvature)':''}. The 95% CI [${sig(lo,3)}, ${sig(hi,3)}] ${(!P.c&&P.o==='none')?(lo<=P.b&&P.b<=hi?'<strong>contains</strong> the true slope.':'<strong>misses</strong> the true slope — this happens about 5% of the time by chance.'):'— but with curvature or an outlier the straight-line slope is no longer a fair summary.'}`);
+  if(P.s===0)t.push('With zero noise every point sits exactly on the true line: R² = 1 and all residuals are 0. Real data never look like this.');
+  else if(P.b===0)t.push(`There is no true relationship. R² = ${reg.r2.toFixed(3)} is only chance, and p = ${reg.p.toFixed(3)} — expect p < 0.05 in about 1 of every 20 new samples.`);
+  else t.push(`R² = ${reg.r2.toFixed(3)}. Increase the noise and watch R² fall while the true slope stays the same.`);
+  if(P.c)t.push(`Curvature: the residual plot shows a ${P.c>0?'U':'∩'} shape${dg.linBad?' (detected by the linearity test)':' (not yet significant — try more curvature or a larger n)'}.`);
+  if(P.h)t.push(`Unequal spread: the residual plot fans out to the right${dg.hetBad?' (detected by the constant-variance test)':' (not yet significant — try a larger n)'}.`);
+  if(P.e!=='normal')t.push(`Non-normal errors: look at the histogram and Q–Q plot${dg.normBad?' — Shapiro–Wilk detects it':' — with this n the test may not detect it yet'}.`);
+  if(P.o!=='none')t.push(P.o==='lev'?'The outlier sits far beyond the other x values (high leverage), so it can drag the whole line toward itself. Compare the green fitted line with the blue true line.':'An outlier in the middle of the x range mostly inflates the noise (SE) but barely moves the slope.');
+  if(P.n<12)t.push('With so few points, the slope is imprecise and the assumption tests have little power. Draw new samples and watch how much the line jumps around.');
+  return '<ul>'+t.map(x=>`<li>${x}</li>`).join('')+'</ul>';
+}
+function simUpdate(live){
+  const P=simParams();
+  $('simNv').textContent=P.n;$('simBv').textContent=P.b.toFixed(1);$('simSv').textContent=P.s.toFixed(2);
+  $('simCv').textContent=P.c.toFixed(2);$('simHv').textContent=P.h.toFixed(2);$('simOsv').textContent=(P.os>0?'+':'')+P.os;
+  $('simOs').disabled=P.o==='none';$('simOs').parentElement.style.opacity=P.o==='none'?.45:1;
+  const ds=simBuild();
+  analyze(ds,{live});
+  $('simTip').innerHTML=simTipText(P,currentReg,currentDiag);
+}
+function simSchedule(){
+  document.querySelectorAll('#simPresets .btn').forEach(b=>b.classList.remove('on'));
+  if(simFrame)return;
+  simFrame=requestAnimationFrame(()=>{simFrame=null;simUpdate(true);});
+}
+const SIM_PRESETS={
+  ideal:{n:40,b:1.5,s:3,c:0,h:0,e:'normal',o:'none'},
+  noisy:{n:40,b:1.5,s:9,c:0,h:0,e:'normal',o:'none'},
+  none:{n:40,b:0,s:3,c:0,h:0,e:'normal',o:'none'},
+  small:{n:6,b:1.5,s:3,c:0,h:0,e:'normal',o:'none'},
+  curve:{n:50,b:1.5,s:2,c:0.6,h:0,e:'normal',o:'none'},
+  fan:{n:60,b:1.5,s:4,c:0,h:1,e:'normal',o:'none'},
+  skew:{n:60,b:1.5,s:4,c:0,h:0,e:'skew',o:'none'},
+  lev:{n:30,b:1.5,s:2.5,c:0,h:0,e:'normal',o:'lev',os:-25}
+};
+['simN','simB','simS','simC','simH','simOs'].forEach(id=>$(id).addEventListener('input',simSchedule));
+['simE','simO'].forEach(id=>$(id).addEventListener('change',simSchedule));
+$('simNew').addEventListener('click',()=>{simSeed++;simDraws=makeDraws(simSeed);simUpdate(true);});
+$('simPresets').addEventListener('click',e=>{
+  const b=e.target.closest('[data-p]');if(!b)return;
+  const P=SIM_PRESETS[b.dataset.p];
+  $('simN').value=P.n;$('simB').value=P.b;$('simS').value=P.s;$('simC').value=P.c;$('simH').value=P.h;$('simE').value=P.e;$('simO').value=P.o;if(P.os!=null)$('simOs').value=P.os;
+  simUpdate(true);
+  document.querySelectorAll('#simPresets .btn').forEach(x=>x.classList.toggle('on',x===b));
+});
 
 restoreState();
 selectTab('0');

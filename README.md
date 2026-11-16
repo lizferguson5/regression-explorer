@@ -33,6 +33,7 @@ No statistics software or installation required. Runs entirely in any modern web
 | 🦗 **Cricket Chirps** | Chirp rate vs. temperature in the snowy tree cricket *Oecanthus fultoni* (n = 28) | A well-behaved residual plot — what "good" looks like |
 | 🌱 **Plant Growth** | Shoot height vs. nitrogen in *Arabidopsis thaliana* (8 levels × 4 plants) | Heteroscedasticity — variance grows with the predictor |
 | 🐟 **Fish Allometry** | Body weight vs. length in bluegill sunfish (n = 36) | High R² but a curved residual plot — the model is wrong |
+| 🎛️ **Simulator** | Data you generate with sliders | See how noise, curvature, unequal spread, error shape, and outliers change the fit and the residuals |
 | 📋 **Your Class Data** | Anything your class measures | Apply the full workflow to real data you collected |
 
 The three example datasets are **simulated** from published biological relationships (Dolbear's law for crickets; a log-normal nitrogen response for *Arabidopsis*; the length–weight power law W = 0.0135·L^3.1 for bluegill) with random error added, so the residuals scatter the way real data do rather than following artificial patterns.
@@ -56,6 +57,9 @@ Data never leave the student's browser. The last dataset entered is remembered o
 
 ## Features
 
+- **Regression Simulator** — sliders for sample size, true slope, noise (σ), curvature, unequal spread, error-distribution shape, and an optional outlier (inside or beyond the x range). Every plot and statistic updates instantly, the true relationship is drawn alongside the fitted line, and scenario buttons (ideal, very noisy, no relationship, tiny sample, curved, fan, skewed, influential outlier) jump straight to classic cases
+- **Side-by-side scatter plot and residual plot** — click a point in either to highlight it in both
+- **Sticky navigation** — dataset tabs plus "jump to" links for every section
 - **Guided Analysis** — a 7-step walkthrough (look at the data → fit the line → residuals → R² → check assumptions → test the slope → write a conclusion) whose text is filled in with the live numbers for whichever dataset is loaded, ending with a copyable, journal-style results sentence
 - **Interactive scatter plot** with toggleable residual lines and mean ȳ overlay
 - **Residual plot** with interpretation; outlying or influential points are outlined
