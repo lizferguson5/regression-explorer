@@ -237,13 +237,87 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
 .tip{background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:.9rem 1rem}
 .tip-head{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--forest);margin-bottom:.4rem}
 .tip-body{font-size:.82rem;line-height:1.6;color:var(--muted)}
+
+/* ===== LAYOUT v3: sidebar + step sections ===== */
+:root{--navh:110px}
+header{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;padding:1.3rem 2.5rem 1.1rem}
+header p{padding-bottom:0}
+@media(max-width:700px){header{padding:1rem}}
+.about-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.35);color:#fff;border-radius:2rem;padding:.45rem 1rem;font-family:var(--fb);font-size:.88rem;cursor:pointer}
+.about-btn:hover{background:rgba(255,255,255,.2)}
+.stepnav{background:#fff;border-bottom:1px solid var(--border);display:flex;gap:.25rem;align-items:center;padding:.35rem 2.5rem;overflow-x:auto;white-space:nowrap;font-size:.82rem}
+@media(max-width:700px){.stepnav{padding:.35rem 1rem}}
+.stepnav a{color:var(--muted);text-decoration:none;padding:.22rem .7rem .22rem .3rem;border-radius:2rem;display:inline-flex;align-items:center;gap:.4rem;border:1px solid transparent}
+.stepnav a b{display:inline-flex;width:1.45rem;height:1.45rem;border-radius:50%;align-items:center;justify-content:center;background:#eeeae3;color:var(--muted);font-size:.74rem}
+.stepnav a:hover{background:#f0f7f3;color:var(--forest)}
+.stepnav a.on{color:var(--forest);font-weight:700;background:#f0f7f3;border-color:var(--mint)}
+.stepnav a.on b{background:var(--forest-mid);color:#fff}
+.app{max-width:1560px;margin:0 auto;padding:1.4rem 1.5rem 1rem;display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:1.6rem;align-items:start}
+.content{min-width:0}
+.sidebar{position:sticky;top:calc(var(--navh) + 12px);max-height:calc(100vh - var(--navh) - 24px);overflow-y:auto;display:flex;flex-direction:column;gap:1rem;padding-right:2px}
+.side-panel{background:#fff;border:1px solid var(--border);border-radius:12px;padding:1rem 1.1rem}
+.side-title{font-family:var(--fh);font-size:1.2rem;font-weight:700;color:var(--forest);margin-bottom:.3rem}
+.side-sub{font-size:.82rem;color:var(--muted);margin-bottom:.8rem}
+.side-h{font-family:var(--fh);font-size:1.02rem;font-weight:700;color:var(--forest);margin:1rem 0 .45rem}
+.btn.full{width:100%;justify-content:center;margin-bottom:.9rem}
+.sidebar .sim-sliders{grid-template-columns:1fr;gap:.75rem}
+.sidebar .sl-help{font-size:.72rem}
+.sidebar .presets{margin-bottom:.7rem}
+.sidebar .sim-model{font-size:.76rem}
+.sidebar .cp-col{margin-bottom:.4rem}
+.sidebar .cp-col h4{margin:.6rem 0 .4rem}
+.sidebar .cp-preview{max-height:150px}
+.sidebar .col-pick{grid-template-columns:1fr 1fr}
+.quick{background:var(--forest);color:#fff;border-radius:12px;padding:.85rem 1rem}
+.quick-eq{font-family:var(--fm);font-size:.86rem;color:#d8f3dc;margin-bottom:.55rem;overflow-wrap:anywhere}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem}
+.quick-grid div{background:rgba(255,255,255,.08);border-radius:7px;padding:.35rem .5rem}
+.quick-grid span{display:block;font-size:.66rem;text-transform:uppercase;letter-spacing:.08em;opacity:.7;font-family:var(--fm)}
+.quick-grid b{font-family:var(--fm);font-size:1rem;color:#b7f0c8;font-weight:500}
+.quick-flags{font-size:.76rem;margin-top:.55rem;line-height:1.5;color:#e8f5ec}
+.quick-flags .w{color:#ffd2c7}
+.step-sec{margin-bottom:2.2rem;scroll-margin-top:calc(var(--navh) + 12px)}
+.sec-head{display:flex;align-items:center;gap:.7rem;margin-bottom:.7rem}
+.sec-head h2{font-family:var(--fh);font-size:1.55rem;font-weight:700;color:var(--forest);letter-spacing:-.01em}
+.sec-num{width:2.1rem;height:2.1rem;border-radius:50%;background:var(--forest-mid);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:1rem;flex-shrink:0}
+.guide-box{background:#fff;border:1px solid var(--border);border-left:4px solid var(--gold);border-radius:10px;margin-top:1rem}
+.guide-box summary{cursor:pointer;padding:.55rem 1rem;font-size:.84rem;font-weight:700;color:var(--gold);list-style:none}
+.guide-box summary::-webkit-details-marker{display:none}
+.guide-box summary::after{content:' \25BE';font-size:.75rem}
+.guide-box:not([open]) summary::after{content:' \25B8'}
+.guide-box .walk-text{padding:0 1rem .7rem;max-width:none}
+.sec-foot{display:flex;justify-content:flex-end;margin-top:1rem}
+.next-btn{border:none;background:var(--forest-mid);color:#fff;border-radius:2rem;padding:.6rem 1.3rem;font-family:var(--fb);font-size:.92rem;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(27,67,50,.25)}
+.next-btn:hover{background:var(--forest)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+.eq-card{padding:.3rem 0 .2rem}
+.eq-card .eq-display{font-size:1.25rem}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.stats-grid .stat-block{border-bottom:1px solid #f0ece5;border-right:1px solid #f0ece5}
+.stats-grid .stat-block:nth-child(3){grid-column:span 2}
+@media(max-width:600px){.stats-grid .stat-block:nth-child(3){grid-column:auto}}
+.empty-state{padding:0;margin:0}
+.modal-bg{position:fixed;inset:0;background:rgba(20,35,28,.55);z-index:100;display:flex;align-items:flex-start;justify-content:center;padding:4vh 1rem;overflow-y:auto}
+.modal{background:var(--parch);border-radius:14px;max-width:1150px;width:100%;padding:1.6rem 1.6rem 1.3rem;position:relative;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+.modal h2{font-family:var(--fh);font-size:1.7rem;color:var(--forest);margin-bottom:.7rem}
+.modal-x{position:absolute;top:.8rem;right:.9rem;border:none;background:none;font-size:1.3rem;cursor:pointer;color:var(--muted)}
+.howto{margin:0 0 1rem 1.3rem;font-size:.95rem;line-height:1.65}
+.howto li{margin-bottom:.35rem}
+.modal .intro{padding:0;max-width:none}
+@media(max-width:1250px){.plots-row,.two-col{grid-template-columns:1fr}}
+@media(max-width:1100px){
+  .app{grid-template-columns:minmax(0,1fr)}
+  .sidebar{position:static;max-height:none;overflow:visible;order:-1}
+}
 </style>
 </head>
 <body>
-
 <header>
-  <h1>Bio<em>Reg</em> — Linear Regression Explorer</h1>
-  <p>Interactively explore regression errors, residuals, and model fit through biological data — or your own class data</p>
+  <div>
+    <h1>Bio<em>Reg</em> — Linear Regression Explorer</h1>
+    <p>Explore regression, residuals and model fit with biological data, a simulator, or your own class data</p>
+  </div>
+  <button type="button" class="about-btn" id="aboutOpen">&#9432; About &amp; how to use</button>
 </header>
 
 <nav class="topnav">
@@ -259,212 +333,20 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
     <span class="tabs-label">Your data</span>
     <button class="tab class-tab" data-ds="custom">&#128203; Upload Your Class Data</button>
   </div>
-  <div class="secnav" id="secnav">
-    <span>Jump to</span>
-    <a href="#walkCard">Guided steps</a>
-    <a href="#plotsRow">Scatter vs. residual plot</a>
-    <a href="#cardDist">Residual distribution</a>
-    <a href="#cardR2">R&#178; decomposition</a>
-    <a href="#cardDiag">Assumption checks</a>
-    <a href="#cardStats">Statistics</a>
-    <a href="#guideCard">How to read residuals</a>
-  </div>
+  <div class="stepnav" id="stepnav"><a href="#sec1" data-sec="sec1"><b>1</b> Data &amp; residuals</a><a href="#sec2" data-sec="sec2"><b>2</b> Equation</a><a href="#sec3" data-sec="sec3"><b>3</b> R&#178;</a><a href="#sec4" data-sec="sec4"><b>4</b> Assumptions</a><a href="#sec5" data-sec="sec5"><b>5</b> Statistics</a><a href="#sec6" data-sec="sec6"><b>6</b> Conclusion</a><a href="#sec7" data-sec="sec7"><b>7</b> Residual guide</a></div>
 </nav>
 
-<!-- INTRO SECTION -->
-<div class="intro">
-  <div class="intro-block">
-    <h3>About This Tool</h3>
-    <p>This tool helps biostatistics students build an intuitive understanding of linear regression — not just how to run the test, but what the numbers mean and how to judge whether the model is appropriate. Every statistic is computed live in your browser from the data shown. Use the three <strong>example datasets</strong> to see what good and bad residuals look like, play with the <strong>Simulator</strong> sliders to change how data are generated, then <strong>Upload Your Class Data</strong> to analyze measurements you collected. The <strong>Guided Analysis</strong> steps walk through each stage.</p>
-  </div>
-  <div class="intro-block">
-    <h3>Data Description</h3>
-    <ul>
-      <li><strong>Cricket Chirps</strong> — Chirp rate (chirps per 15 s) vs. air temperature (°F) in the snowy tree cricket <em>Oecanthus fultoni</em>, n = 28. Does chirp speed increase linearly with temperature?</li>
-      <li><strong>Plant Growth</strong> — Shoot height (cm) vs. nitrogen concentration (mg/L) in <em>Arabidopsis thaliana</em>, 8 nitrogen levels × 4 replicate plants. Does added nitrogen predict plant height?</li>
-      <li><strong>Fish Allometry</strong> — Body weight (g) vs. total length (cm) in bluegill sunfish <em>Lepomis macrochirus</em>, n = 36. Can a straight line describe a relationship expected to follow a power law (W ∝ L³)?</li>
-    </ul>
-    <p style="margin-top:.6rem;font-size:.76rem;font-style:italic">Example datasets are simulated from published biological relationships, with realistic random variation.</p>
-  </div>
-  <div class="intro-block">
-    <h3>Things to Explore</h3>
-    <ul>
-      <li><strong>Cricket Chirps</strong> — a clean, well-behaved residual plot. What does "good" look like?</li>
-      <li><strong>Plant Growth</strong> — spot the fan shape in the residual plot. What does heteroscedasticity mean for your predictions?</li>
-      <li><strong>Fish Allometry</strong> — high R² but a curved residual plot. Can you trust the model?</li>
-      <li><strong>Residual distribution</strong> — switch between the histogram and Q–Q plot to judge normality.</li>
-      <li><strong>Click any data point</strong> to watch the R² decomposition update live.</li>
-      <li><strong>Simulator</strong> — drag the sliders to add noise, curvature, unequal spread, or an outlier and watch the residuals respond.</li>
-      <li><strong>Upload Your Class Data</strong> — paste or upload your own measurements and step through the full analysis.</li>
-    </ul>
-  </div>
-</div>
+<div class="app">
+  <div class="content">
+    <div class="empty-state" id="emptyState" hidden>
+      <div class="card">&#8594; Use the panel on the right to name your variables and paste or upload your data, then click <strong>Run analysis</strong>.<br><br>No data yet? Click <strong>Load example</strong> to try it.</div>
+    </div>
+    <div id="analysis">
 
-<!-- CLASS DATA PANEL -->
-<section class="wrap" id="classPanel" hidden>
-  <div class="card">
-    <div class="card-head">
-      <h2>&#128203; Your Class Data</h2>
-      <span class="sub">Name your variables, add your data, then run the analysis</span>
-    </div>
-    <div class="cp-grid">
-      <div class="cp-col">
-        <h4>1 · Describe your variables</h4>
-        <label class="f">Study title
-          <input type="text" id="cdTitle" placeholder="e.g., Hand span vs. height in BIOL 200">
-        </label>
-        <div class="two">
-          <label class="f">Predictor (x) variable name
-            <input type="text" id="cdXName" placeholder="e.g., Hand span">
-          </label>
-          <label class="f">x units
-            <input type="text" id="cdXUnit" placeholder="cm">
-          </label>
-        </div>
-        <div class="two">
-          <label class="f">Response (y) variable name
-            <input type="text" id="cdYName" placeholder="e.g., Height">
-          </label>
-          <label class="f">y units
-            <input type="text" id="cdYUnit" placeholder="cm">
-          </label>
-        </div>
-        <label class="f">Hypothesis or notes (optional)
-          <textarea id="cdNotes" rows="3" style="font-family:var(--fb);font-size:.84rem" placeholder="e.g., We predicted that taller students have larger hand spans."></textarea>
-        </label>
-        <p class="help">The <strong>predictor (x)</strong> is the variable you think explains or causes change. The <strong>response (y)</strong> is the variable you are trying to predict.</p>
-      </div>
-      <div class="cp-col">
-        <h4>2 · Add your data</h4>
-        <div class="btn-row">
-          <label class="btn file-btn">&#8682; Upload CSV or Excel<input type="file" id="cdFile" accept=".csv,.tsv,.txt,.xlsx,.xls,text/csv"></label>
-          <button class="btn ghost" id="cdTemplate" type="button">Download template</button>
-          <button class="btn ghost" id="cdExample" type="button">Load example</button>
-        </div>
-        <label class="f" id="cdSheetRow" hidden>Excel sheet
-          <select id="cdSheet"></select>
-        </label>
-        <label class="f">…or paste data (copy columns straight from Excel or Google Sheets; a header row is optional)
-          <textarea id="cdPaste" rows="7" spellcheck="false" placeholder="hand_span	height
-19.5	165
-21.0	178
-18.2	160"></textarea>
-        </label>
-        <div class="col-pick">
-          <label class="f">Column for x (predictor)<select id="cdXCol"></select></label>
-          <label class="f">Column for y (response)<select id="cdYCol"></select></label>
-        </div>
-        <div id="cdStatus" class="cd-status"></div>
-        <div class="cp-preview" id="cdPreview" hidden></div>
-      </div>
-    </div>
-    <div class="cp-foot">
-      <span class="help">Rows with a missing or non-numeric x or y are skipped (shown struck through). Data stays in your browser — nothing is uploaded.</span>
-      <div class="btn-row" style="margin:0">
-        <button class="btn ghost" id="cdClear" type="button">Clear</button>
-        <button class="btn primary" id="cdRun" type="button" disabled>Run analysis &#8594;</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SIMULATOR PANEL -->
-<section class="wrap" id="simPanel" hidden>
-  <div class="card">
-    <div class="card-head">
-      <h2>&#127899;&#65039; Regression Simulator</h2>
-      <span class="sub">Change how the data are generated — every plot and statistic below updates instantly</span>
-    </div>
-    <div class="sim-grid">
-      <div>
-        <div class="sim-model" id="simModel"></div>
-        <div class="sim-sliders">
-          <div class="sl"><label for="simN">Sample size (n) <output id="simNv"></output></label>
-            <input type="range" id="simN" min="5" max="200" step="1" value="40">
-            <div class="sl-help">More data → a more precise slope and a narrower confidence interval.</div></div>
-          <div class="sl"><label for="simB">True slope (&#946;&#8321;) <output id="simBv"></output></label>
-            <input type="range" id="simB" min="-3" max="3" step="0.1" value="1.5">
-            <div class="sl-help">How much y changes, on average, per 1-unit increase in x. Try 0.</div></div>
-          <div class="sl"><label for="simS">Noise / scatter (&#963;) <output id="simSv"></output></label>
-            <input type="range" id="simS" min="0" max="10" step="0.25" value="3">
-            <div class="sl-help">Random variation around the true line. More noise → lower R&#178;.</div></div>
-          <div class="sl"><label for="simC">Curvature <output id="simCv"></output></label>
-            <input type="range" id="simC" min="-1" max="1" step="0.05" value="0">
-            <div class="sl-help">Bends the true relationship. Watch the residual plot curve.</div></div>
-          <div class="sl"><label for="simH">Unequal spread (fan) <output id="simHv"></output></label>
-            <input type="range" id="simH" min="0" max="1" step="0.05" value="0">
-            <div class="sl-help">Makes the scatter grow with x (heteroscedasticity).</div></div>
-          <div class="sl"><label for="simE">Shape of the errors</label>
-            <select id="simE">
-              <option value="normal">Normal (bell-shaped)</option>
-              <option value="skew">Right-skewed</option>
-              <option value="heavy">Heavy-tailed (occasional extreme values)</option>
-              <option value="uniform">Flat / uniform</option>
-            </select>
-            <div class="sl-help">Check the histogram and Q–Q plot of residuals.</div></div>
-          <div class="sl"><label for="simO">Add an outlier</label>
-            <select id="simO">
-              <option value="none">No outlier</option>
-              <option value="mid">In the middle of the x range</option>
-              <option value="lev">Far beyond the x range (high leverage)</option>
-            </select>
-            <div class="sl-help">An outlier at an extreme x can drag the whole line.</div></div>
-          <div class="sl"><label for="simOs">Outlier distance from true line <output id="simOsv"></output></label>
-            <input type="range" id="simOs" min="-30" max="30" step="1" value="-20">
-            <div class="sl-help">In y units, above (+) or below (−) the true relationship.</div></div>
-        </div>
-      </div>
-      <div class="sim-side">
-        <h4>Try a scenario</h4>
-        <div class="presets" id="simPresets">
-          <button type="button" class="btn" data-p="ideal">&#10003; Ideal data</button>
-          <button type="button" class="btn" data-p="noisy">Very noisy</button>
-          <button type="button" class="btn" data-p="none">No relationship</button>
-          <button type="button" class="btn" data-p="small">Tiny sample</button>
-          <button type="button" class="btn" data-p="curve">Curved</button>
-          <button type="button" class="btn" data-p="fan">Fan shape</button>
-          <button type="button" class="btn" data-p="skew">Skewed errors</button>
-          <button type="button" class="btn" data-p="lev">Influential outlier</button>
-        </div>
-        <button type="button" class="btn primary" id="simNew" style="margin-bottom:1rem">&#127922; Draw a new random sample</button>
-        <h4>What to notice</h4>
-        <div class="sim-tip" id="simTip"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="empty-state" id="emptyState" hidden>
-  <div class="card">Add at least 3 rows of paired x and y values above, then click <strong>Run analysis</strong>.</div>
-</div>
-
-<div id="analysis">
-
-<!-- GUIDED WALKTHROUGH -->
-<section class="wrap">
-  <div class="card" id="walkCard">
-    <div class="walk-head">
-      <h2>&#129517; Guided Analysis</h2>
-      <div class="steps" id="stepPills"></div>
-    </div>
-    <div class="walk-body">
-      <div>
-        <div class="walk-title" id="walkTitle"></div>
-        <div class="walk-text" id="walkText"></div>
-      </div>
-    </div>
-    <div class="walk-nav">
-      <button class="btn ghost" id="walkPrev" type="button">&#8592; Back</button>
-      <button class="btn primary" id="walkNext" type="button">Next step &#8594;</button>
-      <span class="count" id="walkCount"></span>
-    </div>
-  </div>
-</section>
-
-<section class="wrap" id="plotsRow">
-  <div class="compare-note"><strong>Two views of the same data.</strong> &#9312; plots the raw data (y vs. x) with the fitted line. &#9313; is the residual plot: it "tilts" the regression line flat onto zero, so each point's vertical distance from the line becomes easy to see. Patterns that are hard to spot on the left — curves, fans, outliers — jump out on the right. <em>Click any point in either plot to highlight it in both.</em></div>
+<section class="step-sec" id="sec1">
+  <div class="sec-head"><span class="sec-num">1</span><h2>Look at the data, the line &amp; the residuals</h2></div>
   <div class="plots-row">
-    <div class="card" id="cardScatter">
+<div class="card" id="cardScatter">
       <div class="card-head">
         <h2>&#9312; Scatter Plot &amp; Regression Line</h2>
       </div>
@@ -491,8 +373,7 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
         <div class="li" id="liTrue" hidden><div class="li-dash" style="border-color:#1a5f8a"></div>True relationship</div>
       </div>
     </div>
-
-    <div class="card" id="cardResid">
+<div class="card" id="cardResid">
       <div class="card-head">
         <h2>&#9313; Residual Plot</h2>
         <span class="sub">Residuals (y &#8722; &#375;) vs. fitted values (&#375;)</span>
@@ -502,29 +383,21 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
       </div>
       <div class="resid-note" id="residNote"></div>
     </div>
-
   </div>
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide1"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec2">Next: The regression equation &#8595;</button></div>
 </section>
-
-<main>
-  <!-- LEFT COLUMN -->
-  <div class="left-col">
-
-    <div class="card" id="cardDist">
-      <div class="card-head">
-        <h2>Distribution of Residuals</h2>
-        <div class="seg" id="distSeg">
-          <button type="button" class="on" data-v="hist">Histogram</button>
-          <button type="button" data-v="qq">Normal Q–Q plot</button>
-        </div>
-      </div>
-      <div class="card-body">
-        <div class="chart-box" style="height:220px"><canvas id="distCanvas"></canvas></div>
-      </div>
-      <div class="dist-note" id="distNote"></div>
+<section class="step-sec" id="sec2">
+  <div class="sec-head"><span class="sec-num">2</span><h2>The regression equation</h2></div>
+  <div class="card eq-card" id="cardEq"><div class="eq-display">&#375; = <span id="eqA">&#8212;</span> <span id="eqB">&#8212;</span>x</div>
+      <div class="eq-interp" id="eqInterp"></div>
     </div>
-
-    <div class="card" id="cardR2">
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide2"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec3">Next: Partition the variation (R&#178;) &#8595;</button></div>
+</section>
+<section class="step-sec" id="sec3">
+  <div class="sec-head"><span class="sec-num">3</span><h2>Partition the variation (R&#178;)</h2></div>
+<div class="card" id="cardR2">
       <div class="card-head">
         <h2>R&#178; Decomposition</h2>
         <span class="sub">Click any point on the scatter plot above &#8593;</span>
@@ -545,66 +418,37 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
         <div class="ss-formula" id="r2Formula">R&sup2; = SSR &divide; SST</div>
       </div>
     </div>
-
-    <div class="card" id="guideCard">
-      <div class="resid-guide">
-        <h3>How to Read a Residual Plot</h3>
-        <p class="rg-intro"><strong>You must always examine the residual plot</strong> before trusting any linear regression — even when R&#178; looks impressive. R&#178; can be high while the model is fundamentally wrong. The residual plot reveals what R&#178; hides.</p>
-        <div class="patterns-grid">
-          <div class="pat good">
-            <div class="pat-title good">&#10003; Random scatter — model OK</div>
-            <div class="pat-chart"><canvas id="pat0"></canvas></div>
-            <div class="pat-desc">A shapeless band centred on zero with about the same spread everywhere. Some points sit well above or below the line — that is normal. The linear model is appropriate.</div>
-          </div>
-          <div class="pat bad">
-            <div class="pat-title bad">&#10007; Curved pattern — non-linearity</div>
-            <div class="pat-chart"><canvas id="pat1"></canvas></div>
-            <div class="pat-desc">Residuals are mostly positive at both ends and negative in the middle (or the reverse). The true relationship is curved — try a log, square-root, or polynomial model.</div>
-          </div>
-          <div class="pat bad">
-            <div class="pat-title bad">&#10007; Fan shape — heteroscedasticity</div>
-            <div class="pat-chart"><canvas id="pat2"></canvas></div>
-            <div class="pat-desc">Residuals are tightly bunched at small fitted values and spread out at large ones. Variance is not constant; log-transforming y often fixes this in biological data.</div>
-          </div>
-          <div class="pat bad">
-            <div class="pat-title bad">&#10007; Outlier</div>
-            <div class="pat-chart"><canvas id="pat3"></canvas></div>
-            <div class="pat-desc">One point sits far from all the others. Check it before doing anything else: is it a data-entry error, a measurement problem, or a real biological anomaly?</div>
-          </div>
-        </div>
-        <div class="rg-verdict">
-          <strong>The golden rule:</strong> Always plot your residuals. A high R&#178; with a curved residual pattern means your model is wrong — it is capturing variance, but with the wrong mathematical form. No single statistic replaces this visual check. The Fish Allometry dataset in this tool demonstrates exactly this problem.
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide3"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec4">Next: Check the assumptions &#8595;</button></div>
+</section>
+<section class="step-sec" id="sec4">
+  <div class="sec-head"><span class="sec-num">4</span><h2>Check the assumptions</h2></div>
+  <div class="two-col">
+<div class="card" id="cardDist">
+      <div class="card-head">
+        <h2>Distribution of Residuals</h2>
+        <div class="seg" id="distSeg">
+          <button type="button" class="on" data-v="hist">Histogram</button>
+          <button type="button" data-v="qq">Normal Q–Q plot</button>
         </div>
       </div>
-    </div>
-
-  </div><!-- end left col -->
-
-  <!-- RIGHT COLUMN: Stats -->
-  <div class="stats-col">
-
-    <div class="card">
-      <div class="ds-card">
-        <div class="ds-name" id="dsName"></div>
-        <div class="ds-body" id="dsBody"></div>
-        <div class="ds-src" id="dsSrc"></div>
+      <div class="card-body">
+        <div class="chart-box" style="height:220px"><canvas id="distCanvas"></canvas></div>
       </div>
+      <div class="dist-note" id="distNote"></div>
     </div>
-
-    <div class="card" id="cardEq">
-      <div class="card-head"><h2>Regression Equation</h2></div>
-      <div class="eq-display">&#375; = <span id="eqA">&#8212;</span> <span id="eqB">&#8212;</span>x</div>
-      <div class="eq-interp" id="eqInterp"></div>
-    </div>
-
-    <div class="card" id="cardDiag">
+<div class="card" id="cardDiag">
       <div class="card-head"><h2>Assumption Checks</h2><span class="sub">computed from the residuals</span></div>
       <ul class="diag-list" id="diagList"></ul>
       <div class="diag-foot">Tests use α = 0.05. With small samples they have little power to detect problems, so always look at the plots too.</div>
     </div>
-
-    <div class="card" id="cardStats">
-      <div class="card-head"><h2>Model Statistics</h2></div>
+  </div>
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide4"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec5">Next: Model statistics &amp; the slope test &#8595;</button></div>
+</section>
+<section class="step-sec" id="sec5">
+  <div class="sec-head"><span class="sec-num">5</span><h2>Model statistics &amp; the slope test</h2></div>
+  <div class="card" id="cardStats"><div class="stats-grid">
       <div class="stat-block">
         <div class="stat-label">R&#178; &#8212; Coefficient of Determination</div>
         <div class="stat-val" id="statR2">&#8212;</div>
@@ -651,29 +495,232 @@ footer{max-width:1320px;margin:0 auto;padding:1rem 1.5rem 2.5rem;display:grid;gr
         <div class="stat-val" id="statN">&#8212;</div>
         <div class="stat-sub">Number of paired observations analysed</div>
       </div>
+    </div></div>
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide5"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec6">Next: Write your conclusion &#8595;</button></div>
+</section>
+<section class="step-sec" id="sec6">
+  <div class="sec-head"><span class="sec-num">6</span><h2>Write your conclusion</h2></div>
+  <div class="card"><div class="card-body walk-text" id="writeBox"></div></div>
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide6"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec7">Next: Reference: how to read a residual plot &#8595;</button></div>
+</section>
+<section class="step-sec" id="sec7">
+  <div class="sec-head"><span class="sec-num">7</span><h2>Reference: how to read a residual plot</h2></div>
+<div class="card" id="guideCard">
+      <div class="resid-guide">
+        <h3>How to Read a Residual Plot</h3>
+        <p class="rg-intro"><strong>You must always examine the residual plot</strong> before trusting any linear regression — even when R&#178; looks impressive. R&#178; can be high while the model is fundamentally wrong. The residual plot reveals what R&#178; hides.</p>
+        <div class="patterns-grid">
+          <div class="pat good">
+            <div class="pat-title good">&#10003; Random scatter — model OK</div>
+            <div class="pat-chart"><canvas id="pat0"></canvas></div>
+            <div class="pat-desc">A shapeless band centred on zero with about the same spread everywhere. Some points sit well above or below the line — that is normal. The linear model is appropriate.</div>
+          </div>
+          <div class="pat bad">
+            <div class="pat-title bad">&#10007; Curved pattern — non-linearity</div>
+            <div class="pat-chart"><canvas id="pat1"></canvas></div>
+            <div class="pat-desc">Residuals are mostly positive at both ends and negative in the middle (or the reverse). The true relationship is curved — try a log, square-root, or polynomial model.</div>
+          </div>
+          <div class="pat bad">
+            <div class="pat-title bad">&#10007; Fan shape — heteroscedasticity</div>
+            <div class="pat-chart"><canvas id="pat2"></canvas></div>
+            <div class="pat-desc">Residuals are tightly bunched at small fitted values and spread out at large ones. Variance is not constant; log-transforming y often fixes this in biological data.</div>
+          </div>
+          <div class="pat bad">
+            <div class="pat-title bad">&#10007; Outlier</div>
+            <div class="pat-chart"><canvas id="pat3"></canvas></div>
+            <div class="pat-desc">One point sits far from all the others. Check it before doing anything else: is it a data-entry error, a measurement problem, or a real biological anomaly?</div>
+          </div>
+        </div>
+        <div class="rg-verdict">
+          <strong>The golden rule:</strong> Always plot your residuals. A high R&#178; with a curved residual pattern means your model is wrong — it is capturing variance, but with the wrong mathematical form. No single statistic replaces this visual check. The Fish Allometry dataset in this tool demonstrates exactly this problem.
+        </div>
+      </div>
     </div>
-
+  <details class="guide-box" open><summary>&#129517; What to look for in this step</summary><div class="walk-text" id="guide7"></div></details>
+  <div class="sec-foot"><button type="button" class="next-btn" data-next="sec1">&#8593; Back to step 1</button></div>
+</section>
+    </div>
   </div>
-</main>
-</div><!-- end #analysis -->
+
+  <aside class="sidebar" id="sidebar">
+  <div class="quick" id="quickStats">
+    <div class="quick-eq" id="qsEq"></div>
+    <div class="quick-grid">
+      <div><span>R&#178;</span><b id="qsR2"></b></div>
+      <div><span>slope p</span><b id="qsP"></b></div>
+      <div><span>n</span><b id="qsN"></b></div>
+    </div>
+    <div class="quick-flags" id="qsFlags"></div>
+  </div>
+
+  <div class="side-panel" id="examplePanel">
+    <div class="side-title" id="dsName"></div>
+    <div class="ds-body" id="dsBody"></div>
+    <div class="ds-src" id="dsSrc"></div>
+  </div>
+  <div class="side-panel" id="simPanel" hidden>
+    <div class="side-title">&#127899;&#65039; Simulator</div>
+    <p class="side-sub">Drag a slider and watch the plots on the left change.</p>
+    <div class="sim-model" id="simModel"></div>
+    <div class="sim-sliders">
+          <div class="sl"><label for="simN">Sample size (n) <output id="simNv"></output></label>
+            <input type="range" id="simN" min="5" max="200" step="1" value="40">
+            <div class="sl-help">More data → a more precise slope and a narrower confidence interval.</div></div>
+          <div class="sl"><label for="simB">True slope (&#946;&#8321;) <output id="simBv"></output></label>
+            <input type="range" id="simB" min="-3" max="3" step="0.1" value="1.5">
+            <div class="sl-help">How much y changes, on average, per 1-unit increase in x. Try 0.</div></div>
+          <div class="sl"><label for="simS">Noise / scatter (&#963;) <output id="simSv"></output></label>
+            <input type="range" id="simS" min="0" max="10" step="0.25" value="3">
+            <div class="sl-help">Random variation around the true line. More noise → lower R&#178;.</div></div>
+          <div class="sl"><label for="simC">Curvature <output id="simCv"></output></label>
+            <input type="range" id="simC" min="-1" max="1" step="0.05" value="0">
+            <div class="sl-help">Bends the true relationship. Watch the residual plot curve.</div></div>
+          <div class="sl"><label for="simH">Unequal spread (fan) <output id="simHv"></output></label>
+            <input type="range" id="simH" min="0" max="1" step="0.05" value="0">
+            <div class="sl-help">Makes the scatter grow with x (heteroscedasticity).</div></div>
+          <div class="sl"><label for="simE">Shape of the errors</label>
+            <select id="simE">
+              <option value="normal">Normal (bell-shaped)</option>
+              <option value="skew">Right-skewed</option>
+              <option value="heavy">Heavy-tailed (occasional extreme values)</option>
+              <option value="uniform">Flat / uniform</option>
+            </select>
+            <div class="sl-help">Check the histogram and Q–Q plot of residuals.</div></div>
+          <div class="sl"><label for="simO">Add an outlier</label>
+            <select id="simO">
+              <option value="none">No outlier</option>
+              <option value="mid">In the middle of the x range</option>
+              <option value="lev">Far beyond the x range (high leverage)</option>
+            </select>
+            <div class="sl-help">An outlier at an extreme x can drag the whole line.</div></div>
+          <div class="sl"><label for="simOs">Outlier distance from true line <output id="simOsv"></output></label>
+            <input type="range" id="simOs" min="-30" max="30" step="1" value="-20">
+            <div class="sl-help">In y units, above (+) or below (−) the true relationship.</div></div>
+        </div>
+    <div class="side-h">Try a scenario</div>
+    <div class="presets" id="simPresets">
+          <button type="button" class="btn" data-p="ideal">&#10003; Ideal data</button>
+          <button type="button" class="btn" data-p="noisy">Very noisy</button>
+          <button type="button" class="btn" data-p="none">No relationship</button>
+          <button type="button" class="btn" data-p="small">Tiny sample</button>
+          <button type="button" class="btn" data-p="curve">Curved</button>
+          <button type="button" class="btn" data-p="fan">Fan shape</button>
+          <button type="button" class="btn" data-p="skew">Skewed errors</button>
+          <button type="button" class="btn" data-p="lev">Influential outlier</button>
+        </div>
+    <button type="button" class="btn primary full" id="simNew">&#127922; Draw a new random sample</button>
+    <div class="side-h">What to notice</div>
+    <div class="sim-tip" id="simTip"></div>
+  </div>
+  <div class="side-panel" id="classPanel" hidden>
+    <div class="side-title">&#128203; Your Class Data</div>
+    <p class="side-sub">Describe your variables, add your data, then run the analysis.</p>
+    <div class="cp-col">
+        <h4>1 · Describe your variables</h4>
+        <label class="f">Study title
+          <input type="text" id="cdTitle" placeholder="e.g., Hand span vs. height in BIOL 200">
+        </label>
+        <div class="two">
+          <label class="f">Predictor (x) variable name
+            <input type="text" id="cdXName" placeholder="e.g., Hand span">
+          </label>
+          <label class="f">x units
+            <input type="text" id="cdXUnit" placeholder="cm">
+          </label>
+        </div>
+        <div class="two">
+          <label class="f">Response (y) variable name
+            <input type="text" id="cdYName" placeholder="e.g., Height">
+          </label>
+          <label class="f">y units
+            <input type="text" id="cdYUnit" placeholder="cm">
+          </label>
+        </div>
+        <label class="f">Hypothesis or notes (optional)
+          <textarea id="cdNotes" rows="3" style="font-family:var(--fb);font-size:.84rem" placeholder="e.g., We predicted that taller students have larger hand spans."></textarea>
+        </label>
+        <p class="help">The <strong>predictor (x)</strong> is the variable you think explains or causes change. The <strong>response (y)</strong> is the variable you are trying to predict.</p>
+      </div>
+    <div class="cp-col">
+        <h4>2 · Add your data</h4>
+        <div class="btn-row">
+          <label class="btn file-btn">&#8682; Upload CSV or Excel<input type="file" id="cdFile" accept=".csv,.tsv,.txt,.xlsx,.xls,text/csv"></label>
+          <button class="btn ghost" id="cdTemplate" type="button">Download template</button>
+          <button class="btn ghost" id="cdExample" type="button">Load example</button>
+        </div>
+        <label class="f" id="cdSheetRow" hidden>Excel sheet
+          <select id="cdSheet"></select>
+        </label>
+        <label class="f">…or paste data (copy columns straight from Excel or Google Sheets; a header row is optional)
+          <textarea id="cdPaste" rows="7" spellcheck="false" placeholder="hand_span	height
+19.5	165
+21.0	178
+18.2	160"></textarea>
+        </label>
+        <div class="col-pick">
+          <label class="f">Column for x (predictor)<select id="cdXCol"></select></label>
+          <label class="f">Column for y (response)<select id="cdYCol"></select></label>
+        </div>
+        <div id="cdStatus" class="cd-status"></div>
+        <div class="cp-preview" id="cdPreview" hidden></div>
+      </div>
+    <div class="btn-row" style="margin-top:.8rem">
+      <button class="btn primary" id="cdRun" type="button" disabled>Run analysis &#8594;</button>
+      <button class="btn ghost" id="cdClear" type="button">Clear</button>
+    </div>
+    <p class="help">Rows with a missing or non-numeric x or y are skipped (struck through). Data stay in your browser — nothing is uploaded.</p>
+  </div>
+</aside>
+</div>
+
+<!-- ABOUT MODAL -->
+<div class="modal-bg" id="aboutModal" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <button type="button" class="modal-x" id="aboutClose" aria-label="Close">&#10005;</button>
+    <h2 id="aboutTitle">Welcome to BioReg</h2>
+    <ol class="howto">
+      <li><strong>Pick a dataset</strong> in the green bar: an example, the <strong>Simulator</strong>, or <strong>Upload Your Class Data</strong>.</li>
+      <li><strong>Use the panel on the right</strong> to read about the data, move the sliders, or enter your own data. The plots update instantly.</li>
+      <li><strong>Work down the page</strong> one step at a time. Each step has a guide, and a <strong>Next</strong> button at the bottom takes you to the next one. The numbered links under the tabs jump to any step.</li>
+    </ol>
+    <div class="intro">
+  <div class="intro-block">
+    <h3>About This Tool</h3>
+    <p>This tool helps biostatistics students build an intuitive understanding of linear regression — not just how to run the test, but what the numbers mean and how to judge whether the model is appropriate. Every statistic is computed live in your browser from the data shown. Use the three <strong>example datasets</strong> to see what good and bad residuals look like, play with the <strong>Simulator</strong> sliders to change how data are generated, then <strong>Upload Your Class Data</strong> to analyze measurements you collected. The numbered steps walk through each stage of the analysis.</p>
+  </div>
+  <div class="intro-block">
+    <h3>Data Description</h3>
+    <ul>
+      <li><strong>Cricket Chirps</strong> — Chirp rate (chirps per 15 s) vs. air temperature (°F) in the snowy tree cricket <em>Oecanthus fultoni</em>, n = 28. Does chirp speed increase linearly with temperature?</li>
+      <li><strong>Plant Growth</strong> — Shoot height (cm) vs. nitrogen concentration (mg/L) in <em>Arabidopsis thaliana</em>, 8 nitrogen levels × 4 replicate plants. Does added nitrogen predict plant height?</li>
+      <li><strong>Fish Allometry</strong> — Body weight (g) vs. total length (cm) in bluegill sunfish <em>Lepomis macrochirus</em>, n = 36. Can a straight line describe a relationship expected to follow a power law (W ∝ L³)?</li>
+    </ul>
+    <p style="margin-top:.6rem;font-size:.76rem;font-style:italic">Example datasets are simulated from published biological relationships, with realistic random variation.</p>
+  </div>
+  <div class="intro-block">
+    <h3>Things to Explore</h3>
+    <ul>
+      <li><strong>Cricket Chirps</strong> — a clean, well-behaved residual plot. What does "good" look like?</li>
+      <li><strong>Plant Growth</strong> — spot the fan shape in the residual plot. What does heteroscedasticity mean for your predictions?</li>
+      <li><strong>Fish Allometry</strong> — high R² but a curved residual plot. Can you trust the model?</li>
+      <li><strong>Residual distribution</strong> — switch between the histogram and Q–Q plot to judge normality.</li>
+      <li><strong>Click any data point</strong> to watch the R² decomposition update live.</li>
+      <li><strong>Simulator</strong> — drag the sliders to add noise, curvature, unequal spread, or an outlier and watch the residuals respond.</li>
+      <li><strong>Upload Your Class Data</strong> — paste or upload your own measurements and step through the full analysis.</li>
+    </ul>
+  </div>
+</div>
+    <div style="text-align:right;margin-top:1rem"><button type="button" class="btn primary" id="aboutGo">Get started &#8594;</button></div>
+  </div>
+</div>
 
 <footer>
-  <div class="tip">
-    <div class="tip-head">What is a residual?</div>
-    <div class="tip-body">A residual is the difference between the <em>observed</em> value (y) and the <em>predicted</em> value (&#375;) from the regression line: <strong>e = y &minus; &#375;</strong>. Positive = above the line; negative = below.</div>
-  </div>
-  <div class="tip">
-    <div class="tip-head">What does R&#178; mean?</div>
-    <div class="tip-body">R&#178; is the proportion of total variation in y explained by x. R&#178; = 0.85 means 85% of variance is accounted for. A high R&#178; does NOT guarantee a linear model is appropriate — always check the residual plot first.</div>
-  </div>
-  <div class="tip">
-    <div class="tip-head">SST = SSR + SSE</div>
-    <div class="tip-body">Total variation (SST) = variation explained by regression (SSR) + leftover variation (SSE). R&#178; = SSR/SST. Click any point on the scatter plot to see this decomposition drawn geometrically.</div>
-  </div>
-  <div class="tip">
-    <div class="tip-head">The p-value for slope</div>
-    <div class="tip-body">Tests H&#8320;: slope = 0. A small p-value (&lt;&#8202;0.05) means strong evidence of a linear association in the population, not just in your sample. Combine with R&#178; and the residual plots for a full picture.</div>
-  </div>
+  <div class="tip"><div class="tip-head">What is a residual?</div><div class="tip-body">The difference between the <em>observed</em> value (y) and the <em>predicted</em> value (&#375;): <strong>e = y &minus; &#375;</strong>. Positive = above the line; negative = below.</div></div>
+  <div class="tip"><div class="tip-head">What does R&#178; mean?</div><div class="tip-body">The proportion of variation in y explained by x. A high R&#178; does NOT guarantee a linear model is appropriate — always check the residual plot.</div></div>
+  <div class="tip"><div class="tip-head">SST = SSR + SSE</div><div class="tip-body">Total variation = variation explained by the regression + leftover variation. R&#178; = SSR/SST.</div></div>
+  <div class="tip"><div class="tip-head">The p-value for slope</div><div class="tip-body">Tests H&#8320;: slope = 0. A small p-value (&lt;&#8202;0.05) is evidence of a linear association in the population. Combine with R&#178; and the residual plots.</div></div>
 </footer>
 
 <script>
@@ -911,7 +958,7 @@ function ptLabel(ds,i){const d=ds.data[i];return `(${ds.xName} = ${d.x}, ${ds.yN
 let scChart=null,rsChart=null,dsChart=null;
 let showResid=true,showMean=false,distMode='hist';
 let currentReg=null,currentDs=null,currentDiag=null;
-let r2SelectedPt=0,activeTab='0',customDs=null,walkStep=0;
+let r2SelectedPt=0,activeTab='0',customDs=null;
 
 /* ================================================================
    R² DECOMPOSITION CANVAS
@@ -1197,6 +1244,12 @@ function updateUI(reg,ds,dg){
   document.getElementById('statCI').textContent='['+sig(lo,4)+', '+sig(hi,4)+']';
   document.getElementById('statCISub').textContent='95% confident the true slope is in this interval. It '+(lo>0||hi<0?'does NOT':'DOES')+' contain zero.';
   document.getElementById('statN').textContent=reg.n;
+  $('qsEq').textContent='\u0177 = '+sig(reg.a,4)+(reg.b>=0?' + ':' \u2212 ')+sig(Math.abs(reg.b),4)+'\u00b7x';
+  $('qsR2').textContent=reg.r2.toFixed(3);
+  $('qsP').textContent=reg.p<0.001?'<0.001':reg.p.toFixed(3);
+  $('qsN').textContent=reg.n;
+  const fl=[dg.linBad&&'curvature',dg.hetBad&&'unequal spread',dg.normBad&&'non-normal residuals',dg.outBad&&'outlier/influential point'].filter(Boolean);
+  $('qsFlags').innerHTML=dg.perfect?'Perfect fit — all residuals are zero.':fl.length?'<span class="w">\u26a0 Assumption checks flag: '+fl.join(', ')+'</span>':'\u2713 No assumption problems detected';
 
   const rn=document.getElementById('residNote');
   if(ds.residText){rn.className='resid-note '+ds.residClass;rn.textContent=ds.residText;}
@@ -1259,17 +1312,17 @@ const STEPS=[
    html:(R,D,G)=>{
      let mi=0;R.resid.forEach((e,i)=>{if(Math.abs(e)>Math.abs(R.resid[mi]))mi=i;});
      const pos=R.resid.filter(e=>e>0).length;
-     return `<p>Each red segment on the scatter plot is a <strong>residual</strong>, <code>e = y − ŷ</code>: how far the observed value is from the line's prediction.</p>
+     return `<p><strong>Residuals.</strong> Each red segment on the scatter plot is a <strong>residual</strong>, <code>e = y − ŷ</code>: how far the observed value is from the line's prediction.</p>
      <p>${pos} points lie above the line (positive residuals) and ${R.n-pos} below. The largest residual belongs to the point ${esc(ptLabel(D,mi))}: the line predicted ${sig(R.yhat[mi],4)} but the observed value was ${D.data[mi].y}, so <code>e = ${sig(R.resid[mi],3)}</code>.</p>
      <div class="q"><strong>Did you know?</strong> Least-squares residuals always add up to exactly zero — the line is balanced between the points above and below it.</div>`;}},
   {t:'4 · Partition the variation (R²)',target:'cardR2',action:()=>setMean(true),
    html:(R,D,G)=>`<p>The dashed gold line is the mean, <code>ȳ = ${sig(R.ybar,4)}</code>. If we ignored x entirely, ȳ would be our best guess for every point.</p>
      <p><strong>SST = ${sig(R.SST,5)}</strong> is the total squared distance of points from ȳ. The regression line explains <strong>SSR = ${sig(R.SSR,5)}</strong> of it, leaving <strong>SSE = ${sig(R.SSE,5)}</strong> unexplained.</p>
-     <p><code>R² = SSR ÷ SST = ${R.r2.toFixed(3)}</code> — the line accounts for <strong>${(R.r2*100).toFixed(1)}%</strong> of the variation in ${esc(D.yName)}. Click different points on the scatter plot to see how each one splits into explained and unexplained parts.</p>`},
+     <p><code>R² = SSR ÷ SST = ${R.r2.toFixed(3)}</code> — the line accounts for <strong>${(R.r2*100).toFixed(1)}%</strong> of the variation in ${esc(D.yName)}. Click different points on the scatter plot in Step 1 to see how each one splits into explained and unexplained parts.</p>`},
   {t:'5 · Check the assumptions',target:'cardResid',
    html:(R,D,G)=>{
      const probs=[G.linBad&&'curvature',G.hetBad&&'unequal spread',G.normBad&&'non-normal residuals',G.outBad&&'unusual points'].filter(Boolean);
-     return `<p>A regression is only trustworthy if its assumptions are reasonable. The <strong>residual plot</strong> (residuals vs. ŷ) and the <strong>distribution plot</strong> below it are your main tools, and the <em>Assumption Checks</em> card summarises formal tests.</p>
+     return `<p>A regression is only trustworthy if its assumptions are reasonable. Your main tools are the <strong>residual plot</strong> in Step 1 and the <strong>distribution of residuals</strong> below. The <em>Assumption Checks</em> panel summarises formal tests.</p>
      <p>Look for: (1) <strong>Linearity</strong> — no curve; (2) <strong>Constant variance</strong> — no funnel; (3) <strong>Normality</strong> — a rough bell shape / points near the Q–Q line; (4) <strong>Independence</strong> — a design question; (5) no extreme <strong>outliers</strong>.</p>
      <p>${G.perfect?'All residuals are zero — check your data.':probs.length?`<strong style="color:var(--red)">Possible problems detected: ${probs.join(', ')}.</strong> Read the notes under the residual plot and in the Assumption Checks card.`:'<strong style="color:var(--forest-mid)">No assumption problems were detected.</strong> Look at the plots yourself to confirm.'}</p>`;}},
   {t:'6 · Test the slope',target:'cardStats',
@@ -1279,7 +1332,7 @@ const STEPS=[
      <p><code>t = b ÷ SE(b) = ${sig(R.b,4)} ÷ ${sig(R.seb,4)} = ${R.tstat.toFixed(2)}</code> with ${R.df} degrees of freedom (n − 2), giving <strong>p ${pStr(R.p)}</strong>.</p>
      <p>${R.p<0.05?'Because p < 0.05, we <strong>reject H₀</strong>: there is evidence of a linear relationship.':'Because p ≥ 0.05, we <strong>fail to reject H₀</strong>: these data don’t provide convincing evidence of a linear relationship.'} The 95% confidence interval for the slope is <strong>[${sig(lo,4)}, ${sig(hi,4)}]</strong>, which ${lo>0||hi<0?'does not include':'includes'} zero.</p>
      ${bad?'<div class="q"><strong>Caution:</strong> the assumption checks flagged a problem, so this p-value and interval may not be accurate. A transformation may give a more trustworthy test.</div>':''}`;}},
-  {t:'7 · Write your conclusion',target:'walkCard',
+  {t:'7 · Write your conclusion',target:'writeBox',
    html:(R,D,G)=>`<p>A results sentence in the style of a scientific paper:</p>
      <div class="writeup" id="writeup">${writeUp(R,D,G)}</div>
      <button class="btn ghost" type="button" onclick="copyWriteup(this)">Copy text</button>
@@ -1300,29 +1353,15 @@ function copyWriteup(btn){
   if(navigator.clipboard&&window.isSecureContext)navigator.clipboard.writeText(t).then(done,()=>fallbackCopy(t,done));else fallbackCopy(t,done);
 }
 function fallbackCopy(t,done){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}ta.remove();}
-function renderWalk(scroll){
+function renderWalk(){
   if(!currentReg)return;
-  const s=STEPS[walkStep];
-  document.getElementById('stepPills').innerHTML=STEPS.map((st,i)=>`<button type="button" class="step-pill ${i===walkStep?'on':i<walkStep?'done':''}" data-step="${i}">${i+1}</button>`).join('');
-  document.getElementById('walkTitle').textContent=s.t;
-  document.getElementById('walkText').innerHTML=s.html(currentReg,currentDs,currentDiag);
-  document.getElementById('walkPrev').disabled=walkStep===0;
-  document.getElementById('walkNext').innerHTML=walkStep===STEPS.length-1?'Start over &#8634;':'Next step &#8594;';
-  document.getElementById('walkCount').textContent='Step '+(walkStep+1)+' of '+STEPS.length;
-  document.querySelectorAll('.card.spot').forEach(c=>c.classList.remove('spot'));
-  if(scroll){
-    if(s.action)s.action();
-    const tg=document.getElementById(s.target);
-    if(tg){if(s.target!=='walkCard')tg.classList.add('spot');tg.scrollIntoView({behavior:'smooth',block:s.target==='walkCard'?'start':'center'});}
-    if(s.target==='cardResid'){document.getElementById('cardDist').classList.add('spot');document.getElementById('cardDiag').classList.add('spot');}
-  }
+  const R_=currentReg,D=currentDs,G=currentDiag;
+  const g=['<p><strong>Two views of the same data.</strong> &#9312; shows y vs. x with the fitted line. &#9313; is the residual plot: it tilts the line flat onto zero so each point’s distance from the line is easy to see. Curves, fans and outliers that are hard to spot in &#9312; jump out in &#9313;. Click a point in either plot to highlight it in both.</p>'+STEPS[0].html(R_,D,G)+STEPS[2].html(R_,D,G),STEPS[1].html(R_,D,G),STEPS[3].html(R_,D,G),STEPS[4].html(R_,D,G),STEPS[5].html(R_,D,G),
+    '<p>Pull everything together into a results sentence, the way it would appear in a lab report or scientific paper. The sentence below updates automatically for whichever dataset is loaded.</p>',
+    '<p>Use these four simulated examples to practise recognising common residual-plot patterns. Compare them with the residual plot in Step 1.</p>'];
+  g.forEach((h,i)=>{const el=document.getElementById('guide'+(i+1));if(el)el.innerHTML=h;});
+  document.getElementById('writeBox').innerHTML=STEPS[6].html(R_,D,G);
 }
-function goStep(i){walkStep=(i+STEPS.length)%STEPS.length;renderWalk(true);}
-document.getElementById('stepPills').addEventListener('click',e=>{const b=e.target.closest('[data-step]');if(b)goStep(+b.dataset.step);});
-document.getElementById('walkPrev').addEventListener('click',()=>goStep(walkStep-1));
-document.getElementById('walkNext').addEventListener('click',()=>goStep(walkStep===STEPS.length-1?0:walkStep+1));
-document.addEventListener('click',e=>{if(!e.target.closest('#walkCard'))document.querySelectorAll('.card.spot').forEach(c=>c.classList.remove('spot'));},true);
-
 function setResid(v){showResid=v;document.getElementById('chkResid').checked=v;if(scChart){scChart._showResid=v;scChart.update('none');}}
 function setMean(v){showMean=v;document.getElementById('chkMean').checked=v;if(scChart){scChart._showMean=v;scChart.update('none');}}
 
@@ -1455,10 +1494,9 @@ function buildCustomDs(){
 function runCustom(scroll){
   if($('cdRun').disabled)return;
   customDs=buildCustomDs();
-  $('emptyState').hidden=true;$('analysis').hidden=false;
-  walkStep=0;
+  $('emptyState').hidden=true;$('analysis').hidden=false;$('quickStats').hidden=false;
   analyze(customDs);
-  if(scroll)$('walkCard').scrollIntoView({behavior:'smooth',block:'start'});
+  if(scroll)$('sec1').scrollIntoView({behavior:'smooth',block:'start'});
 }
 const STORE='bioreg-class-data-v1';
 function saveState(){
@@ -1536,38 +1574,34 @@ $('cdClear').addEventListener('click',()=>{
   ['cdTitle','cdXName','cdXUnit','cdYName','cdYUnit','cdNotes','cdPaste'].forEach(id=>{$(id).value='';$(id).dataset.auto='';});
   $('cdSheetRow').hidden=true;workbook=null;customDs=null;
   refreshClassPanel();
-  $('analysis').hidden=true;$('emptyState').hidden=false;
+  $('analysis').hidden=true;$('emptyState').hidden=false;$('quickStats').hidden=true;
   try{localStorage.removeItem(STORE);}catch(e){}
 });
 
 /* ================================================================
    TABS & EVENTS
    ================================================================ */
-function selectTab(v,scroll){
+function selectTab(v){
   activeTab=v;
   document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.ds===v));
   const isCustom=v==='custom',isSim=v==='sim';
   $('classPanel').hidden=!isCustom;
   $('simPanel').hidden=!isSim;
+  $('examplePanel').hidden=isCustom||isSim;
+  $('sidebar').scrollTop=0;
   if(isSim){
-    $('emptyState').hidden=true;$('analysis').hidden=false;
+    $('emptyState').hidden=true;$('analysis').hidden=false;$('quickStats').hidden=false;
     simUpdate(false);
-  }else
-  if(isCustom){
-    if(customDs){$('analysis').hidden=false;$('emptyState').hidden=true;analyze(customDs);}
+  }else if(isCustom){
+    if(customDs){$('analysis').hidden=false;$('emptyState').hidden=true;$('quickStats').hidden=false;analyze(customDs);}
     else if(!$('cdRun').disabled){runCustom(false);}
-    else{$('analysis').hidden=true;$('emptyState').hidden=false;}
+    else{$('analysis').hidden=true;$('emptyState').hidden=false;$('quickStats').hidden=true;}
   }else{
-    $('emptyState').hidden=true;$('analysis').hidden=false;
+    $('emptyState').hidden=true;$('analysis').hidden=false;$('quickStats').hidden=false;
     analyze(DS[+v]);
   }
-  if(scroll){
-    const tgt=isCustom?$('classPanel'):isSim?$('simPanel'):null;
-    if(tgt)tgt.scrollIntoView({behavior:'smooth',block:'start'});
-    else if($('walkCard').getBoundingClientRect().top<0)$('walkCard').scrollIntoView({behavior:'smooth',block:'start'});
-  }
 }
-document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>selectTab(btn.dataset.ds,true)));
+document.querySelectorAll('.tab').forEach(btn=>btn.addEventListener('click',()=>selectTab(btn.dataset.ds)));
 $('chkResid').addEventListener('change',e=>setResid(e.target.checked));
 $('chkMean').addEventListener('change',e=>setMean(e.target.checked));
 $('distSeg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;distMode=b.dataset.v;document.querySelectorAll('#distSeg button').forEach(x=>x.classList.toggle('on',x===b));buildDist();});
@@ -1709,8 +1743,32 @@ $('simPresets').addEventListener('click',e=>{
   document.querySelectorAll('#simPresets .btn').forEach(x=>x.classList.toggle('on',x===b));
 });
 
+/* ================================================================
+   NAVIGATION: step links, next buttons, about modal
+   ================================================================ */
+function setNavH(){document.documentElement.style.setProperty('--navh',document.querySelector('.topnav').offsetHeight+'px');}
+setNavH();window.addEventListener('resize',setNavH);
+document.querySelectorAll('.next-btn').forEach(b=>b.addEventListener('click',()=>{const t=document.getElementById(b.dataset.next);if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}));
+const secLinks=[...document.querySelectorAll('#stepnav a')];
+function markSec(){
+  const navh=document.querySelector('.topnav').offsetHeight+40;let cur=secLinks[0];
+  secLinks.forEach(a=>{const el=document.getElementById(a.dataset.sec);if(el&&el.getBoundingClientRect().top<=navh+window.innerHeight*0.25)cur=a;});
+  if(window.innerHeight+window.scrollY>=document.body.scrollHeight-4)cur=secLinks[secLinks.length-1];
+  secLinks.forEach(a=>a.classList.toggle('on',a===cur));
+}
+let msT=null;window.addEventListener('scroll',()=>{if(msT)return;msT=requestAnimationFrame(()=>{msT=null;markSec();});},{passive:true});
+function openAbout(){$('aboutModal').hidden=false;document.body.style.overflow='hidden';}
+function closeAbout(){$('aboutModal').hidden=true;document.body.style.overflow='';try{localStorage.setItem('bioreg-seen-about','1');}catch(e){}}
+$('aboutOpen').addEventListener('click',openAbout);
+$('aboutClose').addEventListener('click',closeAbout);
+$('aboutGo').addEventListener('click',closeAbout);
+$('aboutModal').addEventListener('click',e=>{if(e.target===$('aboutModal'))closeAbout();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('aboutModal').hidden)closeAbout();});
+
 restoreState();
 selectTab('0');
+markSec();
+try{if(!localStorage.getItem('bioreg-seen-about'))openAbout();}catch(e){}
 buildPatternCharts();
 </script>
 </body>

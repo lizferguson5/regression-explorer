@@ -59,7 +59,9 @@ Data never leave the student's browser. The last dataset entered is remembered o
 
 - **Regression Simulator** — sliders for sample size, true slope, noise (σ), curvature, unequal spread, error-distribution shape, and an optional outlier (inside or beyond the x range). Every plot and statistic updates instantly, the true relationship is drawn alongside the fitted line, and scenario buttons (ideal, very noisy, no relationship, tiny sample, curved, fan, skewed, influential outlier) jump straight to classic cases
 - **Side-by-side scatter plot and residual plot** — click a point in either to highlight it in both
-- **Sticky navigation** — dataset tabs plus "jump to" links for every section
+- **Step-by-step layout** — the analysis is laid out as 7 numbered steps (data & residuals → equation → R² → assumptions → statistics → conclusion → residual guide). Each step has a "What to look for" guide written with the live numbers and a **Next** button to scroll to the following step; numbered links in the sticky bar jump to any step and show where you are
+- **Control sidebar** — the panel on the right holds the simulator sliders, the class-data form, or the dataset description, plus live quick stats (equation, R², p, n, assumption flags), so you can change things and watch the plots update side by side
+- **About pop-up** — the introduction and how-to opens on a student's first visit and any time from the ⓘ button
 - **Guided Analysis** — a 7-step walkthrough (look at the data → fit the line → residuals → R² → check assumptions → test the slope → write a conclusion) whose text is filled in with the live numbers for whichever dataset is loaded, ending with a copyable, journal-style results sentence
 - **Interactive scatter plot** with toggleable residual lines and mean ȳ overlay
 - **Residual plot** with interpretation; outlying or influential points are outlined
